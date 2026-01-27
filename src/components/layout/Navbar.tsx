@@ -35,7 +35,13 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navLinks = [
+  interface NavLink {
+    name: string
+    path: string
+    highlight?: boolean
+  }
+
+  const navLinks: NavLink[] = [
     { name: t('nav.home'), path: '/' },
     { name: t('nav.about'), path: '/about' },
     // { name: t('nav.services'), path: '/services' }, // Disabled - can be re-enabled in the future
