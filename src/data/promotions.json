@@ -1,0 +1,59 @@
+{
+  "promoSection": {
+    "title": "Pricing",
+    "subtitle": "Beauty Salon",
+    "largeTitle": "Pricing",
+    "promoBox": {
+      "label": "Enjoy",
+      "percentage": 20,
+      "unit": "Off",
+      "description": "Book your first appointment and enjoy 20% off on all services!",
+      "buttonText": "Get 20% Off",
+      "buttonLink": "/booking"
+    },
+    "backgroundImage": "/img/price-1.jpg",
+    "gradientOpacity": {
+      "from": 80,
+      "via": 60,
+      "to": 0
+    }
+  },
+  "featuredServices": [
+    {
+      "id": "1",
+      "name": "Tretman Lica",
+      "image": "/img/skin-care.png",
+      "price": 3500
+    },
+    {
+      "id": "2",
+      "name": "Manikir",
+      "image": "/img/manicure.png",
+      "price": 1500
+    },
+    {
+      "id": "3",
+      "name": "Pedikir",
+      "image": "/img/pedicure.png",
+      "price": 2000
+    },
+    {
+      "id": "4",
+      "name": "Podizanje Trepavica",
+      "image": "/img/makeup.png",
+      "price": 2500
+    },
+    {
+      "id": "5",
+      "name": "Farbanje Obrva i Trepavica",
+      "image": "/img/makeup.png",
+      "price": 1000
+    },
+    {
+      "id": "6",
+      "name": "Tretmani Uklanjanja Dlaka",
+      "image": "/img/haircut.png",
+      "price": 1500
+    }
+  ]
+}

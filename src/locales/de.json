@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über Uns",
+    "services": "Dienstleistungen",
+    "priceList": "Preisliste",
+    "pages": "Seiten",
+    "contact": "Kontakt",
+    "bookNow": "Buchen",
+    "gallery": "Galerie",
+    "blog": "Blog",
+    "team": "Unser Team",
+    "testimonials": "Referenzen"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "add": "Hinzufügen",
+    "close": "Schließen",
+    "submit": "Absenden",
+    "search": "Suchen",
+    "readMore": "Mehr Lesen",
+    "bookAppointment": "Termin Buchen",
+    "viewAll": "Alle Anzeigen",
+    "backToHome": "Zurück zur Startseite"
+  },
+  "hero": {
+    "welcome": "Willkommen",
+    "title": "Entspannen Sie den Körper, Beruhigen Sie den Geist, Erneuern Sie die Seele",
+    "subtitle": "Verwandeln Sie Ihr Aussehen",
+    "cta": "Termin Buchen",
+    "services": "Unsere Dienstleistungen"
+  },
+  "announcement": {
+    "message": "Rufen Sie an, um Ihre Behandlung zu buchen - Gutscheine verfügbar!"
+  },
+  "footer": {
+    "description": "Entspannen Sie den Körper, beruhigen Sie den Geist, erneuern Sie die Seele. Nataša Wellness bietet professionelle kosmetische und Wellness-Behandlungen mit über 20 Jahren Erfahrung. Personalisierte Pflege und Aufmerksamkeit, die Ihnen gewidmet ist.",
+    "quickLinks": "Schnelllinks",
+    "popularLinks": "Beliebte Links",
+    "newsletter": "Newsletter",
+    "newsletterPlaceholder": "Geben Sie Ihre E-Mail Ein",
+    "newsletterDescription": "Abonnieren Sie, um Sonderangebote und Schönheitstipps zu erhalten!",
+    "copyright": "Alle Rechte Vorbehalten",
+    "craftedWith": "Erstellt mit",
+    "by": "von Danilo Peric"
+  },
+  "contact": {
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "address": "Adresse",
+    "businessHours": "Öffnungszeiten",
+    "weekdays": "Mo-Fr",
+    "saturday": "Samstag",
+    "sunday": "Sonntag"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "managePriceList": "Preisliste Verwalten",
+    "manageTranslations": "Übersetzungen Verwalten",
+    "statistics": "Statistiken",
+    "clients": "Kunden",
+    "recentBookings": "Aktuelle Buchungen",
+    "totalBookings": "Gesamt Buchungen",
+    "pending": "Ausstehend",
+    "revenue": "Einnahmen",
+    "avgRating": "Durchschn. Bewertung"
+  },
+  "priceList": {
+    "title": "Preisliste",
+    "subtitle": "Unsere Behandlungen und Preise",
+    "description": "Erkunden Sie unser komplettes Angebot an professionellen Schönheits- und Wellness-Behandlungen",
+    "categories": "Kategorien",
+    "selectCategory": "Behandlungskategorie Auswählen",
+    "treatments": "Behandlungen",
+    "price": "Preis",
+    "duration": "Dauer"
+  },
+  "booking": {
+    "title": "Termin Buchen",
+    "selectService": "Service Auswählen",
+    "selectDate": "Datum Auswählen",
+    "selectTime": "Uhrzeit Auswählen",
+    "yourInfo": "Ihre Informationen",
+    "name": "Vollständiger Name",
+    "phone": "Telefonnummer",
+    "email": "E-Mail-Adresse",
+    "notes": "Zusätzliche Notizen",
+    "confirmBooking": "Buchung Bestätigen",
+    "successMessage": "Ihr Termin wurde erfolgreich gebucht!",
+    "errorMessage": "Buchung fehlgeschlagen. Bitte versuchen Sie es erneut."
+  }
+}

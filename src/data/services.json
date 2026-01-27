@@ -1,0 +1,83 @@
+[
+  {
+    "id": "1",
+    "name": "Tretman Lica",
+    "description": "Opuštajući tretman lica sa dubokim čišćenjem i hidratacijom. Prilagođeno vašim potrebama kože.",
+    "image": "/img/skin-care.png",
+    "price": 3500,
+    "duration": "60 min",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "name": "Manikir",
+    "description": "Profesionalna nega noktiju sa premium proizvodima. Vaši nokti će izgledati savršeno.",
+    "image": "/img/manicure.png",
+    "price": 1500,
+    "duration": "45 min",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "name": "Pedikir",
+    "description": "Luksuzna pedicure nega stopala. Opustite se i uživajte u tretmanu.",
+    "image": "/img/pedicure.png",
+    "price": 2000,
+    "duration": "60 min",
+    "featured": true
+  },
+  {
+    "id": "4",
+    "name": "Podizanje Trepavica",
+    "description": "Dugotrajna podizanje trepavica za savršen pogled. Prirodan i elegantan izgled.",
+    "image": "/img/makeup.png",
+    "price": 2500,
+    "duration": "45 min",
+    "featured": true
+  },
+  {
+    "id": "5",
+    "name": "Farbanje Obrva i Trepavica",
+    "description": "Profesionalno farbanje obrva i trepavica za izražajniji pogled.",
+    "image": "/img/skin-care.png",
+    "price": 1000,
+    "duration": "30 min",
+    "featured": true
+  },
+  {
+    "id": "6",
+    "name": "Tretmani Uklanjanja Dlaka",
+    "description": "Različiti tretmani epilacije za glatku i negovanu kožu. Profesionalno i brzo.",
+    "image": "/img/haircut.png",
+    "price": 1500,
+    "duration": "30 min",
+    "featured": true
+  },
+  {
+    "id": "7",
+    "name": "Šminkanje",
+    "description": "Profesionalna šminka za sve prilike. Od prirodnog do glamuroznog izgleda.",
+    "image": "/img/makeup.png",
+    "price": 3000,
+    "duration": "45 min",
+    "featured": false
+  },
+  {
+    "id": "8",
+    "name": "Sprej Tan",
+    "description": "Prirodan sun-kissed izgled bez štetnog UV zračenja. Savršena preplanulost.",
+    "image": "/img/haircut.png",
+    "price": 2000,
+    "duration": "30 min",
+    "featured": false
+  },
+  {
+    "id": "9",
+    "name": "Supreme Wellbeing",
+    "description": "Kompletna wellness terapija za opuštanje tela i uma. Aromaterapija i više.",
+    "image": "/img/massage.png",
+    "price": 5000,
+    "duration": "90 min",
+    "featured": false
+  }
+]

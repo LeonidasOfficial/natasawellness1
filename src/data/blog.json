@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "title": "How to Extend The Life of Your Haircolor",
+    "slug": "extend-haircolor-life",
+    "excerpt": "Discover professional tips and tricks to make your hair color last longer and maintain its vibrancy between salon visits.",
+    "content": "Your hair color investment deserves proper care. Here are expert tips to maintain your color...",
+    "category": "Hair Care",
+    "image": "/img/blog-1.jpg",
+    "author": "Lily Taylor",
+    "date": "2024-01-15",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Hottest Hairstyles and Haircuts in 2024",
+    "slug": "trending-hairstyles-2024",
+    "excerpt": "Stay ahead of the trends with our guide to the most popular hairstyles and haircuts this season.",
+    "content": "From bob cuts to long layers, discover the hottest trends in hair styling...",
+    "category": "Trends",
+    "image": "/img/blog-2.jpg",
+    "author": "Lily Taylor",
+    "date": "2024-01-10",
+    "featured": true
+  }
+]
+

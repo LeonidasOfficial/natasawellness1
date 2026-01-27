@@ -1,0 +1,26 @@
+{
+  "siteName": "Nataša Wellness",
+  "tagline": "Kozmetika i Wellness - Opustite telo, Smirite um, Obnovite duh",
+  "contact": {
+    "phone": "063 1020 305",
+    "email": "info@natasawellness.com",
+    "address": "12 Mileta Arčića Pačinog, Velika Plana"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/profile.php?id=100086254939173&sfnsn=wa&mibextid=RUbZ1f",
+    "instagram": "https://www.instagram.com/natasa_wellness?utm_source=qr&igsh=MTdhbzVyaXp1aTJ4ag==",
+    "tiktok": "https://tiktok.com/@natasawellness",
+    "linkedin": "https://linkedin.com/company/natasawellness",
+    "twitter": "https://twitter.com/natasawellness"
+  },
+  "businessHours": {
+    "weekdays": "09:00 - 18:00 (sa terminom do 20:00)",
+    "saturday": "09:00 - 18:00 (sa terminom do 20:00)",
+    "sunday": "Zatvoreno"
+  },
+  "announcement": {
+    "active": true,
+    "message": "Pozovite za zakazivanje tretmana - Vaučeri dostupni!",
+    "link": "/contact"
+  }
+}

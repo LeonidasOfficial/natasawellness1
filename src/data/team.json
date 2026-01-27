@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "name": "Nataša Peric",
+    "role": "Vlasnik Salona & Kozmetičar",
+    "image": "/img/team-1.jpg",
+    "bio": "Moje kozmetičko putovanje počelo je 2000. godine. Diplomirala sam 2004. u Luksemburgu, a 2016. završila diplomu Spa menadžera u Španiji. Sa preko 20 godina iskustva, strastvena sam u pružanju najboljih tretmana lepote i wellnessa.",
+    "social": {
+      "facebook": "#",
+      "instagram": "#",
+      "linkedin": "#"
+    }
+  },
+  {
+    "id": "2",
+    "name": "Olivia Smith",
+    "role": "Nail Designer",
+    "image": "/img/team-2.jpg",
+    "bio": "Stručnjak za dizajn noktiju sa strašću za detaljima. Kreiram jedinstvene dizajne koji odražavaju vašu ličnost.",
+    "social": {
+      "facebook": "#",
+      "instagram": "#",
+      "linkedin": "#"
+    }
+  },
+  {
+    "id": "3",
+    "name": "Ava Brown",
+    "role": "Beauty Specialist",
+    "image": "/img/team-3.jpg",
+    "bio": "Stručnjak za šminku i negu kože sa strašću ka isticanju prirodne lepote.",
+    "social": {
+      "facebook": "#",
+      "instagram": "#",
+      "linkedin": "#"
+    }
+  },
+  {
+    "id": "4",
+    "name": "Amelia Jones",
+    "role": "Spa Specialist",
+    "image": "/img/team-4.jpg",
+    "bio": "Certificovani masažni terapeut i spa specijalista posvećena vašoj relaksaciji i wellnessu.",
+    "social": {
+      "facebook": "#",
+      "instagram": "#",
+      "linkedin": "#"
+    }
+  }
+]

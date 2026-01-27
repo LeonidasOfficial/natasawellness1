@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Početna",
+    "about": "O Nama",
+    "services": "Usluge",
+    "priceList": "Cenovnik",
+    "pages": "Stranice",
+    "contact": "Kontakt",
+    "bookNow": "Zakažite",
+    "gallery": "Galerija",
+    "blog": "Blog",
+    "team": "Naš Tim",
+    "testimonials": "Utisci"
+  },
+  "common": {
+    "loading": "Učitavanje...",
+    "error": "Greška",
+    "success": "Uspešno",
+    "cancel": "Otkaži",
+    "save": "Sačuvaj",
+    "edit": "Uredi",
+    "delete": "Obriši",
+    "add": "Dodaj",
+    "close": "Zatvori",
+    "submit": "Pošalji",
+    "search": "Pretraga",
+    "readMore": "Pročitaj Više",
+    "bookAppointment": "Zakažite Termin",
+    "viewAll": "Pogledaj Sve",
+    "backToHome": "Nazad na Početnu"
+  },
+  "hero": {
+    "welcome": "Dobrodošli",
+    "title": "Opustite Telo, Smirite Um, Obnovite Duh",
+    "subtitle": "Transformišite Svoj Izgled",
+    "cta": "Zakažite Termin",
+    "services": "Naše Usluge"
+  },
+  "announcement": {
+    "message": "Pozovite za zakazivanje tretmana - Vaučeri dostupni!"
+  },
+  "footer": {
+    "description": "Opustite telo, smirite um, obnovite duh. Nataša Wellness nudi profesionalne kozmetičke i wellness tretmane sa preko 20 godina iskustva. Personalizovana nega i pažnja posvećena vama.",
+    "quickLinks": "Brzi Linkovi",
+    "popularLinks": "Popularni Linkovi",
+    "newsletter": "Newsletter",
+    "newsletterPlaceholder": "Unesite Vaš Email",
+    "newsletterDescription": "Pretplatite se za posebne ponude i savete o lepoti!",
+    "copyright": "Sva prava zadržana",
+    "craftedWith": "Napravljeno sa",
+    "by": "od Danilo Peric"
+  },
+  "contact": {
+    "phone": "Telefon",
+    "email": "Email",
+    "address": "Adresa",
+    "businessHours": "Radno Vreme",
+    "weekdays": "Pon-Pet",
+    "saturday": "Subota",
+    "sunday": "Nedelja"
+  },
+  "admin": {
+    "dashboard": "Kontrolna Tabla",
+    "login": "Prijava",
+    "logout": "Odjava",
+    "managePriceList": "Upravljanje Celovnikom",
+    "manageTranslations": "Upravljanje Prevodima",
+    "statistics": "Statistika",
+    "clients": "Klijenti",
+    "recentBookings": "Nedavne Rezervacije",
+    "totalBookings": "Ukupno Rezervacija",
+    "pending": "Na Čekanju",
+    "revenue": "Prihod",
+    "avgRating": "Prosečna Ocena"
+  },
+  "priceList": {
+    "title": "Cenovnik",
+    "subtitle": "Naši Tretmani i Cene",
+    "description": "Istražite našu kompletnu ponudu profesionalnih tretmana lepote i wellnessa",
+    "categories": "Kategorije",
+    "selectCategory": "Izaberite Kategoriju Tretmana",
+    "treatments": "Tretmani",
+    "price": "Cena",
+    "duration": "Trajanje"
+  },
+  "booking": {
+    "title": "Zakažite Termin",
+    "selectService": "Izaberite Uslugu",
+    "selectDate": "Izaberite Datum",
+    "selectTime": "Izaberite Vreme",
+    "yourInfo": "Vaši Podaci",
+    "name": "Ime i Prezime",
+    "phone": "Broj Telefona",
+    "email": "Email Adresa",
+    "notes": "Dodatne Napomene",
+    "confirmBooking": "Potvrdite Rezervaciju",
+    "successMessage": "Vaš termin je uspešno zakazan!",
+    "errorMessage": "Neuspešno zakazivanje. Molimo pokušajte ponovo."
+  }
+}

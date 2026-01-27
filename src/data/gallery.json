@@ -1,0 +1,45 @@
+[
+  {
+    "id": "1",
+    "title": "Hair Styling",
+    "category": "hair",
+    "image": "/img/gallery-1.jpg",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Nail Art",
+    "category": "nails",
+    "image": "/img/gallery-2.jpg",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "title": "Makeup Artistry",
+    "category": "makeup",
+    "image": "/img/gallery-3.jpg",
+    "featured": true
+  },
+  {
+    "id": "4",
+    "title": "Spa Treatment",
+    "category": "spa",
+    "image": "/img/gallery-4.jpg",
+    "featured": true
+  },
+  {
+    "id": "5",
+    "title": "Bridal Makeup",
+    "category": "makeup",
+    "image": "/img/gallery-5.jpg",
+    "featured": true
+  },
+  {
+    "id": "6",
+    "title": "Hair Coloring",
+    "category": "hair",
+    "image": "/img/gallery-6.jpg",
+    "featured": true
+  }
+]
+

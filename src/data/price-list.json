@@ -1,0 +1,733 @@
+[
+  {
+    "id": "1",
+    "category": "Tretmani Lica",
+    "icon": "face",
+    "description": "Ekskluzivni francuski kozmetički brend",
+    "treatments": [
+      {
+        "id": "1",
+        "name": "Brzi tretman lica",
+        "description": "30min (bez depilacije)",
+        "price": 2200,
+        "price2": 2600,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "2",
+        "name": "Tretman lica mladih",
+        "description": "60min (12-22god)",
+        "price": 2800,
+        "price2": 3200,
+        "duration": "60 min",
+        "note": "*"
+      },
+      {
+        "id": "3",
+        "name": "Moj tretman",
+        "description": "Nega lica za sve potrebe: suva, osetljiva, tupa-umorna, problematične-masna zrela... kože",
+        "price": 3200,
+        "price2": 3800,
+        "duration": "75 min",
+        "note": "*"
+      },
+      {
+        "id": "4",
+        "name": "Anti-aging supremes / Protiv staranja",
+        "description": "Održavanje mladalačkog izgleda",
+        "price": 3800,
+        "price2": 4200,
+        "duration": "90 min",
+        "note": "*"
+      },
+      {
+        "id": "5",
+        "name": "Mikrodermoabrazija lica + tretman",
+        "description": "",
+        "price": 4000,
+        "price2": 4500,
+        "duration": "75 min",
+        "note": ""
+      }
+    ],
+    "footnote": "* uključuje depilaciju nausnica i obrva"
+  },
+  {
+    "id": "2",
+    "category": "Depilacija / Voskom",
+    "icon": "hair-removal",
+    "description": "Profesionalna depilacija voskom",
+    "treatments": [
+      {
+        "id": "dep1",
+        "name": "Minimalna korekcija pincetom",
+        "description": "",
+        "price": 480,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "dep2",
+        "name": "Obrva",
+        "description": "",
+        "price": 600,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "dep3",
+        "name": "Nausnica",
+        "description": "",
+        "price": 500,
+        "duration": "10 min",
+        "note": ""
+      },
+      {
+        "id": "dep4",
+        "name": "Nausnica + obrva",
+        "description": "",
+        "price": 950,
+        "duration": "20 min",
+        "note": ""
+      },
+      {
+        "id": "dep5",
+        "name": "Lica (bez obrva)",
+        "description": "",
+        "price": 1100,
+        "duration": "20 min",
+        "note": ""
+      },
+      {
+        "id": "dep6",
+        "name": "Bikini zona (prepone)",
+        "description": "",
+        "price": 1200,
+        "duration": "20 min",
+        "note": ""
+      },
+      {
+        "id": "dep7",
+        "name": "Bikini kompletan (brazilska)",
+        "description": "",
+        "price": 2000,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "dep8",
+        "name": "Pazuha",
+        "description": "",
+        "price": 1100,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "dep9",
+        "name": "Depilacija 15min",
+        "description": "",
+        "price": 1100,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "dep10",
+        "name": "Depilacija 30min",
+        "description": "na primer 1/2 noge+bik+pazuha / grudi, leđa...",
+        "price": 2200,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "dep11",
+        "name": "Depilacija 45min",
+        "description": "na primer 1/1 noga+bik / grudi + leđa + pazuha...",
+        "price": 2600,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "dep12",
+        "name": "Depilacija 60min",
+        "description": "na primer 1/1 noga+bik kompletan + pazuha + lice...",
+        "price": 3000,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "dep13",
+        "name": "Depilacija 90min",
+        "description": "na primer 1/1 noge+ grudi +leđa +pazuha +ruke",
+        "price": 4800,
+        "duration": "90 min",
+        "note": ""
+      }
+    ],
+    "footnote": "*vreme depilacije zavisi od rasta,količine i debljine dlake"
+  },
+  {
+    "id": "3",
+    "category": "Pedikir",
+    "icon": "pedikir",
+    "description": "Profesionalna nega stopala i noktiju",
+    "treatments": [
+      {
+        "id": "ped1",
+        "name": "Pedikir",
+        "description": "",
+        "price": 1900,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "ped2",
+        "name": "Pedikir + lak",
+        "description": "",
+        "price": 2100,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "ped3",
+        "name": "Pedikir + lak + dekoracija",
+        "description": "cirkoni,šljokice…",
+        "price": 2300,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "ped4",
+        "name": "Deko 1x",
+        "description": "cirkoni, šljokice...",
+        "price": 80,
+        "duration": "5 min",
+        "note": ""
+      },
+      {
+        "id": "ped5",
+        "name": "Samo lak",
+        "description": "",
+        "price": 400,
+        "duration": "15 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "category": "Pedikir sa gel lakom (GL)",
+    "icon": "pedikir-gl",
+    "description": "Dugotrajna nega stopala sa gel lakom",
+    "treatments": [
+      {
+        "id": "pedgl1",
+        "name": "Pedikir + GL",
+        "description": "",
+        "price": 2200,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "pedgl2",
+        "name": "Pedikir + GL + deko",
+        "description": "cirkoni, šljokice...",
+        "price": 2500,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "pedgl3",
+        "name": "Deko 1x",
+        "description": "cirkoni, šljokice...",
+        "price": 80,
+        "duration": "5 min",
+        "note": ""
+      },
+      {
+        "id": "pedgl4",
+        "name": "Pedikir + skidanje GL",
+        "description": "",
+        "price": 1900,
+        "duration": "60 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "category": "Manikir",
+    "icon": "manikir",
+    "description": "Profesionalna nega noktiju ruku",
+    "treatments": [
+      {
+        "id": "man1",
+        "name": "Manikir",
+        "description": "",
+        "price": 950,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "man2",
+        "name": "Manikir + lak",
+        "description": "",
+        "price": 1200,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "man3",
+        "name": "Manikir + french lak",
+        "description": "",
+        "price": 1400,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "man4",
+        "name": "Manikir + lak + deko",
+        "description": "cirkoni, šljokice...",
+        "price": 1400,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "man5",
+        "name": "Samo lak",
+        "description": "",
+        "price": 500,
+        "duration": "20 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "category": "Manikir sa Gel Lak (GL)",
+    "icon": "manikir-gl",
+    "description": "Dugotrajna gel aplikacija na noktima",
+    "treatments": [
+      {
+        "id": "mangl1",
+        "name": "Gel lak S",
+        "description": "",
+        "price": 1350,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "mangl2",
+        "name": "Gel lak M",
+        "description": "",
+        "price": 1550,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "mangl3",
+        "name": "Gel lak L",
+        "description": "",
+        "price": 1750,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "mangl4",
+        "name": "Manikir + skidanje GL",
+        "description": "",
+        "price": 1350,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "mangl5",
+        "name": "Crtanje po noktu",
+        "description": "+cirkoni, šljokice..",
+        "price": 80,
+        "price2": 500,
+        "duration": "30 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "category": "Manikir + Gel / Gum Gel / Poligel + Gel Lak",
+    "icon": "manikir-gel",
+    "description": "Ojačavanje i izlivanje noktiju",
+    "treatments": [
+      {
+        "id": "mang1",
+        "name": "Ojačavanje S",
+        "description": "",
+        "price": 1650,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang2",
+        "name": "Ojačavanje M",
+        "description": "",
+        "price": 1850,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang3",
+        "name": "Ojačavanje L",
+        "description": "",
+        "price": 2000,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang4",
+        "name": "Izlivanje sa šablonom ili dual tips S",
+        "description": "",
+        "price": 1850,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang5",
+        "name": "Izlivanje sa šablonom ili dual tips M",
+        "description": "",
+        "price": 2100,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang6",
+        "name": "Izlivanje sa šablonom ili dual tips L",
+        "description": "",
+        "price": 2300,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang7",
+        "name": "Korekcija S",
+        "description": "",
+        "price": 1750,
+        "duration": "60 min",
+        "note": "*"
+      },
+      {
+        "id": "mang8",
+        "name": "Korekcija M",
+        "description": "",
+        "price": 1950,
+        "duration": "60 min",
+        "note": "*"
+      },
+      {
+        "id": "mang9",
+        "name": "Korekcija L",
+        "description": "",
+        "price": 2150,
+        "duration": "60 min",
+        "note": "*"
+      },
+      {
+        "id": "mang10",
+        "name": "Nadogradnja noktiju tipsama S",
+        "description": "",
+        "price": 1850,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang11",
+        "name": "Nadogradnja noktiju tipsama M",
+        "description": "",
+        "price": 2100,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang12",
+        "name": "Nadogradnja noktiju tipsama L",
+        "description": "",
+        "price": 2300,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "mang13",
+        "name": "French",
+        "description": "",
+        "price": 300,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "mang14",
+        "name": "Babyboom",
+        "description": "",
+        "price": 500,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "mang15",
+        "name": "Popravi nokat S",
+        "description": "",
+        "price": 200,
+        "duration": "10 min",
+        "note": ""
+      },
+      {
+        "id": "mang16",
+        "name": "Popravi nokat M",
+        "description": "",
+        "price": 300,
+        "duration": "10 min",
+        "note": ""
+      },
+      {
+        "id": "mang17",
+        "name": "Popravi nokat L",
+        "description": "",
+        "price": 400,
+        "duration": "10 min",
+        "note": ""
+      },
+      {
+        "id": "mang18",
+        "name": "Crtanje po noktu",
+        "description": "+cirkoni, šljokice...",
+        "price": 80,
+        "price2": 500,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "mang19",
+        "name": "Skidanje Gel / Gum Gel ili Poligel + Gel Lak + manikir",
+        "description": "",
+        "price": 1350,
+        "duration": "60 min",
+        "note": ""
+      }
+    ],
+    "footnote": "*korekcija noktiju se preporučuje svake 3-4 nedelje"
+  },
+  {
+    "id": "8",
+    "category": "Farbanje trepavice i obrve / Lash + brow lift",
+    "icon": "eyes",
+    "description": "Tretmani za savršen pogled",
+    "treatments": [
+      {
+        "id": "lash1",
+        "name": "Farbanje trepavica",
+        "description": "",
+        "price": 950,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "lash2",
+        "name": "Farbanje obrva",
+        "description": "",
+        "price": 750,
+        "duration": "20 min",
+        "note": ""
+      },
+      {
+        "id": "lash3",
+        "name": "Farbanje trepavica + obrva",
+        "description": "",
+        "price": 1600,
+        "duration": "40 min",
+        "note": ""
+      },
+      {
+        "id": "lash4",
+        "name": "Podizanje trepavica (lash lift)",
+        "description": "",
+        "price": 2000,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "lash5",
+        "name": "Farbanje Trepavica + podizanje",
+        "description": "",
+        "price": 2500,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "lash6",
+        "name": "Farbanje obrva + trepavica + podizanje",
+        "description": "",
+        "price": 2900,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "lash7",
+        "name": "Podizanje obrva (brow lift)",
+        "description": "",
+        "price": 1800,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "lash8",
+        "name": "Farbanje + podizanje obrva (brow lift)",
+        "description": "",
+        "price": 2300,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "lash9",
+        "name": "Farbanje + podizanje trepavica i obrva",
+        "description": "farbanje + lash lift +brow lift",
+        "price": 3100,
+        "duration": "90 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "category": "Supreme Wellbeing / Vrhunsko blagostanje",
+    "icon": "wellness",
+    "description": "Opuštanje i revitalizacija tela",
+    "treatments": [
+      {
+        "id": "well1",
+        "name": "Masaža 30min",
+        "description": "",
+        "price": 2100,
+        "duration": "30 min",
+        "note": ""
+      },
+      {
+        "id": "well2",
+        "name": "Masaža 45min",
+        "description": "",
+        "price": 3150,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "well3",
+        "name": "Masaža 60min",
+        "description": "",
+        "price": 4200,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "well4",
+        "name": "Masaža 30min + tretman lica 60min",
+        "description": "na primer: leđa ili stopala i ruke",
+        "price": 5200,
+        "duration": "90 min",
+        "note": ""
+      },
+      {
+        "id": "well5",
+        "name": "Masaža 60min + tretman lica 60min",
+        "description": "",
+        "price": 7200,
+        "duration": "120 min",
+        "note": ""
+      },
+      {
+        "id": "well6",
+        "name": "Refleksologija stopala (akupunktura)",
+        "description": "",
+        "price": 2000,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "well7",
+        "name": "Duboka relaksacija, pulsna vibracijska masaža 15min",
+        "description": "može se uključiti u sve masaže",
+        "price": 900,
+        "duration": "15 min",
+        "note": ""
+      },
+      {
+        "id": "well8",
+        "name": "Aromaterapijska masaža 60min",
+        "description": "",
+        "price": 4500,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "well9",
+        "name": "Peeling tela",
+        "description": "",
+        "price": 3000,
+        "duration": "45 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "category": "Šminkanje",
+    "icon": "makeup",
+    "description": "Profesionalnim kozmetičkim brendom",
+    "treatments": [
+      {
+        "id": "make1",
+        "name": "Zapanjujuća dama Šminkanje",
+        "description": "za posebne prilike",
+        "price": 2500,
+        "duration": "45 min",
+        "note": ""
+      },
+      {
+        "id": "make2",
+        "name": "Nezaboravno lepota",
+        "description": "za sve posebne prilike, krštenje, venčanje, svadba..+ trepavice ,cirkoni..",
+        "price": 3000,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "make3",
+        "name": "Glamurozno šminkanje sa detaljima",
+        "description": "trepavice,cirkoni,..",
+        "price": 3000,
+        "duration": "60 min",
+        "note": ""
+      },
+      {
+        "id": "make4",
+        "name": "Cirkoni",
+        "description": "",
+        "price": 80,
+        "price2": 500,
+        "duration": "30 min",
+        "note": ""
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "category": "Sprej Tan",
+    "icon": "tan",
+    "description": "Prirodan sun-kissed izgled",
+    "treatments": [
+      {
+        "id": "tan1",
+        "name": "Sprej zelog telo",
+        "description": "",
+        "price": 2000,
+        "duration": "30 min",
+        "note": ""
+      }
+    ]
+  }
+]

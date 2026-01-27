@@ -1,0 +1,100 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "services": "Services",
+    "priceList": "Tarifs",
+    "pages": "Pages",
+    "contact": "Contact",
+    "bookNow": "Réserver",
+    "gallery": "Galerie",
+    "blog": "Blog",
+    "team": "Notre Équipe",
+    "testimonials": "Témoignages"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "add": "Ajouter",
+    "close": "Fermer",
+    "submit": "Soumettre",
+    "search": "Rechercher",
+    "readMore": "Lire Plus",
+    "bookAppointment": "Réserver un Rendez-vous",
+    "viewAll": "Voir Tout",
+    "backToHome": "Retour à l'Accueil"
+  },
+  "hero": {
+    "welcome": "Bienvenue",
+    "title": "Détendez le Corps, Apaisez l'Esprit, Renouvelez l'Âme",
+    "subtitle": "Transformez Votre Look",
+    "cta": "Réserver un Rendez-vous",
+    "services": "Nos Services"
+  },
+  "announcement": {
+    "message": "Appelez pour réserver votre traitement - Bons disponibles !"
+  },
+  "footer": {
+    "description": "Détendez le corps, apaisez l'esprit, renouvelez l'âme. Nataša Wellness offre des traitements cosmétiques et bien-être professionnels avec plus de 20 ans d'expérience. Soins personnalisés et attention dédiée à vous.",
+    "quickLinks": "Liens Rapides",
+    "popularLinks": "Liens Populaires",
+    "newsletter": "Newsletter",
+    "newsletterPlaceholder": "Entrez Votre Email",
+    "newsletterDescription": "Abonnez-vous pour recevoir des offres spéciales et des conseils beauté !",
+    "copyright": "Tous Droits Réservés",
+    "craftedWith": "Créé avec",
+    "by": "par Danilo Peric"
+  },
+  "contact": {
+    "phone": "Téléphone",
+    "email": "Email",
+    "address": "Adresse",
+    "businessHours": "Heures d'Ouverture",
+    "weekdays": "Lun-Ven",
+    "saturday": "Samedi",
+    "sunday": "Dimanche"
+  },
+  "admin": {
+    "dashboard": "Tableau de Bord",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "managePriceList": "Gérer les Tarifs",
+    "manageTranslations": "Gérer les Traductions",
+    "statistics": "Statistiques",
+    "clients": "Clients",
+    "recentBookings": "Réservations Récentes",
+    "totalBookings": "Total Réservations",
+    "pending": "En Attente",
+    "revenue": "Revenu",
+    "avgRating": "Note Moyenne"
+  },
+  "priceList": {
+    "title": "Tarifs",
+    "subtitle": "Nos Traitements et Prix",
+    "description": "Explorez notre gamme complète de traitements de beauté et bien-être professionnels",
+    "categories": "Catégories",
+    "selectCategory": "Sélectionnez une Catégorie de Traitement",
+    "treatments": "Traitements",
+    "price": "Prix",
+    "duration": "Durée"
+  },
+  "booking": {
+    "title": "Réserver un Rendez-vous",
+    "selectService": "Sélectionnez un Service",
+    "selectDate": "Sélectionnez une Date",
+    "selectTime": "Sélectionnez une Heure",
+    "yourInfo": "Vos Informations",
+    "name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "email": "Adresse Email",
+    "notes": "Notes Additionnelles",
+    "confirmBooking": "Confirmer la Réservation",
+    "successMessage": "Votre rendez-vous a été réservé avec succès !",
+    "errorMessage": "Échec de la réservation. Veuillez réessayer."
+  }
+}

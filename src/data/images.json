@@ -1,0 +1,344 @@
+[
+  {
+    "id": "hero-slider-1",
+    "path": "/img/hero-slider-1.jpg",
+    "category": "Hero Section",
+    "location": "Homepage - Hero Slider (Slide 1)",
+    "description": "First hero slider image on homepage",
+    "currentFile": "hero-slider-1.jpg",
+    "type": "hero"
+  },
+  {
+    "id": "hero-slider-2",
+    "path": "/img/hero-slider-2.jpg",
+    "category": "Hero Section",
+    "location": "Homepage - Hero Slider (Slide 2)",
+    "description": "Second hero slider image on homepage",
+    "currentFile": "hero-slider-2.jpg",
+    "type": "hero",
+    "lastUpdated": "2026-01-25T12:28:19.002Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "hero-slider-3",
+    "path": "/img/hero-slider-3.jpg",
+    "category": "Hero Section",
+    "location": "Homepage - Hero Slider (Slide 3)",
+    "description": "Third hero slider image on homepage",
+    "currentFile": "hero-slider-3.jpg",
+    "type": "hero",
+    "lastUpdated": "2026-01-26T17:59:50.872Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "hero-bg",
+    "path": "/img/hero-bg.jpg",
+    "category": "Hero Section",
+    "location": "Homepage - Hero Background",
+    "description": "Background image for hero section",
+    "currentFile": "hero-bg.jpg",
+    "type": "background"
+  },
+  {
+    "id": "about",
+    "path": "/img/about.jpg",
+    "category": "About Section",
+    "location": "Homepage & About Page",
+    "description": "Main about section image",
+    "currentFile": "about.jpg",
+    "type": "content",
+    "lastUpdated": "2026-01-26T18:00:39.678Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "team-1",
+    "path": "/img/team-1.jpg",
+    "category": "Team",
+    "location": "Team Page - Nataša Peric",
+    "description": "Team Members",
+    "currentFile": "team-1.jpg",
+    "type": "team",
+    "lastUpdated": "2026-01-27T16:29:46.763Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "team-2",
+    "path": "/img/team-2.jpg",
+    "category": "Team",
+    "location": "Team Page - Olivia Smith",
+    "description": "Team member photo - Olivia Smith",
+    "currentFile": "team-2.jpg",
+    "type": "team"
+  },
+  {
+    "id": "team-3",
+    "path": "/img/team-3.jpg",
+    "category": "Team",
+    "location": "Team Page - Ava Brown",
+    "description": "Team member photo - Ava Brown",
+    "currentFile": "team-3.jpg",
+    "type": "team"
+  },
+  {
+    "id": "team-4",
+    "path": "/img/team-4.jpg",
+    "category": "Team",
+    "location": "Team Page - Amelia Jones",
+    "description": "Team member photo - Amelia Jones",
+    "currentFile": "team-4.jpg",
+    "type": "team"
+  },
+  {
+    "id": "gallery-1",
+    "path": "/img/gallery-1.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Hair Styling",
+    "description": "Gallery image - Hair Styling",
+    "currentFile": "gallery-1.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-26T18:01:06.228Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "gallery-2",
+    "path": "/img/gallery-2.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Nail Art",
+    "description": "Gallery image - Nail Art",
+    "currentFile": "gallery-2.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-26T18:17:06.449Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "gallery-3",
+    "path": "/img/gallery-3.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Makeup Artistry",
+    "description": "Gallery image - Makeup Artistry",
+    "currentFile": "gallery-3.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-27T02:09:08.899Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "gallery-4",
+    "path": "/img/gallery-4.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Spa Treatment",
+    "description": "Gallery image - Spa Treatment",
+    "currentFile": "gallery-4.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-26T18:16:34.137Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "gallery-5",
+    "path": "/img/gallery-5.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Bridal Makeup",
+    "description": "Gallery image - Bridal Makeup",
+    "currentFile": "gallery-5.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-27T02:09:31.954Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "gallery-6",
+    "path": "/img/gallery-6.jpg",
+    "category": "Gallery",
+    "location": "Gallery Page - Hair Coloring",
+    "description": "Gallery image - Hair Coloring",
+    "currentFile": "gallery-6.jpg",
+    "type": "gallery",
+    "lastUpdated": "2026-01-27T02:09:52.961Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "testimonial-1",
+    "path": "/img/testimonial-1.jpg",
+    "category": "Testimonials",
+    "location": "Testimonials Page - Customer 1",
+    "description": "Testimonial customer photo 1",
+    "currentFile": "testimonial-1.jpg",
+    "type": "testimonial"
+  },
+  {
+    "id": "testimonial-2",
+    "path": "/img/testimonial-2.jpg",
+    "category": "Testimonials",
+    "location": "Testimonials Page - Customer 2",
+    "description": "Testimonial customer photo 2",
+    "currentFile": "testimonial-2.jpg",
+    "type": "testimonial"
+  },
+  {
+    "id": "testimonial-3",
+    "path": "/img/testimonial-3.jpg",
+    "category": "Testimonials",
+    "location": "Testimonials Page - Customer 3",
+    "description": "Testimonial customer photo 3",
+    "currentFile": "testimonial-3.jpg",
+    "type": "testimonial"
+  },
+  {
+    "id": "testimonial-4",
+    "path": "/img/testimonial-4.jpg",
+    "category": "Testimonials",
+    "location": "Testimonials Page - Customer 4",
+    "description": "Testimonial customer photo 4",
+    "currentFile": "testimonial-4.jpg",
+    "type": "testimonial",
+    "lastUpdated": "2026-01-27T20:01:08.265Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "blog-1",
+    "path": "/img/blog-1.jpg",
+    "category": "Blog",
+    "location": "Blog Page - Post 1",
+    "description": "Blog post featured image 1",
+    "currentFile": "blog-1.jpg",
+    "type": "blog",
+    "lastUpdated": "2026-01-27T02:10:13.155Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "blog-2",
+    "path": "/img/blog-2.jpg",
+    "category": "Blog",
+    "location": "Blog Page - Post 2",
+    "description": "Blog post featured image 2",
+    "currentFile": "blog-2.jpg",
+    "type": "blog",
+    "lastUpdated": "2026-01-27T16:30:13.987Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "price-1",
+    "path": "/img/price-1.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 1",
+    "currentFile": "price-1.jpg",
+    "type": "pricing",
+    "lastUpdated": "2026-01-27T02:11:37.564Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "price-2",
+    "path": "/img/price-2.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 2",
+    "currentFile": "price-2.jpg",
+    "type": "pricing",
+    "lastUpdated": "2026-01-27T20:01:25.426Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "price-3",
+    "path": "/img/price-3.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 3",
+    "currentFile": "price-3.jpg",
+    "type": "pricing"
+  },
+  {
+    "id": "price-4",
+    "path": "/img/price-4.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 4",
+    "currentFile": "price-4.jpg",
+    "type": "pricing",
+    "lastUpdated": "2026-01-27T20:01:41.091Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "price-5",
+    "path": "/img/price-5.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 5",
+    "currentFile": "price-5.jpg",
+    "type": "pricing",
+    "lastUpdated": "2026-01-27T20:01:51.253Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "price-6",
+    "path": "/img/price-6.jpg",
+    "category": "Pricing",
+    "location": "Homepage - Pricing Section",
+    "description": "Pricing section background image 6",
+    "currentFile": "price-6.jpg",
+    "type": "pricing",
+    "lastUpdated": "2026-01-27T20:02:06.802Z",
+    "uploadedBy": "admin"
+  },
+  {
+    "id": "page-header",
+    "path": "/img/page-header.jpg",
+    "category": "Page Headers",
+    "location": "Various Pages - Header Background",
+    "description": "Default page header background",
+    "currentFile": "page-header.jpg",
+    "type": "header"
+  },
+  {
+    "id": "skin-care",
+    "path": "/img/skin-care.png",
+    "category": "Services",
+    "location": "Services - Facial Treatment Icon",
+    "description": "Service icon - Skin Care",
+    "currentFile": "skin-care.png",
+    "type": "icon"
+  },
+  {
+    "id": "manicure",
+    "path": "/img/manicure.png",
+    "category": "Services",
+    "location": "Services - Manicure Icon",
+    "description": "Service icon - Manicure",
+    "currentFile": "manicure.png",
+    "type": "icon"
+  },
+  {
+    "id": "pedicure",
+    "path": "/img/pedicure.png",
+    "category": "Services",
+    "location": "Services - Pedicure Icon",
+    "description": "Service icon - Pedicure",
+    "currentFile": "pedicure.png",
+    "type": "icon"
+  },
+  {
+    "id": "makeup",
+    "path": "/img/makeup.png",
+    "category": "Services",
+    "location": "Services - Makeup Icon",
+    "description": "Service icon - Makeup",
+    "currentFile": "makeup.png",
+    "type": "icon"
+  },
+  {
+    "id": "haircut",
+    "path": "/img/haircut.png",
+    "category": "Services",
+    "location": "Services - Haircut Icon",
+    "description": "Service icon - Haircut",
+    "currentFile": "haircut.png",
+    "type": "icon"
+  },
+  {
+    "id": "massage",
+    "path": "/img/massage.png",
+    "category": "Services",
+    "location": "Services - Massage Icon",
+    "description": "Service icon - Massage",
+    "currentFile": "massage.png",
+    "type": "icon"
+  }
+]

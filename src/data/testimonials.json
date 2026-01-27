@@ -1,0 +1,39 @@
+[
+  {
+    "id": "1",
+    "name": "Sarah Johnson",
+    "role": "Business Owner",
+    "image": "/img/testimonial-1.jpg",
+    "rating": 5,
+    "text": "The best salon experience I've ever had! The staff is incredibly talented and the atmosphere is so relaxing. I always leave feeling beautiful and refreshed.",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "name": "Emily Davis",
+    "role": "Fashion Designer",
+    "image": "/img/testimonial-2.jpg",
+    "rating": 5,
+    "text": "I've been coming here for years and they never disappoint. The quality of service is outstanding and the results are always amazing.",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "name": "Jessica Wilson",
+    "role": "Marketing Manager",
+    "image": "/img/testimonial-3.jpg",
+    "rating": 5,
+    "text": "Absolutely love this salon! The team is professional, skilled, and genuinely cares about making you look and feel your best.",
+    "featured": true
+  },
+  {
+    "id": "4",
+    "name": "Amanda Martinez",
+    "role": "Teacher",
+    "image": "/img/testimonial-4.jpg",
+    "rating": 5,
+    "text": "From the moment you walk in, you feel welcomed. The services are top-notch and the prices are very reasonable. Highly recommend!",
+    "featured": true
+  }
+]
+

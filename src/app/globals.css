@@ -1,0 +1,558 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Enhanced smooth scrolling for parallax */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-white text-dark font-worksans;
+    font-weight: 500;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+  }
+}
+
+@layer components {
+  /* Modern Button Styles with Enhanced Animations */
+  .btn-primary-custom {
+    @apply relative bg-primary text-dark px-8 py-3 font-semibold uppercase tracking-wider transition-all duration-400 overflow-hidden;
+    background: linear-gradient(135deg, #D4A574 0%, #E9D4B2 100%);
+    margin: 10px;
+  }
+
+  .btn-primary-custom::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary via-primary-light to-primary;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-primary-custom::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-0.5 bg-dark;
+    width: 0;
+    transition: width 0.5s ease;
+  }
+
+  .btn-primary-custom:hover {
+    @apply scale-[1.08] -translate-y-[3px] shadow-glow-lg;
+    background: linear-gradient(135deg, #D4A574 0%, #E9D4B2 100%);
+  }
+
+  .btn-primary-custom:hover::before {
+    opacity: 1;
+  }
+
+  .btn-primary-custom:hover::after {
+    width: 100%;
+  }
+
+  .btn-dark-custom {
+    @apply relative bg-dark text-primary px-8 py-3 font-semibold uppercase tracking-wider transition-all duration-400 overflow-hidden;
+    margin: 10px;
+  }
+
+  .btn-dark-custom::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary via-primary-light to-primary;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-dark-custom::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-0.5 bg-primary;
+    width: 0;
+    transition: width 0.5s ease;
+  }
+
+  .btn-dark-custom:hover {
+    @apply scale-[1.08] -translate-y-[3px] shadow-glow-lg;
+    @apply bg-primary text-dark;
+  }
+
+  .btn-dark-custom:hover::before {
+    opacity: 1;
+  }
+
+  .btn-dark-custom:hover::after {
+    width: 100%;
+  }
+
+  /* Modern Button Base Class */
+  .btn-modern {
+    @apply relative px-8 py-4 rounded-full font-semibold text-lg transition-all duration-400 overflow-hidden;
+    background: linear-gradient(135deg, #D4A574 0%, #E9D4B2 100%);
+  }
+
+  .btn-modern::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary via-primary-light to-primary;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-modern:hover {
+    @apply scale-[1.08] -translate-y-[3px] shadow-card-hover;
+  }
+
+  .btn-modern:hover::before {
+    opacity: 1;
+  }
+
+  /* Parallax Section */
+  .parallax-section {
+    @apply relative overflow-hidden;
+  }
+
+  /* Modern Glassmorphism Effects */
+  .glass {
+    backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), inset 0 0 20px rgba(212, 165, 116, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .glass {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(26, 26, 26, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .glass-primary {
+    backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(212, 165, 116, 0.2);
+    border: 1px solid rgba(212, 165, 116, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(212, 165, 116, 0.25), inset 0 0 20px rgba(212, 165, 116, 0.15);
+  }
+
+  .glass-hover {
+    transition: all 0.4s ease;
+  }
+
+  .glass-hover:hover {
+    backdrop-filter: blur(32px) saturate(200%);
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.03);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.3), inset 0 0 30px rgba(212, 165, 116, 0.2);
+  }
+
+/* React Big Calendar Custom Styles */
+.rbc-calendar {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.rbc-header {
+  padding: 12px 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+.rbc-today {
+  background-color: #fef3e9;
+}
+
+.rbc-event {
+  padding: 2px 5px;
+  background-color: #D4A574;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.rbc-event:hover {
+  opacity: 0.8;
+}
+
+.rbc-toolbar {
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rbc-toolbar button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #D4A574;
+  background: white;
+  color: #1A1A1A;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.rbc-toolbar button:hover {
+  background: #D4A574;
+  color: #1A1A1A;
+}
+
+.rbc-toolbar button.rbc-active {
+  background: #D4A574;
+  color: #1A1A1A;
+}
+
+.rbc-month-view, .rbc-time-view {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rbc-time-slot {
+  border-top: 1px solid #f0f0f0;
+}
+
+  /* Enhanced Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary via-primary-light to-primary bg-clip-text text-transparent;
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #D4A574 0%, #E9D4B2 50%, #D4A574 100%);
+    @apply bg-clip-text text-transparent;
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Modern Card Hover Effect */
+  .card-hover {
+    @apply transition-all duration-500 ease-out;
+    perspective: 1000px;
+  }
+
+  .card-hover:hover {
+    @apply shadow-card-hover transform -translate-y-2 scale-[1.04];
+    transform-style: preserve-3d;
+  }
+
+  /* Enhanced Image Hover Zoom */
+  .image-hover-zoom {
+    @apply overflow-hidden rounded-2xl;
+  }
+
+  .image-hover-zoom img {
+    @apply transition-transform duration-700 ease-out;
+    will-change: transform;
+  }
+
+  .image-hover-zoom:hover img {
+    transform: scale(1.12);
+  }
+
+  /* Modern Service Card */
+  .service-card {
+    @apply bg-white rounded-2xl overflow-hidden shadow-card transition-all duration-500;
+    transform-style: preserve-3d;
+  }
+
+  .service-card:hover {
+    @apply shadow-card-hover scale-[1.04] -translate-y-2;
+  }
+
+  .service-card .card-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 transition-opacity duration-500;
+  }
+
+  .service-card:hover .card-overlay {
+    @apply opacity-100;
+  }
+
+  .service-card .card-content-hidden {
+    @apply absolute bottom-0 left-0 right-0 p-6 transform translate-y-full transition-transform duration-500;
+  }
+
+  .service-card:hover .card-content-hidden {
+    @apply translate-y-0;
+  }
+
+  /* Enhanced Shimmer Effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 165, 116, 0.4) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  .shimmer-slow {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 165, 116, 0.3) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3.5s linear infinite;
+  }
+
+  /* Floating Animation */
+  .floating {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .floating-slow {
+    animation: float 7s ease-in-out infinite;
+  }
+
+  /* Animated Underline for Links */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-0.5 bg-primary;
+    width: 0;
+    transition: width 0.4s ease;
+  }
+
+  .link-underline:hover::after {
+    width: 100%;
+  }
+
+  /* Modern Section Padding - Optimized for better density */
+  .section-padding {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* Section Padding Large */
+  .section-padding-lg {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  /* Hero Section Padding - Compact */
+  .hero-padding {
+    @apply py-8 md:py-12 lg:py-16;
+  }
+
+  /* Modern Container Custom */
+  .container-custom {
+    @apply w-full mx-auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+  }
+
+  @media (min-width: 576px) {
+    .container-custom {
+      max-width: 540px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container-custom {
+      max-width: 720px;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .container-custom {
+      max-width: 960px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container-custom {
+      max-width: 1280px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .container-custom {
+      max-width: 1400px;
+    }
+  }
+
+  /* Full Width Container - for sections that need to be full width */
+  .container-fluid {
+    @apply w-full px-0;
+  }
+}
+
+@layer utilities {
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-light;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-dark;
+  }
+
+  /* Enhanced Text Shadow */
+  .text-shadow {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .text-shadow-gold {
+    text-shadow: 0 2px 10px rgba(212, 165, 116, 0.4), 0 0 20px rgba(212, 165, 116, 0.2);
+  }
+
+  /* Hide Scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom Cursor for Interactive Elements */
+  .cursor-gold {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%23D4A574' opacity='0.8'/%3E%3C/svg%3E") 10 10, pointer;
+  }
+
+  /* Enhanced Vignette Overlay */
+  .vignette {
+    position: relative;
+  }
+
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Radial Gradient Utility */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-warmth: 0.95;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .glass-dark {
+    background: rgba(26, 26, 26, 0.4);
+  }
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(212, 165, 116, 0.1);
+  border-top-color: #D4A574;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* React Datepicker Custom Styles */
+.react-datepicker {
+  @apply border-2 border-primary rounded-lg shadow-xl;
+}
+
+.react-datepicker__header {
+  @apply bg-primary border-b-2 border-primary-dark;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  @apply text-dark font-semibold;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-dark text-primary;
+}
+
+.react-datepicker__day:hover {
+  @apply bg-primary-light;
+}
+
