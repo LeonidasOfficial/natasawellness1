@@ -2,6 +2,27 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readData, writeData } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 
+interface Treatment {
+  id: string
+  name: string
+  description: string
+  price: number
+  price2?: number
+  duration: string
+  note?: string
+}
+
+interface Category {
+  id: string
+  category: string
+  icon: string
+  description: string
+  treatments: Treatment[]
+  footnote?: string
+}
+
+type PriceList = Category[]
+
 // PUT - Update specific category or treatment
 export async function PUT(
   request: NextRequest,
@@ -21,11 +42,11 @@ export async function PUT(
     const body = await request.json()
     const { type, categoryId, data } = body
 
-    const priceList = await readData('price-list')
+    const priceList = await readData('price-list') as PriceList
 
     if (type === 'category') {
       // Update category
-      const categoryIndex = priceList.findIndex((cat: any) => cat.id === id)
+      const categoryIndex = priceList.findIndex((cat: Category) => cat.id === id)
       if (categoryIndex === -1) {
         return NextResponse.json(
           { error: 'Category not found' },
@@ -39,7 +60,7 @@ export async function PUT(
       }
     } else if (type === 'treatment') {
       // Update treatment
-      const category = priceList.find((cat: any) => cat.id === categoryId)
+      const category = priceList.find((cat: Category) => cat.id === categoryId)
       if (!category) {
         return NextResponse.json(
           { error: 'Category not found' },
@@ -48,7 +69,7 @@ export async function PUT(
       }
 
       const treatmentIndex = category.treatments.findIndex(
-        (treatment: any) => treatment.id === id
+        (treatment: Treatment) => treatment.id === id
       )
       if (treatmentIndex === -1) {
         return NextResponse.json(
@@ -94,15 +115,15 @@ export async function DELETE(
     const type = searchParams.get('type')
     const categoryId = searchParams.get('categoryId')
 
-    const priceList = await readData('price-list')
+    const priceList = await readData('price-list') as PriceList
 
     if (type === 'category') {
       // Delete entire category
-      const newPriceList = priceList.filter((cat: any) => cat.id !== id)
+      const newPriceList = priceList.filter((cat: Category) => cat.id !== id)
       await writeData('price-list', newPriceList)
     } else if (type === 'treatment' && categoryId) {
       // Delete specific treatment
-      const category = priceList.find((cat: any) => cat.id === categoryId)
+      const category = priceList.find((cat: Category) => cat.id === categoryId)
       if (!category) {
         return NextResponse.json(
           { error: 'Category not found' },
@@ -111,7 +132,7 @@ export async function DELETE(
       }
 
       category.treatments = category.treatments.filter(
-        (treatment: any) => treatment.id !== id
+        (treatment: Treatment) => treatment.id !== id
       )
       await writeData('price-list', priceList)
     }
