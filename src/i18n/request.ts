@@ -22,8 +22,10 @@ export default getRequestConfig(async ({ locale }) => {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as Locale)) notFound()
 
+  const validLocale = locale as Locale
+
   return {
-    locale,
-    messages: (await import(`../locales/${locale}.json`)).default
+    locale: validLocale,
+    messages: (await import(`../locales/${validLocale}.json`)).default
   }
 })
