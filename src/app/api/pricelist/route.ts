@@ -2,6 +2,27 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readData, writeData } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 
+interface Treatment {
+  id: string
+  name: string
+  description: string
+  price: number
+  price2?: number
+  duration: string
+  note?: string
+}
+
+interface Category {
+  id: string
+  category: string
+  icon: string
+  description: string
+  treatments: Treatment[]
+  footnote?: string
+}
+
+type PriceList = Category[]
+
 // GET - Fetch all price list categories and treatments
 export async function GET() {
   try {
@@ -30,11 +51,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { type, categoryId, data } = body
 
-    const priceList = await readData('price-list')
+    const priceList = await readData('price-list') as PriceList
 
     if (type === 'category') {
       // Add new category
-      const newCategory = {
+      const newCategory: Category = {
         id: Date.now().toString(),
         category: data.category,
         icon: data.icon || 'face',
@@ -45,7 +66,7 @@ export async function POST(request: NextRequest) {
       priceList.push(newCategory)
     } else if (type === 'treatment') {
       // Add new treatment to existing category
-      const category = priceList.find((cat: any) => cat.id === categoryId)
+      const category = priceList.find((cat: Category) => cat.id === categoryId)
       if (!category) {
         return NextResponse.json(
           { error: 'Category not found' },
@@ -53,7 +74,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      const newTreatment = {
+      const newTreatment: Treatment = {
         id: Date.now().toString(),
         name: data.name,
         description: data.description || '',

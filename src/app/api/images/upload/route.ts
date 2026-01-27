@@ -4,6 +4,18 @@ import { writeFile, mkdir, access } from 'fs/promises'
 import { join } from 'path'
 import { existsSync } from 'fs'
 
+interface ImageItem {
+  id: string
+  path: string
+  category: string
+  location: string
+  description: string
+  currentFile: string
+  type: string
+  lastUpdated?: string
+  uploadedBy?: string
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Verify admin authentication
@@ -83,9 +95,9 @@ export async function POST(request: NextRequest) {
     try {
       const { readFile, writeFile: writeFileJSON } = await import('fs/promises')
       const imagesMetadataPath = join(process.cwd(), 'src', 'data', 'images.json')
-      const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8'))
+      const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8')) as ImageItem[]
       
-      const imageIndex = imagesData.findIndex((img: any) => img.id === imageId)
+      const imageIndex = imagesData.findIndex((img) => img.id === imageId)
       if (imageIndex !== -1) {
         imagesData[imageIndex].lastUpdated = new Date().toISOString()
         imagesData[imageIndex].uploadedBy = 'admin'

@@ -3,6 +3,18 @@ import { verifyAuth } from '@/lib/auth'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 
+interface ImageItem {
+  id: string
+  path: string
+  category: string
+  location: string
+  description: string
+  currentFile: string
+  type: string
+  lastUpdated?: string
+  uploadedBy?: string
+}
+
 export async function PUT(request: NextRequest) {
   try {
     // Verify admin authentication
@@ -25,9 +37,9 @@ export async function PUT(request: NextRequest) {
 
     // Update image metadata
     const imagesMetadataPath = join(process.cwd(), 'src', 'data', 'images.json')
-    const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8'))
+    const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8')) as ImageItem[]
     
-    const imageIndex = imagesData.findIndex((img: any) => img.id === imageId)
+    const imageIndex = imagesData.findIndex((img) => img.id === imageId)
     if (imageIndex === -1) {
       return NextResponse.json(
         { error: 'Image not found' },
