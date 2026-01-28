@@ -9,7 +9,7 @@
         "id": "1",
         "name": "Brzi tretman lica",
         "description": "30min (bez depilacije)",
-        "price": ,
+        "price": 2200,
         "price2": 2600,
         "duration": "30 min",
         "note": ""
@@ -18,7 +18,7 @@
         "id": "2",
         "name": "Tretman lica mladih",
         "description": "60min (12-22god)",
-        "price": ,
+        "price": 2800,
         "price2": 3200,
         "duration": "60 min",
         "note": "*"

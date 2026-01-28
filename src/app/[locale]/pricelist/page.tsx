@@ -26,6 +26,7 @@ import {
 } from 'react-icons/fa'
 
 import { useTranslation } from '@/contexts/TranslationContext'
+import fallbackPriceList from '@/data/price-list.json'
 
 // Icon mapping - each category has a unique icon
 const iconMap: { [key: string]: any } = {
@@ -68,20 +69,22 @@ export default function PriceListPage() {
   const [priceListLoading, setPriceListLoading] = useState(true)
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  // Fetch pricelist from API so it always reflects admin dashboard changes
+  // Fetch pricelist from API; fall back to bundled data if API fails
   useEffect(() => {
     let cancelled = false
+    const fallback = Array.isArray(fallbackPriceList) ? fallbackPriceList as Category[] : []
     async function fetchPriceList() {
       try {
         const res = await fetch('/api/pricelist', { cache: 'no-store' })
         const data = await res.json()
-        if (!cancelled && Array.isArray(data)) {
+        if (cancelled) return
+        if (Array.isArray(data) && data.length > 0) {
           setPriceListData(data)
-        } else if (!cancelled && data?.error) {
-          setPriceListData([])
+        } else {
+          setPriceListData(fallback)
         }
       } catch {
-        if (!cancelled) setPriceListData([])
+        if (!cancelled) setPriceListData(fallback)
       } finally {
         if (!cancelled) setPriceListLoading(false)
       }
