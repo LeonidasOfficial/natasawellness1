@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import ScrollToTop from '@/components/ui/ScrollToTop'
@@ -20,15 +20,12 @@ import {
   FaFingerprint,
   FaHandHolding,
   FaHandPointRight,
-  FaHandRock,
   FaSun,
   FaHeart,
   FaStar
 } from 'react-icons/fa'
 
-import priceListData from '@/data/price-list.json'
 import { useTranslation } from '@/contexts/TranslationContext'
-import { useEffect } from 'react'
 
 // Icon mapping - each category has a unique icon
 const iconMap: { [key: string]: any } = {
@@ -67,17 +64,31 @@ interface Category {
 export default function PriceListPage() {
   const { t, translations, locale } = useTranslation()
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
+  const [priceListData, setPriceListData] = useState<Category[]>([])
+  const [priceListLoading, setPriceListLoading] = useState(true)
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  // Debug logging
+  // Fetch pricelist from API so it always reflects admin dashboard changes
   useEffect(() => {
-    console.log(`[PriceListPage] Current locale: ${locale}`)
-    console.log(`[PriceListPage] Translations loaded:`, Object.keys(translations).length > 0)
-    console.log(`[PriceListPage] priceList.title:`, t('priceList.title'))
-    console.log(`[PriceListPage] priceList.subtitle:`, t('priceList.subtitle'))
-    console.log(`[PriceListPage] Full translations object:`, translations)
-    console.log(`[PriceListPage] priceList object:`, translations?.priceList)
-  }, [locale, translations, t])
+    let cancelled = false
+    async function fetchPriceList() {
+      try {
+        const res = await fetch('/api/pricelist', { cache: 'no-store' })
+        const data = await res.json()
+        if (!cancelled && Array.isArray(data)) {
+          setPriceListData(data)
+        } else if (!cancelled && data?.error) {
+          setPriceListData([])
+        }
+      } catch {
+        if (!cancelled) setPriceListData([])
+      } finally {
+        if (!cancelled) setPriceListLoading(false)
+      }
+    }
+    fetchPriceList()
+    return () => { cancelled = true }
+  }, [])
 
   // Show loading state while translations are loading
   if (!translations || Object.keys(translations).length === 0) {
@@ -86,6 +97,18 @@ export default function PriceListPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Loading translations for {locale}...</p>
+        </div>
+      </main>
+    )
+  }
+
+  // Show loading state while pricelist is loading
+  if (priceListLoading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">{t('priceList.title')}...</p>
         </div>
       </main>
     )
