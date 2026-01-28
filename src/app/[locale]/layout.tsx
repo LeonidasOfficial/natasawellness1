@@ -6,6 +6,7 @@ import FloatingSocialButtons from '@/components/ui/FloatingBookButton'
 import WhatsAppButton from '@/components/ui/WhatsAppButton'
 import LocaleSetter from '@/components/LocaleSetter'
 import PageTransition from '@/components/ui/PageTransition'
+import LocaleProvider from '@/components/LocaleProvider'
 
 const locales = ['en', 'sr', 'fr', 'de']
 
@@ -22,7 +23,7 @@ export default function LocaleLayout({
   }
 
   return (
-    <>
+    <LocaleProvider locale={params.locale}>
       <LocaleSetter />
       <Navbar />
       <PageTransition>
@@ -32,7 +33,7 @@ export default function LocaleLayout({
       <ScrollToTop />
       <FloatingSocialButtons />
       <WhatsAppButton />
-    </>
+    </LocaleProvider>
   )
 }
 

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { useParams } from 'next/navigation'
 
 type Locale = 'en' | 'sr' | 'fr' | 'de'
 
@@ -13,35 +14,46 @@ interface TranslationContextType {
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
 
-export function TranslationProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('sr')
+export function TranslationProvider({ 
+  children,
+  initialLocale 
+}: { 
+  children: React.ReactNode
+  initialLocale?: Locale
+}) {
+  const params = useParams()
+  
+  // Get initial locale from props, URL params, or default to 'sr'
+  const getInitialLocale = (): Locale => {
+    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
+      return initialLocale
+    }
+    if (params?.locale && ['en', 'sr', 'fr', 'de'].includes(params.locale as string)) {
+      return params.locale as Locale
+    }
+    if (typeof window !== 'undefined') {
+      const pathSegments = window.location.pathname.split('/').filter(Boolean)
+      const urlLocale = pathSegments[0] as Locale
+      if (['en', 'sr', 'fr', 'de'].includes(urlLocale)) {
+        return urlLocale
+      }
+    }
+    return 'sr'
+  }
+  
+  const [locale, setLocaleState] = useState<Locale>(getInitialLocale())
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Initialize locale from URL on mount
+  // Sync locale with URL params when they change
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Extract locale from URL path (e.g., /sr/about -> 'sr')
-      const pathSegments = window.location.pathname.split('/').filter(Boolean)
-      const urlLocale = pathSegments[0] as Locale
-      
-      if (['en', 'sr', 'fr', 'de'].includes(urlLocale)) {
-        setLocaleState(urlLocale)
-        localStorage.setItem('locale', urlLocale)
-      } else {
-        // Fall back to localStorage if URL doesn't have a valid locale
-        const savedLocale = localStorage.getItem('locale') as Locale
-        if (savedLocale && ['en', 'sr', 'fr', 'de'].includes(savedLocale)) {
-          setLocaleState(savedLocale)
-        } else {
-          // Default to Serbian if no saved locale
-          setLocaleState('sr')
-          localStorage.setItem('locale', 'sr')
-        }
-      }
-      setIsInitialized(true)
+    const urlLocale = params?.locale as Locale
+    if (urlLocale && ['en', 'sr', 'fr', 'de'].includes(urlLocale) && urlLocale !== locale) {
+      setLocaleState(urlLocale)
+      localStorage.setItem('locale', urlLocale)
     }
-  }, [])
+    setIsInitialized(true)
+  }, [params?.locale, locale])
 
   // Load translations when locale changes
   useEffect(() => {
