@@ -4,53 +4,7 @@
     "category": "Tretmani Lica",
     "icon": "face",
     "description": "Ekskluzivni francuski kozmetički brend",
-    "treatments": [
-      {
-        "id": "1",
-        "name": "Brzi tretman lica",
-        "description": "30min (bez depilacije)",
-        "price": 2200,
-        "price2": 2600,
-        "duration": "30 min",
-        "note": ""
-      },
-      {
-        "id": "2",
-        "name": "Tretman lica mladih",
-        "description": "60min (12-22god)",
-        "price": 2800,
-        "price2": 3200,
-        "duration": "60 min",
-        "note": "*"
-      },
-      {
-        "id": "3",
-        "name": "Moj tretman",
-        "description": "Nega lica za sve potrebe: suva, osetljiva, tupa-umorna, problematične-masna zrela... kože",
-        "price": 3200,
-        "price2": 3800,
-        "duration": "75 min",
-        "note": "*"
-      },
-      {
-        "id": "4",
-        "name": "Anti-aging supremes / Protiv staranja",
-        "description": "Održavanje mladalačkog izgleda",
-        "price": 3800,
-        "price2": 4200,
-        "duration": "90 min",
-        "note": "*"
-      },
-      {
-        "id": "5",
-        "name": "Mikrodermoabrazija lica + tretman",
-        "description": "",
-        "price": 4000,
-        "price2": 4500,
-        "duration": "75 min",
-        "note": ""
-      }
-    ],
+    "treatments": [],
     "footnote": "* uključuje depilaciju nausnica i obrva"
   },
   {
