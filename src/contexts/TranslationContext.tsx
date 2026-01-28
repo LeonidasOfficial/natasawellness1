@@ -152,9 +152,14 @@ export function TranslationProvider({
 
   // Translation function with dot notation support
   const t = (key: string): string => {
-    // If translations haven't loaded yet, return key
+    // If translations haven't loaded yet, return key (but don't spam console)
     if (!translations || Object.keys(translations).length === 0) {
-      console.warn(`[TranslationContext] No translations loaded yet for key: ${key}`)
+      // Only log once per key to avoid console spam
+      if (!(key in (window as any).__translationWarnings || {})) {
+        (window as any).__translationWarnings = (window as any).__translationWarnings || {}
+        ;(window as any).__translationWarnings[key] = true
+        console.warn(`[TranslationContext] ⚠️ No translations loaded yet for key: ${key} (locale: ${locale}, initialized: ${isInitialized})`)
+      }
       return key
     }
 
@@ -165,15 +170,18 @@ export function TranslationProvider({
       if (value && typeof value === 'object' && k in value) {
         value = value[k]
       } else {
-        console.warn(`[TranslationContext] Translation not found for key: ${key} (locale: ${locale}, available keys: ${Object.keys(translations).join(', ')})`)
+        // Only warn once per missing key
+        const warningKey = `missing_${key}`
+        if (!(warningKey in (window as any).__translationWarnings || {})) {
+          (window as any).__translationWarnings = (window as any).__translationWarnings || {}
+          ;(window as any).__translationWarnings[warningKey] = true
+          console.warn(`[TranslationContext] Translation not found for key: ${key} (locale: ${locale}, available top-level keys: ${Object.keys(translations).join(', ')})`)
+        }
         return key // Return key if translation not found
       }
     }
 
     const result = typeof value === 'string' ? value : key
-    if (result === key && keys.length > 0) {
-      console.warn(`[TranslationContext] Translation result is key itself for: ${key} (value type: ${typeof value})`)
-    }
     return result
   }
 
