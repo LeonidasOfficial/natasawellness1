@@ -20,32 +20,37 @@ export function TranslationProvider({
   children: React.ReactNode
   initialLocale?: Locale
 }) {
-  // Get initial locale from props, URL, or default to 'sr'
+  // Get initial locale - prioritize initialLocale prop above all else
   const getInitialLocale = (): Locale => {
-    // Priority 1: initialLocale prop (most reliable)
+    // Priority 1: initialLocale prop (most reliable - comes from URL)
     if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
+      console.log(`[TranslationContext] Initializing with prop locale: ${initialLocale}`)
       return initialLocale
     }
-    // Priority 2: URL path
+    // Priority 2: URL path (fallback if prop not available)
     if (typeof window !== 'undefined') {
       const pathSegments = window.location.pathname.split('/').filter(Boolean)
       const urlLocale = pathSegments[0] as Locale
       if (['en', 'sr', 'fr', 'de'].includes(urlLocale)) {
+        console.log(`[TranslationContext] Initializing with URL locale: ${urlLocale}`)
         return urlLocale
       }
     }
-    // Priority 3: localStorage
+    // Priority 3: localStorage (fallback)
     if (typeof window !== 'undefined') {
       const savedLocale = localStorage.getItem('locale') as Locale
       if (savedLocale && ['en', 'sr', 'fr', 'de'].includes(savedLocale)) {
+        console.log(`[TranslationContext] Initializing with saved locale: ${savedLocale}`)
         return savedLocale
       }
     }
     // Default fallback
+    console.log(`[TranslationContext] Initializing with default locale: sr`)
     return 'sr'
   }
   
-  const [locale, setLocaleState] = useState<Locale>(getInitialLocale())
+  // Initialize with correct locale immediately
+  const [locale, setLocaleState] = useState<Locale>(() => getInitialLocale())
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -53,13 +58,13 @@ export function TranslationProvider({
   useEffect(() => {
     if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
       if (initialLocale !== locale) {
-        console.log(`[TranslationContext] Setting locale from prop: ${initialLocale} (was: ${locale})`)
+        console.log(`[TranslationContext] Updating locale from prop: ${initialLocale} (was: ${locale})`)
         setLocaleState(initialLocale)
         localStorage.setItem('locale', initialLocale)
       }
     }
     setIsInitialized(true)
-  }, [initialLocale]) // Remove locale from deps to avoid loops
+  }, [initialLocale]) // Only depend on initialLocale, not locale
 
   // Load translations when locale changes
   useEffect(() => {
