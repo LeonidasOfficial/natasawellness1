@@ -28,6 +28,7 @@ import {
 
 import priceListData from '@/data/price-list.json'
 import { useTranslation } from '@/contexts/TranslationContext'
+import { useEffect } from 'react'
 
 // Icon mapping - each category has a unique icon
 const iconMap: { [key: string]: any } = {
@@ -74,6 +75,8 @@ export default function PriceListPage() {
     console.log(`[PriceListPage] Translations loaded:`, Object.keys(translations).length > 0)
     console.log(`[PriceListPage] pricelist.title:`, t('pricelist.title'))
     console.log(`[PriceListPage] pricelist.subtitle:`, t('pricelist.subtitle'))
+    console.log(`[PriceListPage] Full translations object:`, translations)
+    console.log(`[PriceListPage] pricelist object:`, translations?.pricelist)
   }, [locale, translations, t])
 
   // Show loading state while translations are loading
@@ -82,7 +85,7 @@ export default function PriceListPage() {
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading translations...</p>
+          <p className="text-gray-600">Loading translations for {locale}...</p>
         </div>
       </main>
     )
