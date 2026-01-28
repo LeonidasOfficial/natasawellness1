@@ -64,9 +64,29 @@ interface Category {
 }
 
 export default function PriceListPage() {
-  const { t } = useTranslation()
+  const { t, translations, locale } = useTranslation()
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+
+  // Debug logging
+  useEffect(() => {
+    console.log(`[PriceListPage] Current locale: ${locale}`)
+    console.log(`[PriceListPage] Translations loaded:`, Object.keys(translations).length > 0)
+    console.log(`[PriceListPage] pricelist.title:`, t('pricelist.title'))
+    console.log(`[PriceListPage] pricelist.subtitle:`, t('pricelist.subtitle'))
+  }, [locale, translations, t])
+
+  // Show loading state while translations are loading
+  if (!translations || Object.keys(translations).length === 0) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading translations...</p>
+        </div>
+      </main>
+    )
+  }
 
   const handleCategoryClick = (category: Category) => {
     setSelectedCategory(category)

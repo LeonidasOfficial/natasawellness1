@@ -22,9 +22,11 @@ export function TranslationProvider({
 }) {
   // Get initial locale from props, URL, or default to 'sr'
   const getInitialLocale = (): Locale => {
+    // Priority 1: initialLocale prop (most reliable)
     if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
       return initialLocale
     }
+    // Priority 2: URL path
     if (typeof window !== 'undefined') {
       const pathSegments = window.location.pathname.split('/').filter(Boolean)
       const urlLocale = pathSegments[0] as Locale
@@ -32,6 +34,14 @@ export function TranslationProvider({
         return urlLocale
       }
     }
+    // Priority 3: localStorage
+    if (typeof window !== 'undefined') {
+      const savedLocale = localStorage.getItem('locale') as Locale
+      if (savedLocale && ['en', 'sr', 'fr', 'de'].includes(savedLocale)) {
+        return savedLocale
+      }
+    }
+    // Default fallback
     return 'sr'
   }
   
@@ -39,24 +49,31 @@ export function TranslationProvider({
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Sync locale with initialLocale prop when it changes
+  // CRITICAL: Sync locale with initialLocale prop IMMEDIATELY when it changes
   useEffect(() => {
-    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale) && initialLocale !== locale) {
-      setLocaleState(initialLocale)
-      localStorage.setItem('locale', initialLocale)
+    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
+      if (initialLocale !== locale) {
+        console.log(`[TranslationContext] Setting locale from prop: ${initialLocale} (was: ${locale})`)
+        setLocaleState(initialLocale)
+        localStorage.setItem('locale', initialLocale)
+      }
     }
     setIsInitialized(true)
-  }, [initialLocale, locale])
+  }, [initialLocale]) // Remove locale from deps to avoid loops
 
   // Load translations when locale changes
   useEffect(() => {
     if (!isInitialized) return
 
     const loadTranslations = async () => {
+      console.log(`[TranslationContext] Loading translations for locale: ${locale}`)
       try {
         // Try loading from public/locales first (for client-side)
-        let response = await fetch(`/locales/${locale}.json`)
+        const url = `/locales/${locale}.json`
+        console.log(`[TranslationContext] Fetching from: ${url}`)
+        let response = await fetch(url)
         if (!response.ok) {
+          console.warn(`[TranslationContext] Failed to load from /locales/${locale}.json, trying API...`)
           // Fallback to src/locales via API if needed
           response = await fetch(`/api/translations?locale=${locale}`)
           if (!response.ok) {
@@ -64,9 +81,10 @@ export function TranslationProvider({
           }
         }
         const data = await response.json()
+        console.log(`[TranslationContext] Loaded translations for ${locale}:`, Object.keys(data))
         setTranslations(data)
       } catch (error) {
-        console.error(`Failed to load translations for ${locale}:`, error)
+        console.error(`[TranslationContext] Failed to load translations for ${locale}:`, error)
         // Fallback to empty translations to prevent blocking
         setTranslations({})
       }
