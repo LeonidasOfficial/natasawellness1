@@ -1,7 +1,6 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
 
 type Locale = 'en' | 'sr' | 'fr' | 'de'
 
@@ -21,15 +20,10 @@ export function TranslationProvider({
   children: React.ReactNode
   initialLocale?: Locale
 }) {
-  const params = useParams()
-  
-  // Get initial locale from props, URL params, or default to 'sr'
+  // Get initial locale from props, URL, or default to 'sr'
   const getInitialLocale = (): Locale => {
     if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
       return initialLocale
-    }
-    if (params?.locale && ['en', 'sr', 'fr', 'de'].includes(params.locale as string)) {
-      return params.locale as Locale
     }
     if (typeof window !== 'undefined') {
       const pathSegments = window.location.pathname.split('/').filter(Boolean)
@@ -45,15 +39,14 @@ export function TranslationProvider({
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [isInitialized, setIsInitialized] = useState(false)
 
-  // Sync locale with URL params when they change
+  // Sync locale with initialLocale prop when it changes
   useEffect(() => {
-    const urlLocale = params?.locale as Locale
-    if (urlLocale && ['en', 'sr', 'fr', 'de'].includes(urlLocale) && urlLocale !== locale) {
-      setLocaleState(urlLocale)
-      localStorage.setItem('locale', urlLocale)
+    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale) && initialLocale !== locale) {
+      setLocaleState(initialLocale)
+      localStorage.setItem('locale', initialLocale)
     }
     setIsInitialized(true)
-  }, [params?.locale, locale])
+  }, [initialLocale, locale])
 
   // Load translations when locale changes
   useEffect(() => {
