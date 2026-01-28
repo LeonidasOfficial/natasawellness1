@@ -27,6 +27,7 @@ import {
 } from 'react-icons/fa'
 
 import priceListData from '@/data/price-list.json'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 // Icon mapping - each category has a unique icon
 const iconMap: { [key: string]: any } = {
@@ -63,6 +64,7 @@ interface Category {
 }
 
 export default function PriceListPage() {
+  const { t } = useTranslation()
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
@@ -91,12 +93,12 @@ export default function PriceListPage() {
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h2 className="font-dancing text-4xl md:text-5xl text-primary mb-2">Cenovnik</h2>
+              <h2 className="font-dancing text-4xl md:text-5xl text-primary mb-2">{t('pricelist.subtitle')}</h2>
               <h1 className="font-playfair text-3xl md:text-5xl font-bold text-dark mb-4">
-                Naši Tretmani i Cene
+                {t('pricelist.title')}
               </h1>
               <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-                Istražite našu kompletnu ponudu profesionalnih tretmana lepote i wellnessa
+                {t('pricelist.description')}
               </p>
             </motion.div>
           </div>
@@ -106,8 +108,8 @@ export default function PriceListPage() {
         <section ref={ref} className="w-full section-padding bg-white">
           <div className="container-custom max-w-7xl">
             <SectionTitle 
-              subtitle="Kategorije" 
-              title="Izaberite Kategoriju Tretmana" 
+              subtitle={t('pricelist.categories')} 
+              title={t('pricelist.selectCategory')} 
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8">
@@ -140,7 +142,7 @@ export default function PriceListPage() {
                     {/* Treatment Count */}
                     <div className="flex items-center gap-2 text-primary font-semibold">
                       <span className="text-3xl font-bold">{category.treatments.length}</span>
-                      <span className="text-sm uppercase">Tretmana</span>
+                      <span className="text-sm uppercase">{t('pricelist.treatments')}</span>
                     </div>
 
                     {/* Hover Indicator */}

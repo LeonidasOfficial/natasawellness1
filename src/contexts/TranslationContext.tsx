@@ -37,11 +37,6 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
           // Default to Serbian if no saved locale
           setLocaleState('sr')
           localStorage.setItem('locale', 'sr')
-          // Redirect to Serbian locale if not already there
-          if (!pathSegments.includes('sr')) {
-            window.location.href = '/sr' + window.location.pathname
-            return
-          }
         }
       }
       setIsInitialized(true)
