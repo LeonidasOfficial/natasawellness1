@@ -3,17 +3,40 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaGlobe, FaCheck } from 'react-icons/fa'
-import { locales, localeNames, localeFlags, type Locale } from '@/i18n/request'
-import { useLocale } from 'next-intl'
-import { Link, usePathname } from '@/i18n/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { useTranslation } from '@/contexts/TranslationContext'
+
+const locales = ['en', 'sr', 'fr', 'de'] as const
+type Locale = (typeof locales)[number]
+
+const localeNames: Record<Locale, string> = {
+  en: 'English',
+  fr: 'Français',
+  de: 'Deutsch',
+  sr: 'Српски'
+}
+
+const localeFlags: Record<Locale, string> = {
+  en: '🇬🇧',
+  fr: '🇫🇷',
+  de: '🇩🇪',
+  sr: '🇷🇸'
+}
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
-  const currentLocale = useLocale() as Locale
+  const { locale: currentLocale } = useTranslation()
+  const router = useRouter()
   const pathname = usePathname()
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = (newLocale: Locale) => {
     setIsOpen(false)
+    
+    // Get the current path without the locale prefix
+    const pathWithoutLocale = pathname.replace(/^\/(en|sr|fr|de)/, '') || '/'
+    
+    // Navigate to the new locale path
+    router.push(`/${newLocale}${pathWithoutLocale}`)
   }
 
   return (
@@ -48,11 +71,9 @@ export default function LanguageSwitcher() {
               className="absolute right-0 mt-2 w-56 sm:w-64 bg-white rounded-2xl shadow-2xl border-2 border-primary/10 overflow-hidden z-[60]"
             >
               {locales.map((locale) => (
-                <Link
+                <button
                   key={locale}
-                  href={pathname}
-                  locale={locale}
-                  onClick={handleLanguageChange}
+                  onClick={() => handleLanguageChange(locale)}
                   className={`w-full px-6 py-4 flex items-center justify-between hover:bg-primary/10 transition-colors duration-200 ${
                     currentLocale === locale ? 'bg-primary/5' : ''
                   }`}
@@ -66,7 +87,7 @@ export default function LanguageSwitcher() {
                   {currentLocale === locale && (
                     <FaCheck className="text-primary" />
                   )}
-                </Link>
+                </button>
               ))}
             </motion.div>
           </>

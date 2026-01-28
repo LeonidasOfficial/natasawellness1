@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 type Locale = 'en' | 'sr' | 'fr' | 'de'
 
@@ -8,7 +8,7 @@ interface TranslationContextType {
   locale: Locale
   setLocale: (locale: Locale) => void
   t: (key: string) => string
-  translations: Record<string, any>
+  translations: Record<string, unknown>
 }
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
@@ -20,194 +20,105 @@ export function TranslationProvider({
   children: React.ReactNode
   initialLocale?: Locale
 }) {
-  // Get initial locale - prioritize initialLocale prop above all else
-  const getInitialLocale = (): Locale => {
-    // Priority 1: initialLocale prop (most reliable - comes from URL)
-    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
-      console.log(`[TranslationContext] Initializing with prop locale: ${initialLocale}`)
-      return initialLocale
-    }
-    // Priority 2: URL path (fallback if prop not available)
-    if (typeof window !== 'undefined') {
-      const pathSegments = window.location.pathname.split('/').filter(Boolean)
-      const urlLocale = pathSegments[0] as Locale
-      if (['en', 'sr', 'fr', 'de'].includes(urlLocale)) {
-        console.log(`[TranslationContext] Initializing with URL locale: ${urlLocale}`)
-        return urlLocale
-      }
-    }
-    // Priority 3: localStorage (fallback)
-    if (typeof window !== 'undefined') {
-      const savedLocale = localStorage.getItem('locale') as Locale
-      if (savedLocale && ['en', 'sr', 'fr', 'de'].includes(savedLocale)) {
-        console.log(`[TranslationContext] Initializing with saved locale: ${savedLocale}`)
-        return savedLocale
-      }
-    }
-    // Default fallback
-    console.log(`[TranslationContext] Initializing with default locale: sr`)
-    return 'sr'
-  }
-  
-  // Initialize with correct locale immediately
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const effectiveLocale = (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) 
-      ? initialLocale 
-      : getInitialLocale()
-    return effectiveLocale
-  })
-  const [translations, setTranslations] = useState<Record<string, any>>({})
-  const [isInitialized, setIsInitialized] = useState(false)
+  // Use initialLocale prop directly, fallback to 'sr'
+  const [locale, setLocaleState] = useState<Locale>(initialLocale || 'sr')
+  const [translations, setTranslations] = useState<Record<string, unknown>>({})
+  const [isLoading, setIsLoading] = useState(true)
 
-  // CRITICAL: Sync locale with initialLocale prop IMMEDIATELY when it changes
+  // Sync locale with initialLocale prop when it changes
   useEffect(() => {
-    const targetLocale = (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) 
-      ? initialLocale 
-      : getInitialLocale()
-    
-    console.log(`[TranslationContext] Sync effect - initialLocale: ${initialLocale}, targetLocale: ${targetLocale}, current locale: ${locale}`)
-    
-    if (targetLocale !== locale) {
-      console.log(`[TranslationContext] 🔄 Updating locale from prop: ${targetLocale} (was: ${locale})`)
-      setLocaleState(targetLocale)
-      localStorage.setItem('locale', targetLocale)
-      // Clear translations to force reload with new locale
-      setTranslations({})
+    if (initialLocale && initialLocale !== locale) {
+      setLocaleState(initialLocale)
+      setTranslations({}) // Clear translations to force reload
     }
-    
-    setIsInitialized(true)
-  }, [initialLocale]) // Only depend on initialLocale to avoid infinite loops
+  }, [initialLocale, locale])
 
-  // Load translations when locale changes AND we're initialized
+  // Load translations when locale changes
   useEffect(() => {
-    if (!isInitialized) {
-      console.log(`[TranslationContext] Not initialized yet, skipping translation load`)
-      return
-    }
-
-    if (!locale) {
-      console.log(`[TranslationContext] No locale set, skipping translation load`)
-      return
-    }
-
-    // Reset translations when locale changes to show loading state
-    setTranslations({})
-
     let cancelled = false
+    setIsLoading(true)
 
     const loadTranslations = async () => {
-      console.log(`[TranslationContext] 🔄 Loading translations for locale: ${locale}`)
       try {
-        // ALWAYS use API route for reliability (works in both dev and production)
-        const apiUrl = `/api/translations?locale=${locale}&t=${Date.now()}`
-        console.log(`[TranslationContext] 📡 Fetching from API: ${apiUrl}`)
-        
-        const response = await fetch(apiUrl, {
+        // Try API route first (works in production)
+        const response = await fetch(`/api/translations?locale=${locale}&t=${Date.now()}`, {
           method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Cache-Control': 'no-cache'
-          },
+          headers: { 'Accept': 'application/json' },
           cache: 'no-store'
         })
         
-        console.log(`[TranslationContext] 📥 Response status: ${response.status}, ok: ${response.ok}`)
-        
-        if (!response.ok) {
-          const errorText = await response.text()
-          console.error(`[TranslationContext] ❌ API failed:`, response.status, errorText)
-          
-          // Fallback to direct file access
-          console.log(`[TranslationContext] 🔄 Trying direct file fallback...`)
-          const fileResponse = await fetch(`/locales/${locale}.json?t=${Date.now()}`, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Cache-Control': 'no-cache'
-            },
-            cache: 'no-store'
-          })
-          
-          if (!fileResponse.ok) {
-            const fileErrorText = await fileResponse.text()
-            throw new Error(`Both API and file failed! API: ${response.status}, File: ${fileResponse.status}, Error: ${fileErrorText}`)
-          }
-          
-          const fileData = await fileResponse.json()
+        if (response.ok) {
+          const data = await response.json()
           if (!cancelled) {
-            console.log(`[TranslationContext] ✅ Loaded translations via file for ${locale}:`, Object.keys(fileData).length, 'keys')
-            setTranslations(fileData)
+            setTranslations(data)
+            setIsLoading(false)
           }
           return
         }
+
+        // Fallback to direct file access
+        const fileResponse = await fetch(`/locales/${locale}.json?t=${Date.now()}`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          cache: 'no-store'
+        })
         
-        const data = await response.json()
+        if (fileResponse.ok) {
+          const fileData = await fileResponse.json()
+          if (!cancelled) {
+            setTranslations(fileData)
+            setIsLoading(false)
+          }
+          return
+        }
+
+        // Both failed - set empty translations
         if (!cancelled) {
-          console.log(`[TranslationContext] ✅ Loaded translations for ${locale}:`, Object.keys(data).length, 'keys')
-          console.log(`[TranslationContext] Sample keys:`, Object.keys(data).slice(0, 5))
-          console.log(`[TranslationContext] priceList exists:`, !!data?.priceList)
-          console.log(`[TranslationContext] priceList.title =`, data?.priceList?.title)
-          setTranslations(data)
+          setTranslations({})
+          setIsLoading(false)
         }
       } catch (error) {
+        console.error(`[TranslationContext] Failed to load translations for ${locale}:`, error)
         if (!cancelled) {
-          console.error(`[TranslationContext] ❌ CRITICAL: Failed to load translations for ${locale}:`, error)
-          console.error(`[TranslationContext] Error details:`, error instanceof Error ? error.message : String(error))
-          console.error(`[TranslationContext] Stack:`, error instanceof Error ? error.stack : 'No stack')
-          // Set empty translations so UI can render (will show keys)
           setTranslations({})
+          setIsLoading(false)
         }
       }
     }
 
-    // Load immediately when locale or initialization changes
     loadTranslations()
 
-    // Cleanup function to cancel in-flight requests
     return () => {
       cancelled = true
     }
-  }, [locale, isInitialized])
+  }, [locale])
 
-  const setLocale = (newLocale: Locale) => {
+  const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale)
-    localStorage.setItem('locale', newLocale)
-  }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('locale', newLocale)
+    }
+  }, [])
 
   // Translation function with dot notation support
-  const t = (key: string): string => {
-    // If translations haven't loaded yet, return key (but don't spam console)
+  const t = useCallback((key: string): string => {
     if (!translations || Object.keys(translations).length === 0) {
-      // Only log once per key to avoid console spam
-      if (!(key in (window as any).__translationWarnings || {})) {
-        (window as any).__translationWarnings = (window as any).__translationWarnings || {}
-        ;(window as any).__translationWarnings[key] = true
-        console.warn(`[TranslationContext] ⚠️ No translations loaded yet for key: ${key} (locale: ${locale}, initialized: ${isInitialized})`)
-      }
       return key
     }
 
     const keys = key.split('.')
-    let value: any = translations
+    let value: unknown = translations
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
-        value = value[k]
+        value = (value as Record<string, unknown>)[k]
       } else {
-        // Only warn once per missing key
-        const warningKey = `missing_${key}`
-        if (!(warningKey in (window as any).__translationWarnings || {})) {
-          (window as any).__translationWarnings = (window as any).__translationWarnings || {}
-          ;(window as any).__translationWarnings[warningKey] = true
-          console.warn(`[TranslationContext] Translation not found for key: ${key} (locale: ${locale}, available top-level keys: ${Object.keys(translations).join(', ')})`)
-        }
-        return key // Return key if translation not found
+        return key
       }
     }
 
-    const result = typeof value === 'string' ? value : key
-    return result
-  }
+    return typeof value === 'string' ? value : key
+  }, [translations])
 
   return (
     <TranslationContext.Provider value={{ locale, setLocale, t, translations }}>
