@@ -37,6 +37,11 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
           // Default to Serbian if no saved locale
           setLocaleState('sr')
           localStorage.setItem('locale', 'sr')
+          // Redirect to Serbian locale if not already there
+          if (!pathSegments.includes('sr')) {
+            window.location.href = '/sr' + window.location.pathname
+            return
+          }
         }
       }
       setIsInitialized(true)
@@ -49,14 +54,21 @@ export function TranslationProvider({ children }: { children: React.ReactNode })
 
     const loadTranslations = async () => {
       try {
-        const response = await fetch(`/locales/${locale}.json`)
+        // Try loading from public/locales first (for client-side)
+        let response = await fetch(`/locales/${locale}.json`)
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+          // Fallback to src/locales via API if needed
+          response = await fetch(`/api/translations?locale=${locale}`)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`)
+          }
         }
         const data = await response.json()
         setTranslations(data)
       } catch (error) {
         console.error(`Failed to load translations for ${locale}:`, error)
+        // Fallback to empty translations to prevent blocking
+        setTranslations({})
       }
     }
 
