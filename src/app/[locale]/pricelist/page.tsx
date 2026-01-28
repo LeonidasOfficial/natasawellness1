@@ -288,7 +288,7 @@ export default function PriceListPage() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-primary text-dark px-6 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-wider hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg text-sm md:text-base w-full sm:w-auto text-center"
                   >
-                    Zakažite Termin
+                    {t('common.bookAppointment')}
                   </motion.a>
                 </div>
               </motion.div>
