@@ -86,11 +86,11 @@ export function TranslationProvider({
     const loadTranslations = async () => {
       console.log(`[TranslationContext] 🔄 Loading translations for locale: ${locale}`)
       try {
-        // Try loading from public/locales first (for client-side)
-        const url = `/locales/${locale}.json`
-        console.log(`[TranslationContext] 📡 Fetching from: ${url}`)
+        // ALWAYS use API route for reliability (works in both dev and production)
+        const apiUrl = `/api/translations?locale=${locale}&t=${Date.now()}`
+        console.log(`[TranslationContext] 📡 Fetching from API: ${apiUrl}`)
         
-        const response = await fetch(url, {
+        const response = await fetch(apiUrl, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
@@ -99,15 +99,15 @@ export function TranslationProvider({
           cache: 'no-store'
         })
         
-        console.log(`[TranslationContext] 📥 Response status: ${response.status}, ok: ${response.ok}, headers:`, Object.fromEntries(response.headers.entries()))
+        console.log(`[TranslationContext] 📥 Response status: ${response.status}, ok: ${response.ok}`)
         
         if (!response.ok) {
           const errorText = await response.text()
-          console.error(`[TranslationContext] ❌ Failed to load from /locales/${locale}.json:`, response.status, errorText)
+          console.error(`[TranslationContext] ❌ API failed:`, response.status, errorText)
           
-          // Fallback to src/locales via API if needed
-          console.log(`[TranslationContext] 🔄 Trying API fallback...`)
-          const apiResponse = await fetch(`/api/translations?locale=${locale}`, {
+          // Fallback to direct file access
+          console.log(`[TranslationContext] 🔄 Trying direct file fallback...`)
+          const fileResponse = await fetch(`/locales/${locale}.json?t=${Date.now()}`, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
@@ -116,14 +116,14 @@ export function TranslationProvider({
             cache: 'no-store'
           })
           
-          if (!apiResponse.ok) {
-            const apiErrorText = await apiResponse.text()
-            throw new Error(`API fallback also failed! Status: ${apiResponse.status}, Error: ${apiErrorText}`)
+          if (!fileResponse.ok) {
+            const fileErrorText = await fileResponse.text()
+            throw new Error(`Both API and file failed! API: ${response.status}, File: ${fileResponse.status}, Error: ${fileErrorText}`)
           }
           
-          const apiData = await apiResponse.json()
-          console.log(`[TranslationContext] ✅ Loaded translations via API for ${locale}:`, Object.keys(apiData).length, 'keys')
-          setTranslations(apiData)
+          const fileData = await fileResponse.json()
+          console.log(`[TranslationContext] ✅ Loaded translations via file for ${locale}:`, Object.keys(fileData).length, 'keys')
+          setTranslations(fileData)
           return
         }
         
@@ -136,8 +136,9 @@ export function TranslationProvider({
       } catch (error) {
         console.error(`[TranslationContext] ❌ CRITICAL: Failed to load translations for ${locale}:`, error)
         console.error(`[TranslationContext] Error details:`, error instanceof Error ? error.message : String(error))
-        // Don't set empty translations - keep trying or show error
-        // setTranslations({})
+        console.error(`[TranslationContext] Stack:`, error instanceof Error ? error.stack : 'No stack')
+        // Set empty translations so UI can render (will show keys)
+        setTranslations({})
       }
     }
 
