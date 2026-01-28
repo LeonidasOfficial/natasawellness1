@@ -73,10 +73,10 @@ export default function PriceListPage() {
   useEffect(() => {
     console.log(`[PriceListPage] Current locale: ${locale}`)
     console.log(`[PriceListPage] Translations loaded:`, Object.keys(translations).length > 0)
-    console.log(`[PriceListPage] pricelist.title:`, t('pricelist.title'))
-    console.log(`[PriceListPage] pricelist.subtitle:`, t('pricelist.subtitle'))
+    console.log(`[PriceListPage] priceList.title:`, t('priceList.title'))
+    console.log(`[PriceListPage] priceList.subtitle:`, t('priceList.subtitle'))
     console.log(`[PriceListPage] Full translations object:`, translations)
-    console.log(`[PriceListPage] pricelist object:`, translations?.pricelist)
+    console.log(`[PriceListPage] priceList object:`, translations?.priceList)
   }, [locale, translations, t])
 
   // Show loading state while translations are loading
@@ -116,12 +116,12 @@ export default function PriceListPage() {
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h2 className="font-dancing text-4xl md:text-5xl text-primary mb-2">{t('pricelist.subtitle')}</h2>
+              <h2 className="font-dancing text-4xl md:text-5xl text-primary mb-2">{t('priceList.subtitle')}</h2>
               <h1 className="font-playfair text-3xl md:text-5xl font-bold text-dark mb-4">
-                {t('pricelist.title')}
+                {t('priceList.title')}
               </h1>
               <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-                {t('pricelist.description')}
+                {t('priceList.description')}
               </p>
             </motion.div>
           </div>
@@ -131,8 +131,8 @@ export default function PriceListPage() {
         <section ref={ref} className="w-full section-padding bg-white">
           <div className="container-custom max-w-7xl">
             <SectionTitle 
-              subtitle={t('pricelist.categories')} 
-              title={t('pricelist.selectCategory')} 
+              subtitle={t('priceList.categories')} 
+              title={t('priceList.selectCategory')} 
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8">
@@ -165,7 +165,7 @@ export default function PriceListPage() {
                     {/* Treatment Count */}
                     <div className="flex items-center gap-2 text-primary font-semibold">
                       <span className="text-3xl font-bold">{category.treatments.length}</span>
-                      <span className="text-sm uppercase">{t('pricelist.treatments')}</span>
+                      <span className="text-sm uppercase">{t('priceList.treatments')}</span>
                     </div>
 
                     {/* Hover Indicator */}
