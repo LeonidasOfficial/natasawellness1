@@ -112,6 +112,12 @@ export function TranslationProvider({
 
   // Translation function with dot notation support
   const t = (key: string): string => {
+    // If translations haven't loaded yet, return key
+    if (!translations || Object.keys(translations).length === 0) {
+      console.warn(`[TranslationContext] No translations loaded yet for key: ${key}`)
+      return key
+    }
+
     const keys = key.split('.')
     let value: any = translations
 
@@ -119,11 +125,16 @@ export function TranslationProvider({
       if (value && typeof value === 'object' && k in value) {
         value = value[k]
       } else {
+        console.warn(`[TranslationContext] Translation not found for key: ${key} (locale: ${locale}, available keys: ${Object.keys(translations).join(', ')})`)
         return key // Return key if translation not found
       }
     }
 
-    return typeof value === 'string' ? value : key
+    const result = typeof value === 'string' ? value : key
+    if (result === key && keys.length > 0) {
+      console.warn(`[TranslationContext] Translation result is key itself for: ${key} (value type: ${typeof value})`)
+    }
+    return result
   }
 
   return (
