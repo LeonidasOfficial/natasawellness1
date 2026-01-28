@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaGlobe, FaCheck } from 'react-icons/fa'
 import { useRouter, usePathname } from 'next/navigation'
@@ -25,9 +25,23 @@ const localeFlags: Record<Locale, string> = {
 
 export default function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 })
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const { locale: currentLocale } = useTranslation()
   const router = useRouter()
   const pathname = usePathname()
+
+  // Calculate dropdown position when opening
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      setDropdownPosition({
+        top: rect.bottom + 8,
+        left: Math.max(16, rect.left - 40), // Ensure some padding from edge
+        width: Math.max(224, rect.width + 80)
+      })
+    }
+  }, [isOpen])
 
   const handleLanguageChange = (newLocale: Locale) => {
     setIsOpen(false)
@@ -42,6 +56,7 @@ export default function LanguageSwitcher() {
   return (
     <div className="relative z-50">
       <motion.button
+        ref={buttonRef}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
@@ -59,16 +74,23 @@ export default function LanguageSwitcher() {
           <>
             {/* Backdrop */}
             <div
-              className="fixed inset-0 z-40"
+              className="fixed inset-0 z-[9998]"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Dropdown */}
+            {/* Dropdown - Fixed position to avoid overflow clipping */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute right-0 mt-2 w-56 sm:w-64 bg-white rounded-2xl shadow-2xl border-2 border-primary/10 overflow-hidden z-[60]"
+              style={{
+                position: 'fixed',
+                top: dropdownPosition.top,
+                left: dropdownPosition.left,
+                width: dropdownPosition.width,
+                maxWidth: 'calc(100vw - 32px)'
+              }}
+              className="bg-white rounded-2xl shadow-2xl border-2 border-primary/10 overflow-hidden z-[9999]"
             >
               {locales.map((locale) => (
                 <button
