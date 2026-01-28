@@ -1,10 +1,6 @@
 'use client'
 
 import { TranslationProvider } from '@/contexts/TranslationContext'
-import { createContext, useContext } from 'react'
-
-// Create a separate context to override the root TranslationProvider
-const LocaleOverrideContext = createContext<string | undefined>(undefined)
 
 export default function LocaleProvider({
   children,
@@ -14,9 +10,9 @@ export default function LocaleProvider({
   locale: string
 }) {
   // This provider OVERRIDES the root TranslationProvider for locale-specific pages
-  // It creates a new TranslationProvider with the correct locale
+  // The key prop forces a complete remount when locale changes, ensuring fresh state
   return (
-    <TranslationProvider key={locale} initialLocale={locale as 'en' | 'sr' | 'fr' | 'de'}>
+    <TranslationProvider key={`locale-${locale}`} initialLocale={locale as 'en' | 'sr' | 'fr' | 'de'}>
       {children}
     </TranslationProvider>
   )

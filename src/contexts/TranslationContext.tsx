@@ -56,21 +56,29 @@ export function TranslationProvider({
 
   // CRITICAL: Sync locale with initialLocale prop IMMEDIATELY when it changes
   useEffect(() => {
+    console.log(`[TranslationContext] Effect running - initialLocale: ${initialLocale}, current locale: ${locale}`)
     if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
       if (initialLocale !== locale) {
-        console.log(`[TranslationContext] Updating locale from prop: ${initialLocale} (was: ${locale})`)
+        console.log(`[TranslationContext] 🔄 Updating locale from prop: ${initialLocale} (was: ${locale})`)
         setLocaleState(initialLocale)
         localStorage.setItem('locale', initialLocale)
         // Clear translations to force reload with new locale
         setTranslations({})
+      } else {
+        console.log(`[TranslationContext] ✅ Locale already matches: ${locale}`)
       }
+    } else {
+      console.warn(`[TranslationContext] ⚠️ Invalid initialLocale: ${initialLocale}`)
     }
     setIsInitialized(true)
   }, [initialLocale]) // Only depend on initialLocale, not locale
 
   // Load translations when locale changes
   useEffect(() => {
-    if (!isInitialized) return
+    if (!isInitialized) {
+      console.log(`[TranslationContext] Not initialized yet, skipping translation load`)
+      return
+    }
 
     const loadTranslations = async () => {
       console.log(`[TranslationContext] Loading translations for locale: ${locale}`)
@@ -79,29 +87,40 @@ export function TranslationProvider({
         const url = `/locales/${locale}.json?t=${Date.now()}` // Cache busting
         console.log(`[TranslationContext] Fetching from: ${url}`)
         let response = await fetch(url, {
-          cache: 'no-store' // Prevent caching
+          cache: 'no-store', // Prevent caching
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
         })
+        
+        console.log(`[TranslationContext] Response status: ${response.status}, ok: ${response.ok}`)
+        
         if (!response.ok) {
-          console.warn(`[TranslationContext] Failed to load from /locales/${locale}.json, trying API...`)
+          console.warn(`[TranslationContext] Failed to load from /locales/${locale}.json (${response.status}), trying API...`)
           // Fallback to src/locales via API if needed
           response = await fetch(`/api/translations?locale=${locale}`, {
-            cache: 'no-store'
+            cache: 'no-store',
+            headers: {
+              'Cache-Control': 'no-cache'
+            }
           })
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
           }
         }
         const data = await response.json()
-        console.log(`[TranslationContext] Loaded translations for ${locale}:`, Object.keys(data))
-        console.log(`[TranslationContext] pricelist.title =`, data?.pricelist?.title)
+        console.log(`[TranslationContext] ✅ Loaded translations for ${locale}:`, Object.keys(data).length, 'keys')
+        console.log(`[TranslationContext] Sample keys:`, Object.keys(data).slice(0, 5))
+        console.log(`[TranslationContext] priceList.title =`, data?.priceList?.title)
         setTranslations(data)
       } catch (error) {
-        console.error(`[TranslationContext] Failed to load translations for ${locale}:`, error)
-        // Fallback to empty translations to prevent blocking
+        console.error(`[TranslationContext] ❌ Failed to load translations for ${locale}:`, error)
+        // Try to load a fallback or show error
         setTranslations({})
       }
     }
 
+    // Load immediately when locale or initialization changes
     loadTranslations()
   }, [locale, isInitialized])
 
