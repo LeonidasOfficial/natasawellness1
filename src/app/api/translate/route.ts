@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 // Simple translation function using OpenAI
 async function translateText(text: string, targetLang: string): Promise<string> {
   // Check if OpenAI API key is available

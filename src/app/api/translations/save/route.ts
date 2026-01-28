@@ -3,6 +3,8 @@ import { verifyAuth } from '@/lib/auth'
 import { writeFile, mkdir, access } from 'fs/promises'
 import { join } from 'path'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   // Verify admin authentication
   const auth = await verifyAuth(request)

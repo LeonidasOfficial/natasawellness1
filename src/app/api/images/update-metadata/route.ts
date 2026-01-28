@@ -3,6 +3,8 @@ import { verifyAuth } from '@/lib/auth'
 import { readFile, writeFile } from 'fs/promises'
 import { join } from 'path'
 
+export const dynamic = 'force-dynamic'
+
 interface ImageItem {
   id: string
   path: string

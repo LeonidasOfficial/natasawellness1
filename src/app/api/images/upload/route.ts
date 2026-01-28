@@ -4,6 +4,8 @@ import { writeFile, mkdir, access } from 'fs/promises'
 import { join } from 'path'
 import { existsSync } from 'fs'
 
+export const dynamic = 'force-dynamic'
+
 interface ImageItem {
   id: string
   path: string

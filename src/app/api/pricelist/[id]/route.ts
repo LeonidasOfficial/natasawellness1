@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readData, writeData } from '@/lib/db'
 import { verifyAuth } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 interface Treatment {
   id: string
   name: string
