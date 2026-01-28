@@ -50,38 +50,50 @@ export function TranslationProvider({
   }
   
   // Initialize with correct locale immediately
-  const [locale, setLocaleState] = useState<Locale>(() => getInitialLocale())
+  const [locale, setLocaleState] = useState<Locale>(() => {
+    const effectiveLocale = (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) 
+      ? initialLocale 
+      : getInitialLocale()
+    return effectiveLocale
+  })
   const [translations, setTranslations] = useState<Record<string, any>>({})
   const [isInitialized, setIsInitialized] = useState(false)
 
   // CRITICAL: Sync locale with initialLocale prop IMMEDIATELY when it changes
   useEffect(() => {
-    console.log(`[TranslationContext] Effect running - initialLocale: ${initialLocale}, current locale: ${locale}`)
-    if (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) {
-      if (initialLocale !== locale) {
-        console.log(`[TranslationContext] 🔄 Updating locale from prop: ${initialLocale} (was: ${locale})`)
-        setLocaleState(initialLocale)
-        localStorage.setItem('locale', initialLocale)
-        // Clear translations to force reload with new locale
-        setTranslations({})
-      } else {
-        console.log(`[TranslationContext] ✅ Locale already matches: ${locale}`)
-      }
-    } else {
-      console.warn(`[TranslationContext] ⚠️ Invalid initialLocale: ${initialLocale}`)
+    const targetLocale = (initialLocale && ['en', 'sr', 'fr', 'de'].includes(initialLocale)) 
+      ? initialLocale 
+      : getInitialLocale()
+    
+    console.log(`[TranslationContext] Sync effect - initialLocale: ${initialLocale}, targetLocale: ${targetLocale}, current locale: ${locale}`)
+    
+    if (targetLocale !== locale) {
+      console.log(`[TranslationContext] 🔄 Updating locale from prop: ${targetLocale} (was: ${locale})`)
+      setLocaleState(targetLocale)
+      localStorage.setItem('locale', targetLocale)
+      // Clear translations to force reload with new locale
+      setTranslations({})
     }
+    
     setIsInitialized(true)
-  }, [initialLocale]) // Only depend on initialLocale, not locale
+  }, [initialLocale]) // Only depend on initialLocale to avoid infinite loops
 
-  // Load translations when locale changes
+  // Load translations when locale changes AND we're initialized
   useEffect(() => {
     if (!isInitialized) {
       console.log(`[TranslationContext] Not initialized yet, skipping translation load`)
       return
     }
 
+    if (!locale) {
+      console.log(`[TranslationContext] No locale set, skipping translation load`)
+      return
+    }
+
     // Reset translations when locale changes to show loading state
     setTranslations({})
+
+    let cancelled = false
 
     const loadTranslations = async () => {
       console.log(`[TranslationContext] 🔄 Loading translations for locale: ${locale}`)
@@ -122,28 +134,39 @@ export function TranslationProvider({
           }
           
           const fileData = await fileResponse.json()
-          console.log(`[TranslationContext] ✅ Loaded translations via file for ${locale}:`, Object.keys(fileData).length, 'keys')
-          setTranslations(fileData)
+          if (!cancelled) {
+            console.log(`[TranslationContext] ✅ Loaded translations via file for ${locale}:`, Object.keys(fileData).length, 'keys')
+            setTranslations(fileData)
+          }
           return
         }
         
         const data = await response.json()
-        console.log(`[TranslationContext] ✅ Loaded translations for ${locale}:`, Object.keys(data).length, 'keys')
-        console.log(`[TranslationContext] Sample keys:`, Object.keys(data).slice(0, 5))
-        console.log(`[TranslationContext] priceList exists:`, !!data?.priceList)
-        console.log(`[TranslationContext] priceList.title =`, data?.priceList?.title)
-        setTranslations(data)
+        if (!cancelled) {
+          console.log(`[TranslationContext] ✅ Loaded translations for ${locale}:`, Object.keys(data).length, 'keys')
+          console.log(`[TranslationContext] Sample keys:`, Object.keys(data).slice(0, 5))
+          console.log(`[TranslationContext] priceList exists:`, !!data?.priceList)
+          console.log(`[TranslationContext] priceList.title =`, data?.priceList?.title)
+          setTranslations(data)
+        }
       } catch (error) {
-        console.error(`[TranslationContext] ❌ CRITICAL: Failed to load translations for ${locale}:`, error)
-        console.error(`[TranslationContext] Error details:`, error instanceof Error ? error.message : String(error))
-        console.error(`[TranslationContext] Stack:`, error instanceof Error ? error.stack : 'No stack')
-        // Set empty translations so UI can render (will show keys)
-        setTranslations({})
+        if (!cancelled) {
+          console.error(`[TranslationContext] ❌ CRITICAL: Failed to load translations for ${locale}:`, error)
+          console.error(`[TranslationContext] Error details:`, error instanceof Error ? error.message : String(error))
+          console.error(`[TranslationContext] Stack:`, error instanceof Error ? error.stack : 'No stack')
+          // Set empty translations so UI can render (will show keys)
+          setTranslations({})
+        }
       }
     }
 
     // Load immediately when locale or initialization changes
     loadTranslations()
+
+    // Cleanup function to cancel in-flight requests
+    return () => {
+      cancelled = true
+    }
   }, [locale, isInitialized])
 
   const setLocale = (newLocale: Locale) => {
