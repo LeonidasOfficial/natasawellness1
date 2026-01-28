@@ -62,20 +62,6 @@ export default function Home() {
                 </div>
                 
                 {/* Contact Card */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView1 ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="mt-4 bg-light p-5 rounded-xl shadow-lg flex items-center gap-4"
-                >
-                  <div className="w-24 h-24 bg-primary flex items-center justify-center flex-shrink-0 rounded-xl">
-                    <FaCalendarAlt className="text-4xl text-dark" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-dark mb-1">+0123456789</h3>
-                    <p className="text-gray-600">Call us direct 24/7 for a free consultation</p>
-                  </div>
-                </motion.div>
               </motion.div>
               </ParallaxLayer>
 
