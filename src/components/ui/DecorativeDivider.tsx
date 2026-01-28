@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ParallaxLayer from './ParallaxLayer'
 
@@ -14,9 +15,13 @@ export default function DecorativeDivider({
   variant = 'wave',
   color = '#D4A574',
 }: DecorativeDividerProps) {
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    }
+  }, [])
 
   if (variant === 'wave') {
     return (

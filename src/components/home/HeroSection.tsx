@@ -12,7 +12,15 @@ const HeroSection = () => {
   const { t } = useTranslation()
   const { createLink } = useLocaleLink()
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const heroRef = useRef<HTMLElement>(null)
+  
+  // Check for reduced motion - must be in useEffect for SSR
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    }
+  }, [])
   
   // Parallax scroll progress
   const { scrollYProgress } = useScroll({
@@ -26,11 +34,6 @@ const HeroSection = () => {
     damping: 30,
     restDelta: 0.001,
   })
-
-  // Check for reduced motion
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   // Multi-layer parallax transforms
   const backgroundY = useTransform(

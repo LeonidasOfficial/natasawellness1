@@ -1,8 +1,7 @@
 'use client'
 
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { useRef } from 'react'
 import ParallaxLayer from './ParallaxLayer'
 
 interface SectionTitleProps {
@@ -17,10 +16,6 @@ const SectionTitle = ({ subtitle, title, centered = true, light = false }: Secti
     triggerOnce: true,
     threshold: 0.1
   })
-
-  const prefersReducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   return (
     <motion.div
