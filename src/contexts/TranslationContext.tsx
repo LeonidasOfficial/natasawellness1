@@ -80,43 +80,64 @@ export function TranslationProvider({
       return
     }
 
+    // Reset translations when locale changes to show loading state
+    setTranslations({})
+
     const loadTranslations = async () => {
-      console.log(`[TranslationContext] Loading translations for locale: ${locale}`)
+      console.log(`[TranslationContext] 🔄 Loading translations for locale: ${locale}`)
       try {
         // Try loading from public/locales first (for client-side)
-        const url = `/locales/${locale}.json?t=${Date.now()}` // Cache busting
-        console.log(`[TranslationContext] Fetching from: ${url}`)
-        let response = await fetch(url, {
-          cache: 'no-store', // Prevent caching
+        const url = `/locales/${locale}.json`
+        console.log(`[TranslationContext] 📡 Fetching from: ${url}`)
+        
+        const response = await fetch(url, {
+          method: 'GET',
           headers: {
+            'Accept': 'application/json',
             'Cache-Control': 'no-cache'
-          }
+          },
+          cache: 'no-store'
         })
         
-        console.log(`[TranslationContext] Response status: ${response.status}, ok: ${response.ok}`)
+        console.log(`[TranslationContext] 📥 Response status: ${response.status}, ok: ${response.ok}, headers:`, Object.fromEntries(response.headers.entries()))
         
         if (!response.ok) {
-          console.warn(`[TranslationContext] Failed to load from /locales/${locale}.json (${response.status}), trying API...`)
+          const errorText = await response.text()
+          console.error(`[TranslationContext] ❌ Failed to load from /locales/${locale}.json:`, response.status, errorText)
+          
           // Fallback to src/locales via API if needed
-          response = await fetch(`/api/translations?locale=${locale}`, {
-            cache: 'no-store',
+          console.log(`[TranslationContext] 🔄 Trying API fallback...`)
+          const apiResponse = await fetch(`/api/translations?locale=${locale}`, {
+            method: 'GET',
             headers: {
+              'Accept': 'application/json',
               'Cache-Control': 'no-cache'
-            }
+            },
+            cache: 'no-store'
           })
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`)
+          
+          if (!apiResponse.ok) {
+            const apiErrorText = await apiResponse.text()
+            throw new Error(`API fallback also failed! Status: ${apiResponse.status}, Error: ${apiErrorText}`)
           }
+          
+          const apiData = await apiResponse.json()
+          console.log(`[TranslationContext] ✅ Loaded translations via API for ${locale}:`, Object.keys(apiData).length, 'keys')
+          setTranslations(apiData)
+          return
         }
+        
         const data = await response.json()
         console.log(`[TranslationContext] ✅ Loaded translations for ${locale}:`, Object.keys(data).length, 'keys')
         console.log(`[TranslationContext] Sample keys:`, Object.keys(data).slice(0, 5))
+        console.log(`[TranslationContext] priceList exists:`, !!data?.priceList)
         console.log(`[TranslationContext] priceList.title =`, data?.priceList?.title)
         setTranslations(data)
       } catch (error) {
-        console.error(`[TranslationContext] ❌ Failed to load translations for ${locale}:`, error)
-        // Try to load a fallback or show error
-        setTranslations({})
+        console.error(`[TranslationContext] ❌ CRITICAL: Failed to load translations for ${locale}:`, error)
+        console.error(`[TranslationContext] Error details:`, error instanceof Error ? error.message : String(error))
+        // Don't set empty translations - keep trying or show error
+        // setTranslations({})
       }
     }
 
