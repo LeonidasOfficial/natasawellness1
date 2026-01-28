@@ -42,6 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${workSans.variable} ${dancingScript.variable} ${playfairDisplay.variable}`}>
       <body className="custom-scrollbar">
+        {/* TranslationProvider here is for admin pages only - locale pages have their own via LocaleProvider */}
         <TranslationProvider>
           {children}
           <Toaster 

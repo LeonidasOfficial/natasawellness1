@@ -61,6 +61,8 @@ export function TranslationProvider({
         console.log(`[TranslationContext] Updating locale from prop: ${initialLocale} (was: ${locale})`)
         setLocaleState(initialLocale)
         localStorage.setItem('locale', initialLocale)
+        // Clear translations to force reload with new locale
+        setTranslations({})
       }
     }
     setIsInitialized(true)
@@ -74,19 +76,24 @@ export function TranslationProvider({
       console.log(`[TranslationContext] Loading translations for locale: ${locale}`)
       try {
         // Try loading from public/locales first (for client-side)
-        const url = `/locales/${locale}.json`
+        const url = `/locales/${locale}.json?t=${Date.now()}` // Cache busting
         console.log(`[TranslationContext] Fetching from: ${url}`)
-        let response = await fetch(url)
+        let response = await fetch(url, {
+          cache: 'no-store' // Prevent caching
+        })
         if (!response.ok) {
           console.warn(`[TranslationContext] Failed to load from /locales/${locale}.json, trying API...`)
           // Fallback to src/locales via API if needed
-          response = await fetch(`/api/translations?locale=${locale}`)
+          response = await fetch(`/api/translations?locale=${locale}`, {
+            cache: 'no-store'
+          })
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`)
           }
         }
         const data = await response.json()
         console.log(`[TranslationContext] Loaded translations for ${locale}:`, Object.keys(data))
+        console.log(`[TranslationContext] pricelist.title =`, data?.pricelist?.title)
         setTranslations(data)
       } catch (error) {
         console.error(`[TranslationContext] Failed to load translations for ${locale}:`, error)
