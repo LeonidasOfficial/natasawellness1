@@ -322,17 +322,6 @@ export default function PriceListPage() {
                   )}
                 </div>
 
-                {/* Modal Footer */}
-                <div className="bg-light p-4 md:p-6 flex justify-center">
-                  <motion.a
-                    href="/contact"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary text-dark px-6 md:px-8 py-3 md:py-4 rounded-full font-bold uppercase tracking-wider hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg text-sm md:text-base w-full sm:w-auto text-center"
-                  >
-                    {t('common.bookAppointment')}
-                  </motion.a>
-                </div>
               </motion.div>
             </motion.div>
           )}
