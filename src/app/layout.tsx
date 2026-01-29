@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   description: 'Nataša Wellness - Profesionalni tretmani lica, manikir, pedikir, podizanje trepavica, epilacija i wellness usluge u Velikoj Plani. Pozovite 063 1020 305.',
   keywords: 'kozmetika, wellness, tretman lica, manikir, pedikir, epilacija, podizanje trepavica, spa, Velika Plana',
   authors: [{ name: 'Nataša Wellness' }],
+  icons: {
+    icon: '/img/admin-ajax.png',
+  },
   openGraph: {
     title: 'Nataša Wellness - Kozmetika i Wellness',
     description: 'Profesionalni kozmetički i wellness tretmani u Velikoj Plani',

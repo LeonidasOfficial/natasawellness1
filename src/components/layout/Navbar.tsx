@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaCut, FaFacebookF, FaInstagram, FaBars, FaTimes } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaBars, FaTimes } from 'react-icons/fa'
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher'
 import { useLocaleLink } from '@/hooks/useLocaleLink'
 import { useTranslation } from '@/contexts/TranslationContext'
@@ -96,7 +96,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between max-w-full">
             {/* Logo */}
             <Link href={createLink('/')} className="flex items-center gap-2 bg-primary py-4 px-4 md:py-6 md:px-8 hover:bg-primary-dark transition-colors duration-300 flex-shrink-0">
-              <FaCut className="text-dark text-2xl md:text-3xl" />
+              <img src="/img/admin-ajax.png" alt="Nataša Wellness" className="h-8 md:h-9 w-auto" />
               <h1 className="font-playfair text-xl md:text-2xl lg:text-3xl font-bold text-dark whitespace-nowrap">Nataša Wellness</h1>
             </Link>
 

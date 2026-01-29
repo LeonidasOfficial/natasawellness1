@@ -14,7 +14,6 @@ import {
   FaPaintBrush, 
   FaLeaf,
   FaTimes,
-  FaClock,
   FaMoneyBillWave,
   FaHandPaper,
   FaFingerprint,
@@ -280,12 +279,6 @@ export default function PriceListPage() {
                                 {treatment.description}
                               </p>
                             )}
-                            <div className="flex items-center gap-4 text-xs md:text-sm text-gray-500">
-                              <div className="flex items-center gap-2">
-                                <FaClock className="text-primary" />
-                                <span>{treatment.duration}</span>
-                              </div>
-                            </div>
                           </div>
 
                           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-2 w-full sm:w-auto">

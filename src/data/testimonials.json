@@ -1,29 +1,29 @@
 [
   {
     "id": "1",
-    "name": "Sarah Johnson",
-    "role": "Business Owner",
-    "image": "/img/testimonial-1.jpg",
+    "name": "Lisa W.",
+    "role": "",
+    "image": "/img/unnamed.png",
     "rating": 5,
-    "text": "The best salon experience I've ever had! The staff is incredibly talented and the atmosphere is so relaxing. I always leave feeling beautiful and refreshed.",
+    "text": "Nataša was meticulous with my mani-pedi -- my nails have never looked better! She's a great conversationalist and the time just flew by. The salon itself is sunny and spotless. It's my new favorite place and can't wait for my next visit.",
     "featured": true
   },
   {
     "id": "2",
-    "name": "Emily Davis",
-    "role": "Fashion Designer",
-    "image": "/img/testimonial-2.jpg",
+    "name": "Milijana M.",
+    "role": "",
+    "image": "/img/unnamed2.png",
     "rating": 5,
-    "text": "I've been coming here for years and they never disappoint. The quality of service is outstanding and the results are always amazing.",
+    "text": "Hvala Nataši koja je donela delić raja u Veliku Planu 💫 profesionalna usluga uz prijatan razgovor ulepšaće dan svakome ko dođe kod nje u salon 🥰",
     "featured": true
   },
   {
     "id": "3",
-    "name": "Jessica Wilson",
-    "role": "Marketing Manager",
-    "image": "/img/testimonial-3.jpg",
+    "name": "Jagoda S.",
+    "role": "",
+    "image": "/img/unnamed3.png",
     "rating": 5,
-    "text": "Absolutely love this salon! The team is professional, skilled, and genuinely cares about making you look and feel your best.",
+    "text": "Pre svega pravi profesionalac i toplo preporucujem.Prijatan ambijent vrhunska usluga sa koriscenjem kvalitetnih preparata.\nAko jednom dodjete uvek cete se vracati!!\nVidimo se draga Natasa.❤️",
     "featured": true
   },
   {
@@ -36,4 +36,3 @@
     "featured": true
   }
 ]
-

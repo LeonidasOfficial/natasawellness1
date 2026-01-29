@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FaCut } from 'react-icons/fa'
+import Image from 'next/image'
 
 const LoadingSpinner = ({ fullScreen = false }: { fullScreen?: boolean }) => {
   const containerClass = fullScreen 
@@ -11,13 +11,14 @@ const LoadingSpinner = ({ fullScreen = false }: { fullScreen?: boolean }) => {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-        className="relative"
+        className="relative w-16 h-16"
       >
-        <FaCut className="text-6xl text-primary" />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent"
+        <Image
+          src="/img/admin-ajax.png"
+          alt="Loading"
+          width={64}
+          height={64}
+          className="w-full h-full object-contain"
         />
       </motion.div>
     </div>

@@ -26,21 +26,19 @@ export default function AboutPage() {
         <div className="container-custom max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center mb-12">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <img src="/img/about.jpg" alt="About Salone" className="rounded-2xl shadow-2xl" />
+              <img src="/img/about.png" alt="About Salone" className="rounded-2xl shadow-2xl" />
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4">
               <h2 className="font-dancing text-4xl md:text-5xl text-primary">Our Story</h2>
               <h1 className="font-playfair text-3xl md:text-4xl font-bold text-dark">Excellence in Beauty Since 1999</h1>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                Salone began with a simple dream: to create a sanctuary where beauty meets artistry. 
-                For over 25 years, we've been transforming lives through our exceptional services and 
-                unwavering commitment to excellence.
+                My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
               </p>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                Our team of expert stylists, beauticians, and wellness professionals are passionate 
-                about making you look and feel your absolute best. We use only premium products and 
-                stay ahead of the latest trends to ensure you receive world-class service every visit.
+                Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                <br /><br />
+                Beauty to me is natural, and to embrace every single expression wrinkle — and I,&nbsp;<span className="font-dancing text-xl text-primary font-semibold">Nataša</span>, am here to help you feel your best.
               </p>
             </motion.div>
           </div>

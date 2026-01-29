@@ -60,19 +60,19 @@ const HeroSection = () => {
   const slides = [
     {
       id: 1,
-      image: '/img/hero-slider-1.jpg',
+      image: '/img/hero-slider-1.png',
       title: t('hero.slide1Title'),
       subtitle: t('hero.slide1Subtitle')
     },
     {
       id: 2,
-      image: '/img/hero-slider-2.jpg',
+      image: '/img/hero-slider-2.png',
       title: t('hero.slide2Title'),
       subtitle: t('hero.slide2Subtitle')
     },
     {
       id: 3,
-      image: '/img/hero-slider-3.jpg',
+      image: '/img/hero-slider-3.png',
       title: t('hero.slide3Title'),
       subtitle: t('hero.slide3Subtitle')
     }

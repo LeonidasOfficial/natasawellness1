@@ -30,7 +30,9 @@ export default function Home() {
     return (
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 mx-auto mb-4 relative">
+            <img src="/img/admin-ajax.png" alt="Loading" className="w-full h-full object-contain" />
+          </div>
           <p className="text-gray-600">Loading...</p>
         </div>
       </main>
@@ -58,7 +60,7 @@ export default function Home() {
                   className="relative"
                 >
                 <div className="image-hover-zoom rounded-2xl overflow-hidden shadow-2xl">
-                  <img src="/img/about.jpg" alt="About Salone" className="w-full h-auto" />
+                  <img src="/img/about.png" alt="About Salone" className="w-full h-auto" />
                 </div>
                 
                 {/* Contact Card */}
@@ -82,13 +84,11 @@ export default function Home() {
                 </div>
 
                 <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                  {t('footer.description') || 'At Salone, we believe that beauty is an art form. Our expert team of stylists, beauticians, and wellness professionals are dedicated to bringing out your natural radiance.'}
-                </p>
-
-                <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                  From cutting-edge hairstyles to luxurious spa treatments, we offer a comprehensive range of 
-                  services tailored to your unique needs. Step into our sanctuary and experience the difference 
-                  that true expertise and genuine care can make.
+                  My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
+                  <br /><br />
+                  Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                  <br /><br />
+                  Beauty to me is natural, and to embrace every single expression wrinkle — and I,&nbsp;<span className="font-dancing text-xl text-primary font-semibold">Nataša</span>, am here to help you feel your best.
                 </p>
 
                 {/* Stats */}
@@ -290,7 +290,7 @@ export default function Home() {
                       </motion.div>
                     ))}
                   </div>
-                  <p className="text-gray-600 mb-4 text-sm md:text-base italic leading-relaxed">{testimonial.text}</p>
+                  <p className="text-gray-600 mb-4 text-sm md:text-base italic leading-relaxed whitespace-pre-line">{testimonial.text}</p>
                   <motion.img
                     src={testimonial.image}
                     alt={testimonial.name}
@@ -299,7 +299,7 @@ export default function Home() {
                     className="w-20 h-20 rounded-full mx-auto mb-3 border-4 border-primary object-cover shadow-glow"
                   />
                   <h4 className="font-playfair text-lg font-bold text-dark tracking-wide">{testimonial.name}</h4>
-                  <p className="text-primary text-xs uppercase tracking-wider mt-1">{testimonial.role}</p>
+                  {testimonial.role && <p className="text-primary text-xs uppercase tracking-wider mt-1">{testimonial.role}</p>}
                 </motion.div>
               ))}
             </div>

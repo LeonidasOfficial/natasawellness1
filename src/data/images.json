@@ -1,31 +1,31 @@
 [
   {
     "id": "hero-slider-1",
-    "path": "/img/hero-slider-1.jpg",
+    "path": "/img/hero-slider-1.png",
     "category": "Hero Section",
     "location": "Homepage - Hero Slider (Slide 1)",
     "description": "First hero slider image on homepage",
-    "currentFile": "hero-slider-1.jpg",
+    "currentFile": "hero-slider-1.png",
     "type": "hero"
   },
   {
     "id": "hero-slider-2",
-    "path": "/img/hero-slider-2.jpg",
+    "path": "/img/hero-slider-2.png",
     "category": "Hero Section",
     "location": "Homepage - Hero Slider (Slide 2)",
     "description": "Second hero slider image on homepage",
-    "currentFile": "hero-slider-2.jpg",
+    "currentFile": "hero-slider-2.png",
     "type": "hero",
     "lastUpdated": "2026-01-25T12:28:19.002Z",
     "uploadedBy": "admin"
   },
   {
     "id": "hero-slider-3",
-    "path": "/img/hero-slider-3.jpg",
+    "path": "/img/hero-slider-3.png",
     "category": "Hero Section",
     "location": "Homepage - Hero Slider (Slide 3)",
     "description": "Third hero slider image on homepage",
-    "currentFile": "hero-slider-3.jpg",
+    "currentFile": "hero-slider-3.png",
     "type": "hero",
     "lastUpdated": "2026-01-26T17:59:50.872Z",
     "uploadedBy": "admin"
@@ -41,11 +41,11 @@
   },
   {
     "id": "about",
-    "path": "/img/about.jpg",
+    "path": "/img/about.png",
     "category": "About Section",
     "location": "Homepage & About Page",
     "description": "Main about section image",
-    "currentFile": "about.jpg",
+    "currentFile": "about.png",
     "type": "content",
     "lastUpdated": "2026-01-26T18:00:39.678Z",
     "uploadedBy": "admin"

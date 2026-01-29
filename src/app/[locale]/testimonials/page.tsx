@@ -54,7 +54,7 @@ export default function TestimonialsPage() {
                   ))}
                 </div>
 
-                <p className="text-gray-600 mb-4 text-sm md:text-base italic leading-relaxed">
+                <p className="text-gray-600 mb-4 text-sm md:text-base italic leading-relaxed whitespace-pre-line">
                   "{testimonial.text}"
                 </p>
 
@@ -69,9 +69,11 @@ export default function TestimonialsPage() {
                 <h4 className="font-playfair text-lg font-bold text-dark mb-1 tracking-wide">
                   {testimonial.name}
                 </h4>
-                <p className="text-primary text-xs uppercase tracking-wider">
-                  {testimonial.role}
-                </p>
+                {testimonial.role && (
+                  <p className="text-primary text-xs uppercase tracking-wider">
+                    {testimonial.role}
+                  </p>
+                )}
               </motion.div>
             ))}
           </div>
