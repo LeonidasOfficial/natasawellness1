@@ -79,7 +79,7 @@ export default function Home() {
                 <div>
                   <h2 className="font-dancing text-5xl text-primary mb-2">{t('nav.about') || 'About Us'}</h2>
                   <h1 className="font-dancing text-4xl md:text-5xl text-primary font-semibold mb-4">
-                    {t('hero.title') || 'Why People Choose Us!'}
+                    Nataša
                   </h1>
                 </div>
 
@@ -87,6 +87,8 @@ export default function Home() {
                   My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
                   <br /><br />
                   Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                  <br /><br />
+                  Beauty to me is natural, and to embrace every single expression wrinkle.
                 </p>
 
                 {/* Stats */}
@@ -109,7 +111,7 @@ export default function Home() {
                     >
                       <FaCalendarAlt className="text-5xl text-primary mx-auto mb-3" />
                     </motion.div>
-                    <h2 className="text-5xl font-bold text-dark mb-2">25</h2>
+                    <h2 className="text-5xl font-bold text-dark mb-2">26</h2>
                     <p className="text-dark font-semibold uppercase">Years Experience</p>
                   </motion.div>
 
@@ -131,7 +133,7 @@ export default function Home() {
                     >
                       <FaUsers className="text-5xl text-primary mx-auto mb-3" />
                     </motion.div>
-                    <h2 className="text-5xl font-bold text-dark mb-2">999</h2>
+                    <h2 className="text-5xl font-bold text-dark mb-2">2500+</h2>
                     <p className="text-dark font-semibold uppercase">Happy Customers</p>
                   </motion.div>
                 </div>

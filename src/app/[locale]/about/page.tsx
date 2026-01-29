@@ -37,6 +37,8 @@ export default function AboutPage() {
               </p>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
                 Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                <br /><br />
+                Beauty to me is natural, and to embrace every single expression wrinkle.
               </p>
             </motion.div>
           </div>

@@ -150,9 +150,9 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-playfair text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-dark leading-tight tracking-wide gradient-text-gold"
+              className="font-dancing text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-primary font-semibold leading-tight tracking-wide"
             >
-              {t('hero.slogan')}
+              Nataša <span className="font-playfair text-dark font-bold gradient-text-gold">Wellness</span>
             </motion.h1>
 
             {/* Contact Info */}
