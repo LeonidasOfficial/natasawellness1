@@ -146,14 +146,43 @@ const HeroSection = () => {
               {t('hero.welcome')}
             </motion.h2>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-dancing text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-primary font-semibold leading-tight tracking-wide"
-            >
-              Nataša <span className="font-playfair text-dark font-bold gradient-text-gold">Wellness</span>
-            </motion.h1>
+            <div className="relative inline-block pb-10">
+              <motion.h1
+                initial={{ opacity: 0, y: 20, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="font-greatvibes text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-primary font-normal leading-tight tracking-wide hero-title-beauty"
+              >
+                Nataša <span className="gradient-text-gold">Wellness</span>
+              </motion.h1>
+              {/* Calligraphic flourish underline */}
+              <motion.svg
+                initial={{ opacity: 0, scaleX: 0.85 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ delay: 0.8, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                viewBox="0 0 340 28"
+                fill="none"
+                className="absolute -bottom-1 left-0 right-0 w-full max-w-lg h-7 text-primary"
+                preserveAspectRatio="xMidYMid slice"
+              >
+                <path
+                  d="M4 18 C40 4 80 4 120 18 S200 18 240 18 S320 4 336 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.7"
+                />
+                <path
+                  d="M0 24 Q85 10 170 24 Q255 10 340 24"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.4"
+                />
+              </motion.svg>
+            </div>
 
             {/* Contact Info */}
             <motion.div

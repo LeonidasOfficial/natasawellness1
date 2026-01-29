@@ -25,6 +25,7 @@ module.exports = {
         dancing: ['"Dancing Script"', 'cursive'],
         playfair: ['"Playfair Display"', 'serif'],
         worksans: ['"Work Sans"', 'sans-serif'],
+        greatvibes: ['var(--font-greatvibes)', '"Great Vibes"', 'cursive'],
       },
       fontSize: {
         'hero': ['clamp(2.5rem, 5vw, 4.5rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],

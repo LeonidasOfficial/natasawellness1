@@ -22,7 +22,7 @@
     {
       "id": "1",
       "name": "Tretman Lica",
-      "image": "/img/skin-care.png",
+      "image": "/img/facials.png",
       "price": 3500
     },
     {
@@ -40,7 +40,7 @@
     {
       "id": "4",
       "name": "Podizanje Trepavica",
-      "image": "/img/makeup.png",
+      "image": "/img/eyelashes.png",
       "price": 2500
     },
     {
@@ -52,7 +52,7 @@
     {
       "id": "6",
       "name": "Tretmani Uklanjanja Dlaka",
-      "image": "/img/haircut.png",
+      "image": "/img/waxing.png",
       "price": 1500
     }
   ]

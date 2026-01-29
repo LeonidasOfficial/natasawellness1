@@ -340,5 +340,32 @@
     "description": "Service icon - Massage",
     "currentFile": "massage.png",
     "type": "icon"
+  },
+  {
+    "id": "facials",
+    "path": "/img/facials.png",
+    "category": "Services",
+    "location": "Services - Tretman Lica Icon",
+    "description": "Service icon - Facial Treatment",
+    "currentFile": "facials.png",
+    "type": "icon"
+  },
+  {
+    "id": "waxing",
+    "path": "/img/waxing.png",
+    "category": "Services",
+    "location": "Services - Tretmani Uklanjanja Dlaka Icon",
+    "description": "Service icon - Waxing / Hair Removal",
+    "currentFile": "waxing.png",
+    "type": "icon"
+  },
+  {
+    "id": "eyelashes",
+    "path": "/img/eyelashes.png",
+    "category": "Services",
+    "location": "Services - Podizanje Trepavica Icon",
+    "description": "Service icon - Eyelash Lift",
+    "currentFile": "eyelashes.png",
+    "type": "icon"
   }
 ]

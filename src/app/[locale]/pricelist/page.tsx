@@ -27,7 +27,7 @@ import {
 import { useTranslation } from '@/contexts/TranslationContext'
 import fallbackPriceList from '@/data/price-list.json'
 
-// Icon mapping - each category has a unique icon
+// Icon mapping - each category has a unique icon (fallback when no image)
 const iconMap: { [key: string]: any } = {
   'face': FaSpa,
   'hair-removal': FaCut,
@@ -40,6 +40,15 @@ const iconMap: { [key: string]: any } = {
   'wellness': FaLeaf,
   'makeup': FaPaintBrush,
   'tan': FaSun,
+}
+
+// Service category images (replaces icon for these categories)
+const iconImageMap: { [key: string]: string } = {
+  'face': '/img/facials.png',
+  'hair-removal': '/img/waxing.png',
+  'pedikir': '/img/pedicure.png',
+  'manikir': '/img/manicure.png',
+  'eyes': '/img/eyelashes.png',
 }
 
 interface Treatment {
@@ -163,6 +172,7 @@ export default function PriceListPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8">
               {priceListData.map((category: Category, index: number) => {
                 const IconComponent = iconMap[category.icon] || FaSpa
+                const categoryImage = iconImageMap[category.icon]
                 
                 return (
                   <motion.div
@@ -174,9 +184,13 @@ export default function PriceListPage() {
                     onClick={() => handleCategoryClick(category)}
                     className="group relative bg-gradient-to-br from-white to-primary/5 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-primary/10 hover:border-primary/30"
                   >
-                    {/* Icon */}
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                      <IconComponent className="text-3xl text-dark" />
+                    {/* Icon or image */}
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 overflow-hidden">
+                      {categoryImage ? (
+                        <img src={categoryImage} alt={category.category} className="w-full h-full object-contain p-1" />
+                      ) : (
+                        <IconComponent className="text-3xl text-dark" />
+                      )}
                     </div>
 
                     {/* Content */}
@@ -237,10 +251,15 @@ export default function PriceListPage() {
 
                   <div className="flex items-center gap-3 md:gap-4 pr-12 md:pr-0">
                     {(() => {
+                      const modalImage = iconImageMap[selectedCategory.icon]
                       const IconComponent = iconMap[selectedCategory.icon] || FaSpa
                       return (
-                        <div className="w-12 h-12 md:w-16 md:h-16 bg-dark rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0">
-                          <IconComponent className="text-2xl md:text-3xl text-primary" />
+                        <div className="w-12 h-12 md:w-16 md:h-16 bg-dark rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                          {modalImage ? (
+                            <img src={modalImage} alt={selectedCategory.category} className="w-full h-full object-contain p-1" />
+                          ) : (
+                            <IconComponent className="text-2xl md:text-3xl text-primary" />
+                          )}
                         </div>
                       )
                     })()}

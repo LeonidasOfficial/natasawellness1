@@ -3,7 +3,7 @@
     "id": "1",
     "name": "Tretman Lica",
     "description": "Opuštajući tretman lica sa dubokim čišćenjem i hidratacijom. Prilagođeno vašim potrebama kože.",
-    "image": "/img/skin-care.png",
+    "image": "/img/facials.png",
     "price": 3500,
     "duration": "60 min",
     "featured": true
@@ -30,7 +30,7 @@
     "id": "4",
     "name": "Podizanje Trepavica",
     "description": "Dugotrajna podizanje trepavica za savršen pogled. Prirodan i elegantan izgled.",
-    "image": "/img/makeup.png",
+    "image": "/img/eyelashes.png",
     "price": 2500,
     "duration": "45 min",
     "featured": true
@@ -48,7 +48,7 @@
     "id": "6",
     "name": "Tretmani Uklanjanja Dlaka",
     "description": "Različiti tretmani epilacije za glatku i negovanu kožu. Profesionalno i brzo.",
-    "image": "/img/haircut.png",
+    "image": "/img/waxing.png",
     "price": 1500,
     "duration": "30 min",
     "featured": true

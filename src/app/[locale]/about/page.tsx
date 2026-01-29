@@ -2,13 +2,12 @@
 
 import ScrollToTop from '@/components/ui/ScrollToTop'
 import { motion } from 'framer-motion'
-import { FaCalendarAlt, FaUsers, FaAward, FaHeart } from 'react-icons/fa'
+import { FaCalendarAlt, FaUsers, FaHeart } from 'react-icons/fa'
 
 export default function AboutPage() {
   const features = [
-    { icon: FaCalendarAlt, title: '25+ Years', desc: 'Experience' },
-    { icon: FaUsers, title: '999+', desc: 'Happy Clients' },
-    { icon: FaAward, title: '50+', desc: 'Awards Won' },
+    { icon: FaCalendarAlt, title: '26 Years', desc: 'Experience' },
+    { icon: FaUsers, title: '2500+', desc: 'Happy Clients' },
     { icon: FaHeart, title: '100%', desc: 'Satisfaction' }
   ]
 
@@ -31,7 +30,7 @@ export default function AboutPage() {
 
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4">
               <h2 className="font-dancing text-4xl md:text-5xl text-primary">Our Story</h2>
-              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-dark">Excellence in Beauty Since 1999</h1>
+              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-dark">Excellence in Beauty Since 2000</h1>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
                 My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
               </p>
@@ -43,7 +42,7 @@ export default function AboutPage() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {features.map((feature, i) => (
               <motion.div
                 key={i}

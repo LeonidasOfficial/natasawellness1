@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Work_Sans, Dancing_Script, Playfair_Display } from 'next/font/google'
+import { Work_Sans, Dancing_Script, Playfair_Display, Great_Vibes } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import { TranslationProvider } from '@/contexts/TranslationContext'
@@ -20,6 +20,12 @@ const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   weight: ['400', '500', '600', '700']
+})
+
+const greatVibes = Great_Vibes({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-greatvibes',
+  weight: '400',
 })
 
 export const metadata: Metadata = {
@@ -43,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${workSans.variable} ${dancingScript.variable} ${playfairDisplay.variable}`}>
+    <html lang="en" className={`${workSans.variable} ${dancingScript.variable} ${playfairDisplay.variable} ${greatVibes.variable}`}>
       <body className="custom-scrollbar">
         {/* TranslationProvider here is for admin pages only - locale pages have their own via LocaleProvider */}
         <TranslationProvider>
