@@ -367,5 +367,14 @@
     "description": "Service icon - Eyelash Lift",
     "currentFile": "eyelashes.png",
     "type": "icon"
+  },
+  {
+    "id": "spraytan",
+    "path": "/img/spraytan.png",
+    "category": "Services",
+    "location": "Services - Spraj Tan Icon",
+    "description": "Service icon - Spray Tan",
+    "currentFile": "spraytan.png",
+    "type": "icon"
   }
 ]

@@ -37,10 +37,10 @@
   },
   {
     "id": "5",
-    "name": "Farbanje Obrva i Trepavica",
-    "description": "Profesionalno farbanje obrva i trepavica za izražajniji pogled.",
-    "image": "/img/skin-care.png",
-    "price": 1000,
+    "name": "Spraj Tan",
+    "description": "Spraj Tan",
+    "image": "/img/spraytan.png",
+    "price": 2000,
     "duration": "30 min",
     "featured": true
   },

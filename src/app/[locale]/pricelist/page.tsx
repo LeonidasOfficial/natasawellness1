@@ -47,8 +47,14 @@ const iconImageMap: { [key: string]: string } = {
   'face': '/img/facials.png',
   'hair-removal': '/img/waxing.png',
   'pedikir': '/img/pedicure.png',
+  'pedikir-gl': '/img/pedicure.png',
   'manikir': '/img/manicure.png',
+  'manikir-gl': '/img/manicure.png',
+  'manikir-gel': '/img/manicure.png',
   'eyes': '/img/eyelashes.png',
+  'wellness': '/img/massage.png',
+  'makeup': '/img/makeup.png',
+  'tan': '/img/spraytan.png',
 }
 
 interface Treatment {
