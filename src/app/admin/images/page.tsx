@@ -527,7 +527,7 @@ export default function ImageManagementPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
               onClick={closeAddGalleryModal}
             >
               <motion.div
@@ -535,9 +535,9 @@ export default function ImageManagementPage() {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 50 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+                className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] min-h-0 flex flex-col overflow-hidden shadow-2xl my-8"
               >
-                <div className="bg-gradient-to-r from-primary to-primary-light p-6 relative">
+                <div className="bg-gradient-to-r from-primary to-primary-light p-6 relative flex-shrink-0">
                   <button onClick={closeAddGalleryModal} className="absolute top-4 right-4 w-10 h-10 bg-dark/20 hover:bg-dark/40 rounded-full flex items-center justify-center">
                     <FaTimes className="text-dark" />
                   </button>
@@ -547,7 +547,7 @@ export default function ImageManagementPage() {
                   <p className="text-dark/80 mt-1 text-sm">Same settings as existing images</p>
                 </div>
 
-                <div className="p-6 space-y-6">
+                <div className="p-6 space-y-6 overflow-y-auto flex-1 min-h-0">
                   <div>
                     <label className="block text-sm font-semibold text-dark mb-2">Title</label>
                     <input
@@ -608,7 +608,7 @@ export default function ImageManagementPage() {
                   </div>
                 </div>
 
-                <div className="bg-light p-6 flex justify-end gap-3">
+                <div className="bg-light p-6 flex justify-end gap-3 flex-shrink-0 border-t border-gray-200">
                   <button onClick={closeAddGalleryModal} className="px-6 py-3 bg-gray-200 text-dark rounded-lg font-semibold hover:bg-gray-300">
                     Cancel
                   </button>
