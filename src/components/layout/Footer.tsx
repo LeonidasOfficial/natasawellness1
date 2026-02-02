@@ -108,7 +108,7 @@ const Footer = () => {
 
             <p className="text-gray-300 leading-relaxed text-sm md:text-base">
               Opustite telo, smirite um, obnovite duh. Nataša Wellness nudi profesionalne kozmetičke i 
-              wellness tretmane sa preko 20 godina iskustva. Personalizovana nega i pažnja posvećena vama.
+              wellness tretmane sa preko 25 godina iskustva. Personalizovana nega i pažnja posvećena vama.
             </p>
 
             <div className="space-y-2 md:space-y-3">
