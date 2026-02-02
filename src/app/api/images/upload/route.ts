@@ -20,6 +20,17 @@ interface ImageItem {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if running on Vercel (read-only file system)
+    if (process.env.VERCEL) {
+      return NextResponse.json(
+        { 
+          error: 'Read-only mode', 
+          details: 'Uploading images is not available on production. Vercel uses a read-only file system. Please run locally with npm run dev to make changes.' 
+        }, 
+        { status: 403 }
+      )
+    }
+
     // Verify admin authentication
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {

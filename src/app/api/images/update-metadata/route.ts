@@ -27,6 +27,17 @@ interface GalleryItem {
 
 export async function PUT(request: NextRequest) {
   try {
+    // Check if running on Vercel (read-only file system)
+    if (process.env.VERCEL) {
+      return NextResponse.json(
+        { 
+          error: 'Read-only mode', 
+          details: 'Image editing is not available on production. Vercel uses a read-only file system. Please run locally with npm run dev to make changes.' 
+        }, 
+        { status: 403 }
+      )
+    }
+
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
