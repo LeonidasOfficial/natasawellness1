@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": "Tretman Lica",
-    "description": "Opuštajući tretman lica sa dubokim čišćenjem i hidratacijom. Prilagođeno vašim potrebama kože.",
+    "description": "The pampering experience of our beautifying Phyt's facials can provide multiple health and beauty benefits. Our facials cleanses pores, exfoliates dead skin cells, hydrates and moisturises the skin. Our facials are ideal for maintaining good skin health and leave you with a radiant complexion. Every facial is tailored to your unique skin. We diagnose your skin on the spot and select the products and treatments that suit your needs best.",
     "image": "/img/facials.png",
     "price": 3500,
     "duration": "60 min",
@@ -11,7 +11,7 @@
   {
     "id": "2",
     "name": "Manikir",
-    "description": "Profesionalna nega noktiju sa premium proizvodima. Vaši nokti će izgledati savršeno.",
+    "description": "Our manicure includes nail shaping, cuticle care, a relaxing hand massage, and optional nail polish in the color of your choice.",
     "image": "/img/manicure.png",
     "price": 1500,
     "duration": "45 min",
@@ -20,7 +20,7 @@
   {
     "id": "3",
     "name": "Pedikir",
-    "description": "Luksuzna pedicure nega stopala. Opustite se i uživajte u tretmanu.",
+    "description": "Our pedicure is a complete foot treatment for men and women, including nail care, cuticle work, exfoliation, hydration, massage, and optional nail polish—leaving your feet feeling light and refreshed.",
     "image": "/img/pedicure.png",
     "price": 2000,
     "duration": "60 min",
@@ -38,7 +38,7 @@
   {
     "id": "5",
     "name": "Spraj Tan",
-    "description": "Spraj Tan",
+    "description": "A quick, professional spray tan for a natural, radiant glow that lasts up to 14 days.",
     "image": "/img/spraytan.png",
     "price": 2000,
     "duration": "30 min",
@@ -47,7 +47,7 @@
   {
     "id": "6",
     "name": "Tretmani Uklanjanja Dlaka",
-    "description": "Različiti tretmani epilacije za glatku i negovanu kožu. Profesionalno i brzo.",
+    "description": "We use gentle, high-quality strip wax to remove hair from the root for smooth skin and finer regrowth. Suitable for all skin types, including sensitive skin.",
     "image": "/img/waxing.png",
     "price": 1500,
     "duration": "30 min",

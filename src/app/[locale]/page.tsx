@@ -160,7 +160,12 @@ export default function Home() {
         <section id="services-section" ref={ref2} className="w-full section-padding bg-light relative">
           <div className="container-custom max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-              {servicesData.slice(0, 6).map((service, index) => (
+              {servicesData.slice(0, 6).map((service, index) => {
+                const nameKey = `services.service${service.id}.name`
+                const descKey = `services.service${service.id}.description`
+                const serviceName = t(nameKey) !== nameKey ? t(nameKey) : service.name
+                const serviceDesc = t(descKey) !== descKey ? t(descKey) : service.description
+                return (
                 <motion.div
                   key={service.id}
                   initial={{ opacity: 0, y: 30, scale: 0.96 }}
@@ -178,19 +183,19 @@ export default function Home() {
                   className="service-card p-6 text-center group relative overflow-hidden"
                 >
                   <div className="image-hover-zoom w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
-                    <img src={service.image} alt={service.name} className="w-full h-full object-contain" />
+                    <img src={service.image} alt={serviceName} className="w-full h-full object-contain" />
                   </div>
                   <h3 className="font-playfair text-lg md:text-xl font-bold text-dark mb-2 group-hover:text-primary transition-colors tracking-wide">
-                    {service.name}
+                    {serviceName}
                   </h3>
-                  <p className="text-gray-600 mb-3 text-xs md:text-sm leading-relaxed line-clamp-2">{service.description}</p>
+                  <p className="text-gray-600 mb-3 text-xs md:text-sm leading-relaxed line-clamp-2">{serviceDesc}</p>
                   <Link href="/pricelist" className="link-underline">
                     <button className="text-primary font-semibold uppercase text-sm hover:text-dark transition-colors flex items-center gap-2 mx-auto group-hover:gap-4 transition-all">
-                      Read More <FaArrowRight />
+                      {t('common.readMore')} <FaArrowRight />
                     </button>
                   </Link>
                 </motion.div>
-              ))}
+              )})}
             </div>
           </div>
         </section>

@@ -4,6 +4,7 @@ import { useRef, forwardRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import ParallaxLayer, { MediumParallaxLayer } from '@/components/ui/ParallaxLayer'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 interface PromotionalParallaxSectionProps {
   promotionsData: any
@@ -12,6 +13,7 @@ interface PromotionalParallaxSectionProps {
 
 const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSectionProps>(
   ({ promotionsData, inView }, ref) => {
+    const { t } = useTranslation()
     const sectionRef = useRef<HTMLElement>(null)
     const internalRef = (ref as React.RefObject<HTMLElement>) || sectionRef
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -128,7 +130,10 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
 
           {/* Right - Price List with Parallax */}
           <MediumParallaxLayer className="bg-dark p-8 lg:p-10 space-y-3 relative">
-            {promotionsData.featuredServices.map((service: any, index: number) => (
+            {promotionsData.featuredServices.map((service: any, index: number) => {
+              const nameKey = `services.service${service.id}.name`
+              const serviceName = t(nameKey) !== nameKey ? t(nameKey) : service.name
+              return (
               <motion.div
                 key={service.id}
                 initial={{ opacity: 0, x: 50, scale: 0.96 }}
@@ -138,13 +143,13 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
                 whileHover={{ scale: 1.05, x: 10 }}
                 className="flex items-center gap-3 bg-white/5 p-3 rounded-xl hover:bg-white/10 transition-all cursor-pointer glass-hover"
               >
-                <img src={service.image} alt={service.name} className="w-16 h-16 object-contain flex-shrink-0" />
+                <img src={service.image} alt={serviceName} className="w-16 h-16 object-contain flex-shrink-0" />
                 <div className="flex-1">
-                  <h6 className="text-primary uppercase font-semibold">{service.name}</h6>
+                  <h6 className="text-primary uppercase font-semibold">{serviceName}</h6>
                 </div>
                 <h3 className="text-white font-bold text-2xl">{service.price} RSD</h3>
               </motion.div>
-            ))}
+            )})}
           </MediumParallaxLayer>
         </div>
       </div>

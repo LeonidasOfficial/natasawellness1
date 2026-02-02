@@ -5,9 +5,11 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { FaCheck } from 'react-icons/fa'
+import { useTranslation } from '@/contexts/TranslationContext'
 import servicesData from '@/data/services.json'
 
 export default function PricingPage() {
+  const { t } = useTranslation()
   return (
     <>
       <section className="relative bg-light py-20">
@@ -23,7 +25,12 @@ export default function PricingPage() {
           <SectionTitle subtitle="Our Prices" title="Transparent & Affordable Pricing" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicesData.map((service, index) => (
+            {servicesData.map((service, index) => {
+              const nameKey = `services.service${service.id}.name`
+              const descKey = `services.service${service.id}.description`
+              const serviceName = t(nameKey) !== nameKey ? t(nameKey) : service.name
+              const serviceDesc = t(descKey) !== descKey ? t(descKey) : service.description
+              return (
               <motion.div
                 key={service.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -34,14 +41,14 @@ export default function PricingPage() {
                 className="bg-light rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 text-center"
               >
                 <div className="w-24 h-24 mx-auto mb-6 bg-white rounded-full flex items-center justify-center shadow-md">
-                  <img src={service.image} alt={service.name} className="w-16 h-16 object-contain" />
+                  <img src={service.image} alt={serviceName} className="w-16 h-16 object-contain" />
                 </div>
 
                 <h3 className="font-playfair text-2xl font-bold text-dark mb-2">
-                  {service.name}
+                  {serviceName}
                 </h3>
 
-                <p className="text-gray-600 mb-6">{service.description}</p>
+                <p className="text-gray-600 mb-6">{serviceDesc}</p>
 
                 <div className="text-5xl font-bold text-primary mb-6">
                   ${service.price}
@@ -72,7 +79,7 @@ export default function PricingPage() {
                   </motion.button>
                 </Link>
               </motion.div>
-            ))}
+            )})}
           </div>
         </div>
       </section>
