@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
@@ -56,8 +56,11 @@ export default function ImageManagementPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [addingGallery, setAddingGallery] = useState(false)
   const [newGalleryTitle, setNewGalleryTitle] = useState('')
-  const [newGalleryCategory, setNewGalleryCategory] = useState('hair')
+  const [newGalleryCategory, setNewGalleryCategory] = useState('facial')
   const [newGalleryFile, setNewGalleryFile] = useState<File | null>(null)
+  const [newGalleryPreview, setNewGalleryPreview] = useState<string | null>(null)
+  const [addGalleryModalOpen, setAddGalleryModalOpen] = useState(false)
+  const addGalleryFileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     checkAuth()
@@ -213,6 +216,28 @@ export default function ImageManagementPage() {
     }
   }
 
+  const handleAddGalleryFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast.error('Please select an image file (JPG, PNG, etc.)')
+        return
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Image must be under 5MB')
+        return
+      }
+      setNewGalleryFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => setNewGalleryPreview(reader.result as string)
+      reader.readAsDataURL(file)
+    } else {
+      setNewGalleryFile(null)
+      setNewGalleryPreview(null)
+    }
+    e.target.value = ''
+  }
+
   const handleAddGallery = async () => {
     if (!newGalleryFile || !newGalleryTitle.trim()) {
       toast.error('Please add a title and select an image')
@@ -225,23 +250,36 @@ export default function ImageManagementPage() {
       formData.append('title', newGalleryTitle.trim())
       formData.append('category', newGalleryCategory)
 
-      const res = await fetch('/api/gallery', { method: 'POST', body: formData })
+      const res = await fetch('/api/gallery', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      })
+      const data = await res.json()
       if (res.ok) {
         toast.success('✅ Gallery image added!')
         await loadImages()
-        setAddingGallery(false)
+        setAddGalleryModalOpen(false)
         setNewGalleryTitle('')
-        setNewGalleryCategory('hair')
+        setNewGalleryCategory('facial')
         setNewGalleryFile(null)
+        setNewGalleryPreview(null)
       } else {
-        const data = await res.json()
         toast.error(data.error || 'Failed to add')
       }
     } catch {
-      toast.error('Failed to add')
+      toast.error('Failed to add image')
     } finally {
       setAddingGallery(false)
     }
+  }
+
+  const closeAddGalleryModal = () => {
+    setAddGalleryModalOpen(false)
+    setNewGalleryTitle('')
+    setNewGalleryCategory('facial')
+    setNewGalleryFile(null)
+    setNewGalleryPreview(null)
   }
 
   const categories = ['all', ...SECTION_ORDER.map(s => s.category)]
@@ -323,46 +361,6 @@ export default function ImageManagementPage() {
                 </div>
 
                 <div className="p-6">
-                  {canAdd && category === 'Gallery' && (
-                    <div className="mb-6 p-4 bg-light rounded-xl border-2 border-dashed border-primary/30">
-                      <h3 className="font-semibold text-dark mb-3 flex items-center gap-2">
-                        <FaPlus className="text-primary" /> Add New Gallery Image
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <input
-                          type="text"
-                          placeholder="Image title"
-                          value={newGalleryTitle}
-                          onChange={(e) => setNewGalleryTitle(e.target.value)}
-                          className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
-                        />
-                        <select
-                          value={newGalleryCategory}
-                          onChange={(e) => setNewGalleryCategory(e.target.value)}
-                          className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
-                        >
-                          <option value="hair">Hair</option>
-                          <option value="nails">Nails</option>
-                          <option value="makeup">Makeup</option>
-                          <option value="spa">Spa</option>
-                        </select>
-                        <div className="flex gap-2">
-                          <label className="flex-1 px-4 py-2 border-2 border-primary rounded-lg cursor-pointer text-center font-semibold text-primary hover:bg-primary hover:text-dark transition-colors">
-                            {newGalleryFile ? newGalleryFile.name : 'Choose Image'}
-                            <input type="file" accept="image/*" className="hidden" onChange={(e) => setNewGalleryFile(e.target.files?.[0] || null)} />
-                          </label>
-                          <button
-                            onClick={handleAddGallery}
-                            disabled={!newGalleryFile || !newGalleryTitle.trim() || addingGallery}
-                            className="px-4 py-2 bg-primary text-dark rounded-lg font-semibold hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            {addingGallery ? 'Adding...' : 'Add'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {imagesToShow.map((image) => (
                       <motion.div
@@ -404,6 +402,22 @@ export default function ImageManagementPage() {
                         </div>
                       </motion.div>
                     ))}
+                    
+                    {/* Add new card - after existing images */}
+                    {canAdd && category === 'Gallery' && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        onClick={() => setAddGalleryModalOpen(true)}
+                        className="aspect-video rounded-xl border-2 border-dashed border-primary/50 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 hover:border-primary cursor-pointer flex flex-col items-center justify-center gap-2 min-h-[200px] transition-all group"
+                      >
+                        <div className="w-14 h-14 rounded-full bg-primary/30 group-hover:bg-primary/50 flex items-center justify-center transition-all group-hover:scale-110">
+                          <FaPlus className="text-2xl text-primary" />
+                        </div>
+                        <span className="font-semibold text-dark text-sm">Add Image</span>
+                        <span className="text-xs text-gray-500 px-3 text-center">Click to add new gallery image</span>
+                      </motion.div>
+                    )}
                   </div>
                 </div>
               </motion.section>
@@ -492,6 +506,111 @@ export default function ImageManagementPage() {
                       {uploadingImage === selectedImage.id ? <><LoadingSpinner /> Uploading...</> : <><FaCheck /> Upload & Replace</>}
                     </button>
                   </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Add Gallery Modal */}
+        <AnimatePresence>
+          {addGalleryModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={closeAddGalleryModal}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 50 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 50 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+              >
+                <div className="bg-gradient-to-r from-primary to-primary-light p-6 relative">
+                  <button onClick={closeAddGalleryModal} className="absolute top-4 right-4 w-10 h-10 bg-dark/20 hover:bg-dark/40 rounded-full flex items-center justify-center">
+                    <FaTimes className="text-dark" />
+                  </button>
+                  <h2 className="font-playfair text-2xl font-bold text-dark pr-12 flex items-center gap-2">
+                    <FaPlus className="text-primary" /> Add New Gallery Image
+                  </h2>
+                  <p className="text-dark/80 mt-1 text-sm">Same settings as existing images</p>
+                </div>
+
+                <div className="p-6 space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-dark mb-2">Title</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Hair Styling, Nail Art"
+                      value={newGalleryTitle}
+                      onChange={(e) => setNewGalleryTitle(e.target.value)}
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-dark mb-2">Category</label>
+                    <select
+                      value={newGalleryCategory}
+                      onChange={(e) => setNewGalleryCategory(e.target.value)}
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
+                    >
+                      <option value="facial">Facial</option>
+                      <option value="nails">Nails</option>
+                      <option value="makeup">Makeup</option>
+                      <option value="spa">Spa</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-dark mb-2">Image</label>
+                    <div className="flex gap-4 items-start">
+                      <div className="flex-1 aspect-video bg-gray-100 rounded-xl overflow-hidden border-2 border-dashed border-primary/50 min-h-[120px] flex items-center justify-center">
+                        {newGalleryPreview ? (
+                          <img src={newGalleryPreview} alt="Preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="text-center p-4">
+                            <FaUpload className="text-4xl text-gray-400 mx-auto mb-2" />
+                            <p className="text-gray-500 text-sm">No image selected</p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <input
+                          ref={addGalleryFileInputRef}
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAddGalleryFileChange}
+                          className="hidden"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => addGalleryFileInputRef.current?.click()}
+                          className="px-4 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-dark transition-colors"
+                        >
+                          Choose Image
+                        </button>
+                        {newGalleryFile && (
+                          <p className="text-xs text-gray-500 truncate max-w-[120px]">{newGalleryFile.name}</p>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">JPG, PNG, WEBP. Max 5MB</p>
+                  </div>
+                </div>
+
+                <div className="bg-light p-6 flex justify-end gap-3">
+                  <button onClick={closeAddGalleryModal} className="px-6 py-3 bg-gray-200 text-dark rounded-lg font-semibold hover:bg-gray-300">
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddGallery}
+                    disabled={!newGalleryFile || !newGalleryTitle.trim() || addingGallery}
+                    className="px-6 py-3 bg-primary text-dark rounded-lg font-semibold hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  >
+                    {addingGallery ? <><LoadingSpinner /> Adding...</> : <><FaCheck /> Add to Gallery</>}
+                  </button>
                 </div>
               </motion.div>
             </motion.div>
