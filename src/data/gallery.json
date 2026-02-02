@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "title": "Hair Styling",
+    "title": "Gallery image - XXXXX",
     "category": "hair",
     "image": "/img/gallery-1.jpg",
     "featured": true
@@ -42,4 +42,3 @@
     "featured": true
   }
 ]
-
