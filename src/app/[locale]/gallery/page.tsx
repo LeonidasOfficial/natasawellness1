@@ -14,16 +14,10 @@ const Lightbox = dynamic(() => import('yet-another-react-lightbox'), {
 import { FaSearchPlus } from 'react-icons/fa'
 
 export default function GalleryPage() {
-  const [filter, setFilter] = useState('all')
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
-  const categories = ['all', 'hair', 'nails', 'makeup', 'spa']
 
-  const filtered = filter === 'all' 
-    ? galleryData 
-    : galleryData.filter(item => item.category === filter)
-
-  const lightboxSlides = filtered.map(item => ({
+  const lightboxSlides = galleryData.map(item => ({
     src: item.image,
     title: item.title,
     description: item.category
@@ -43,28 +37,9 @@ export default function GalleryPage() {
         <div className="container-custom max-w-7xl">
           <SectionTitle subtitle="Our Work" title="Explore Our Portfolio" />
 
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {categories.map((cat) => (
-              <motion.button
-                key={cat}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setFilter(cat)}
-                className={`px-6 py-3 rounded-full font-semibold uppercase text-sm transition-all ${
-                  filter === cat
-                    ? 'bg-primary text-dark shadow-lg'
-                    : 'bg-light text-gray-600 hover:bg-primary hover:text-dark'
-                }`}
-              >
-                {cat}
-              </motion.button>
-            ))}
-          </div>
-
           {/* Gallery Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
-            {filtered.map((item, index) => (
+            {galleryData.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.8 }}
