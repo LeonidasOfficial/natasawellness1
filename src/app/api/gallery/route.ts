@@ -6,26 +6,29 @@ import { join } from 'path'
 
 export const dynamic = 'force-dynamic'
 
+async function getStaticGallery() {
+  const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
+  return JSON.parse(await readFile(galleryPath, 'utf-8'))
+}
+
 export async function GET() {
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('gallery').select('*').order('id')
       if (error) throw error
-      return NextResponse.json(
-        (data || []).map((row) => ({
-          id: String(row.id),
-          title: row.title,
-          category: row.category,
-          image: row.image,
-          featured: row.featured ?? true,
-        }))
-      )
+      const mapped = (data || []).map((row) => ({
+        id: String(row.id),
+        title: row.title,
+        category: row.category,
+        image: row.image,
+        featured: row.featured ?? true,
+      }))
+      // Fallback to static JSON when Supabase tables are empty (before data migration)
+      if (mapped.length > 0) return NextResponse.json(mapped)
     }
 
-    const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
-    const data = JSON.parse(await readFile(galleryPath, 'utf-8'))
-    return NextResponse.json(data)
+    return NextResponse.json(await getStaticGallery())
   } catch (error) {
     console.error('Failed to read gallery:', error)
     return NextResponse.json({ error: 'Failed to load gallery' }, { status: 500 })

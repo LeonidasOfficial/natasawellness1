@@ -19,18 +19,23 @@ function mapImageRow(row: Record<string, unknown>) {
   }
 }
 
+async function getStaticImages() {
+  const imagesMetadataPath = join(process.cwd(), 'src', 'data', 'images.json')
+  return JSON.parse(await readFile(imagesMetadataPath, 'utf-8'))
+}
+
 export async function GET() {
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('images').select('*').order('id')
       if (error) throw error
-      return NextResponse.json((data || []).map(mapImageRow))
+      const mapped = (data || []).map(mapImageRow)
+      // Fallback to static JSON when Supabase tables are empty (before data migration)
+      if (mapped.length > 0) return NextResponse.json(mapped)
     }
 
-    // Fallback to JSON file (local dev without Supabase)
-    const imagesMetadataPath = join(process.cwd(), 'src', 'data', 'images.json')
-    const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8'))
+    const imagesData = await getStaticImages()
     return NextResponse.json(imagesData)
   } catch (error) {
     console.error('Failed to read images:', error)
