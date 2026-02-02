@@ -48,12 +48,6 @@ const SectionTitle = ({ subtitle, title, centered = true, light = false }: Secti
           {title}
         </motion.h1>
       </ParallaxLayer>
-      <motion.div
-        initial={{ width: 0 }}
-        animate={inView ? { width: '100px' } : {}}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className={`h-1 ${light ? 'bg-white' : 'bg-primary'} ${centered ? 'mx-auto' : ''} mt-2 rounded-full`}
-      />
     </motion.div>
   )
 }

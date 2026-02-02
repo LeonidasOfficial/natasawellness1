@@ -51,44 +51,6 @@
     "uploadedBy": "admin"
   },
   {
-    "id": "team-1",
-    "path": "/img/team-1.jpg",
-    "category": "Team",
-    "location": "Team Page - Nataša Peric",
-    "description": "Team Members",
-    "currentFile": "team-1.jpg",
-    "type": "team",
-    "lastUpdated": "2026-01-27T16:29:46.763Z",
-    "uploadedBy": "admin"
-  },
-  {
-    "id": "team-2",
-    "path": "/img/team-2.jpg",
-    "category": "Team",
-    "location": "Team Page - Olivia Smith",
-    "description": "Team member photo - Olivia Smith",
-    "currentFile": "team-2.jpg",
-    "type": "team"
-  },
-  {
-    "id": "team-3",
-    "path": "/img/team-3.jpg",
-    "category": "Team",
-    "location": "Team Page - Ava Brown",
-    "description": "Team member photo - Ava Brown",
-    "currentFile": "team-3.jpg",
-    "type": "team"
-  },
-  {
-    "id": "team-4",
-    "path": "/img/team-4.jpg",
-    "category": "Team",
-    "location": "Team Page - Amelia Jones",
-    "description": "Team member photo - Amelia Jones",
-    "currentFile": "team-4.jpg",
-    "type": "team"
-  },
-  {
     "id": "gallery-1",
     "path": "/img/gallery-1.jpg",
     "category": "Gallery",
