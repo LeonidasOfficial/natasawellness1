@@ -3,8 +3,8 @@
 import ScrollToTop from '@/components/ui/ScrollToTop'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import galleryData from '@/data/gallery.json'
+import { useState, useEffect } from 'react'
+import galleryDataStatic from '@/data/gallery.json'
 import dynamic from 'next/dynamic'
 
 const Lightbox = dynamic(() => import('yet-another-react-lightbox'), {
@@ -13,9 +13,25 @@ const Lightbox = dynamic(() => import('yet-another-react-lightbox'), {
 })
 import { FaSearchPlus } from 'react-icons/fa'
 
+interface GalleryItem {
+  id: string
+  title: string
+  category: string
+  image: string
+  featured?: boolean
+}
+
 export default function GalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
+
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => Array.isArray(data) && data.length > 0 ? setGalleryData(data) : null)
+      .catch(() => {})
+  }, [])
 
   const lightboxSlides = galleryData.map(item => ({
     src: item.image,

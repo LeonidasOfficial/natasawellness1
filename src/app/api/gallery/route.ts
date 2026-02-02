@@ -1,31 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
-import { readFile, writeFile, mkdir, access } from 'fs/promises'
+import { createSupabaseAdmin } from '@/lib/supabase'
+import { readFile } from 'fs/promises'
 import { join } from 'path'
-import { existsSync } from 'fs'
 
 export const dynamic = 'force-dynamic'
 
-interface GalleryItem {
-  id: string
-  title: string
-  category: string
-  image: string
-  featured: boolean
-}
-
-interface ImageItem {
-  id: string
-  path: string
-  category: string
-  location: string
-  description: string
-  currentFile: string
-  type: string
-}
-
 export async function GET() {
   try {
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const supabase = createSupabaseAdmin()
+      const { data, error } = await supabase.from('gallery').select('*').order('id')
+      if (error) throw error
+      return NextResponse.json(
+        (data || []).map((row) => ({
+          id: String(row.id),
+          title: row.title,
+          category: row.category,
+          image: row.image,
+          featured: row.featured ?? true,
+        }))
+      )
+    }
+
     const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
     const data = JSON.parse(await readFile(galleryPath, 'utf-8'))
     return NextResponse.json(data)
@@ -37,26 +34,22 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if running on Vercel (read-only file system)
-    if (process.env.VERCEL) {
-      return NextResponse.json(
-        { 
-          error: 'Read-only mode', 
-          details: 'Adding images is not available on production. Vercel uses a read-only file system. Please run locally with npm run dev to make changes.' 
-        }, 
-        { status: 403 }
-      )
-    }
-
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json(
+        { error: 'Supabase not configured', details: 'Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY' },
+        { status: 503 }
+      )
+    }
+
     const formData = await request.formData()
     const imageFile = formData.get('image') as File
     const title = (formData.get('title') as string) || 'New Gallery Image'
-    const category = (formData.get('category') as string) || 'hair'
+    const category = (formData.get('category') as string) || 'facial'
 
     if (!imageFile) {
       return NextResponse.json({ error: 'No image file provided' }, { status: 400 })
@@ -70,52 +63,71 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File size exceeds 5MB' }, { status: 400 })
     }
 
-    const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
-    const imagesPath = join(process.cwd(), 'src', 'data', 'images.json')
-    const uploadDir = join(process.cwd(), 'public', 'img')
+    const supabase = createSupabaseAdmin()
 
-    const galleryData = JSON.parse(await readFile(galleryPath, 'utf-8')) as GalleryItem[]
-    const imagesData = JSON.parse(await readFile(imagesPath, 'utf-8')) as ImageItem[]
-
-    const maxId = galleryData.reduce((max, item) => Math.max(max, parseInt(item.id) || 0), 0)
-    const newId = String(maxId + 1)
     const extension = imageFile.name.split('.').pop() || 'jpg'
-    const newFileName = `gallery-${newId}.${extension}`
-    const imagePath = `/img/${newFileName}`
-
-    try {
-      await access(uploadDir)
-    } catch {
-      await mkdir(uploadDir, { recursive: true })
-    }
+    const uniqueName = `gallery-${Date.now()}-${Math.random().toString(36).slice(2, 9)}.${extension}`
+    const storagePath = `images/${uniqueName}`
 
     const bytes = await imageFile.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    await writeFile(join(uploadDir, newFileName), buffer)
 
-    const newGalleryItem: GalleryItem = {
-      id: newId,
+    const { error: uploadError } = await supabase.storage
+      .from('images')
+      .upload(storagePath, buffer, { contentType: imageFile.type })
+
+    if (uploadError) {
+      console.error('Storage upload error:', uploadError)
+      return NextResponse.json(
+        { error: 'Failed to upload image', details: uploadError.message },
+        { status: 500 }
+      )
+    }
+
+    const { data: urlData } = supabase.storage.from('images').getPublicUrl(storagePath)
+    const publicUrl = urlData.publicUrl
+
+    const newGalleryItem = {
       title,
       category,
-      image: imagePath,
-      featured: true
+      image: publicUrl,
+      storage_path: storagePath,
+      featured: true,
     }
-    galleryData.push(newGalleryItem)
-    await writeFile(galleryPath, JSON.stringify(galleryData, null, 2), 'utf-8')
 
-    const newImageMeta: ImageItem = {
-      id: `gallery-${newId}`,
-      path: imagePath,
+    const { data: inserted, error: insertError } = await supabase.from('gallery').insert(newGalleryItem).select().single()
+
+    if (insertError) {
+      console.error('Gallery insert error:', insertError)
+      return NextResponse.json(
+        { error: 'Failed to add gallery image', details: insertError.message },
+        { status: 500 }
+      )
+    }
+
+    const newImageMeta = {
+      id: `gallery-${inserted.id}`,
+      path: publicUrl,
+      storage_path: storagePath,
       category: 'Gallery',
       location: `Gallery Page - ${title}`,
       description: `Gallery image - ${title}`,
-      currentFile: newFileName,
-      type: 'gallery'
+      current_file: uniqueName,
+      type: 'gallery',
     }
-    imagesData.push(newImageMeta)
-    await writeFile(imagesPath, JSON.stringify(imagesData, null, 2), 'utf-8')
 
-    return NextResponse.json({ success: true, item: newGalleryItem })
+    await supabase.from('images').insert(newImageMeta)
+
+    return NextResponse.json({
+      success: true,
+      item: {
+        id: String(inserted.id),
+        title: inserted.title,
+        category: inserted.category,
+        image: inserted.image,
+        featured: inserted.featured ?? true,
+      },
+    })
   } catch (error) {
     console.error('Gallery add error:', error)
     return NextResponse.json(

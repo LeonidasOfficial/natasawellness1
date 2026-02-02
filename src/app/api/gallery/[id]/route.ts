@@ -1,79 +1,61 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
-import { readFile, writeFile, unlink } from 'fs/promises'
-import { join } from 'path'
-import { existsSync } from 'fs'
+import { createSupabaseAdmin } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
-
-interface GalleryItem {
-  id: string
-  title: string
-  category: string
-  image: string
-  featured: boolean
-}
-
-interface ImageItem {
-  id: string
-  path: string
-  category: string
-  location: string
-  description: string
-  currentFile: string
-  type: string
-}
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check if running on Vercel (read-only file system)
-    if (process.env.VERCEL) {
-      return NextResponse.json(
-        { 
-          error: 'Read-only mode', 
-          details: 'Deleting images is not available on production. Vercel uses a read-only file system. Please run locally with npm run dev to make changes.' 
-        }, 
-        { status: 403 }
-      )
-    }
-
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json(
+        { error: 'Supabase not configured', details: 'Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY' },
+        { status: 503 }
+      )
+    }
+
     const { id } = await params
 
-    const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
-    const imagesPath = join(process.cwd(), 'src', 'data', 'images.json')
+    const supabase = createSupabaseAdmin()
 
-    const galleryData = JSON.parse(await readFile(galleryPath, 'utf-8')) as GalleryItem[]
-    const imagesData = JSON.parse(await readFile(imagesPath, 'utf-8')) as ImageItem[]
+    const { data: item, error: fetchError } = await supabase
+      .from('gallery')
+      .select('*')
+      .eq('id', parseInt(id, 10))
+      .single()
 
-    const galleryIndex = galleryData.findIndex(item => item.id === id)
-    if (galleryIndex === -1) {
+    if (fetchError || !item) {
       return NextResponse.json({ error: 'Gallery item not found' }, { status: 404 })
     }
 
-    const item = galleryData[galleryIndex]
-    const imageFileName = item.image.replace('/img/', '')
+    const storagePath = (item as { storage_path?: string }).storage_path
 
-    galleryData.splice(galleryIndex, 1)
-    await writeFile(galleryPath, JSON.stringify(galleryData, null, 2), 'utf-8')
+    const { error: deleteError } = await supabase.from('gallery').delete().eq('id', parseInt(id, 10))
 
-    const imageMetaId = `gallery-${id}`
-    const imagesFiltered = imagesData.filter(img => img.id !== imageMetaId)
-    await writeFile(imagesPath, JSON.stringify(imagesFiltered, null, 2), 'utf-8')
+    if (deleteError) {
+      console.error('Gallery delete error:', deleteError)
+      return NextResponse.json(
+        { error: 'Failed to delete gallery item', details: deleteError.message },
+        { status: 500 }
+      )
+    }
 
-    const filePath = join(process.cwd(), 'public', 'img', imageFileName)
-    if (existsSync(filePath)) {
-      try {
-        await unlink(filePath)
-      } catch (e) {
-        console.warn('Could not delete file:', filePath, e)
+    await supabase.from('images').delete().eq('id', `gallery-${id}`)
+
+    if (storagePath) {
+      await supabase.storage.from('images').remove([storagePath])
+    } else {
+      const imagePath = (item as { image?: string }).image || ''
+      const fileName = imagePath.split('/').pop()
+      if (fileName) {
+        await supabase.storage.from('images').remove([`images/${fileName}`])
       }
     }
 

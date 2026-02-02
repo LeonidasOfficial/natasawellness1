@@ -10,17 +10,34 @@ import { useTranslation } from '@/contexts/TranslationContext'
 import ParallaxLayer, { MediumParallaxLayer } from '@/components/ui/ParallaxLayer'
 import DecorativeDivider from '@/components/ui/DecorativeDivider'
 import PromotionalParallaxSection from '@/components/home/PromotionalParallaxSection'
+import { useState, useEffect } from 'react'
 
 // Import data
 import servicesData from '@/data/services.json'
 import teamData from '@/data/team.json'
 import testimonialsData from '@/data/testimonials.json'
-import galleryData from '@/data/gallery.json'
+import galleryDataStatic from '@/data/gallery.json'
 import promotionsData from '@/data/promotions.json'
+
+interface GalleryItem {
+  id: string
+  title: string
+  category: string
+  image: string
+  featured?: boolean
+}
 
 export default function Home() {
   const { t, translations } = useTranslation()
+  const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 })
+
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then((res) => res.ok ? res.json() : [])
+      .then((data) => Array.isArray(data) && data.length > 0 ? setGalleryData(data) : null)
+      .catch(() => {})
+  }, [])
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.1 })
   const [ref3, inView3] = useInView({ triggerOnce: true, threshold: 0.1 })
   const [ref4, inView4] = useInView({ triggerOnce: true, threshold: 0.1 })

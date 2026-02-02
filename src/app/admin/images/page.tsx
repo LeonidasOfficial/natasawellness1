@@ -13,8 +13,7 @@ import {
   FaSearch,
   FaEye,
   FaTrash,
-  FaPlus,
-  FaExclamationTriangle
+  FaPlus
 } from 'react-icons/fa'
 import Link from 'next/link'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
@@ -62,12 +61,6 @@ export default function ImageManagementPage() {
   const [newGalleryPreview, setNewGalleryPreview] = useState<string | null>(null)
   const [addGalleryModalOpen, setAddGalleryModalOpen] = useState(false)
   const addGalleryFileInputRef = useRef<HTMLInputElement>(null)
-  
-  // Detect if running on Vercel (production) where file system is read-only
-  const isVercel = typeof window !== 'undefined' && (
-    window.location.hostname.includes('vercel.app') || 
-    window.location.hostname !== 'localhost'
-  )
 
   useEffect(() => {
     checkAuth()
@@ -162,8 +155,8 @@ export default function ImageManagementPage() {
         ))
         setSelectedImage({ ...selectedImage, description: editedDescription, location: editedLocation })
         loadImages()
-      } else if (res.status === 403 && data.error === 'Read-only mode') {
-        toast.error('⚠️ Read-only mode: Run locally to edit images', { duration: 5000 })
+      } else if (res.status === 503 && data.error === 'Supabase not configured') {
+        toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
         toast.error(data.error || 'Failed to update')
       }
@@ -195,8 +188,8 @@ export default function ImageManagementPage() {
         setSelectedImage(null)
         setNewImageFile(null)
         setNewImagePreview(null)
-      } else if (res.status === 403 && data.error === 'Read-only mode') {
-        toast.error('⚠️ Read-only mode: Run locally to upload images', { duration: 5000 })
+      } else if (res.status === 503 && data.error === 'Supabase not configured') {
+        toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
         toast.error(data.error || 'Failed to upload')
       }
@@ -217,8 +210,8 @@ export default function ImageManagementPage() {
       if (res.ok) {
         toast.success('✅ Gallery image deleted')
         await loadImages()
-      } else if (res.status === 403 && data.error === 'Read-only mode') {
-        toast.error('⚠️ Read-only mode: Run locally to delete images', { duration: 5000 })
+      } else if (res.status === 503 && data.error === 'Supabase not configured') {
+        toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
         toast.error(data.error || 'Failed to delete')
       }
@@ -277,8 +270,8 @@ export default function ImageManagementPage() {
         setNewGalleryCategory('facial')
         setNewGalleryFile(null)
         setNewGalleryPreview(null)
-      } else if (res.status === 403 && data.error === 'Read-only mode') {
-        toast.error('⚠️ Read-only mode: Run locally to add images', { duration: 5000 })
+      } else if (res.status === 503 && data.error === 'Supabase not configured') {
+        toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
         toast.error(data.error || 'Failed to add')
       }
@@ -318,24 +311,6 @@ export default function ImageManagementPage() {
             </div>
           </div>
         </div>
-
-        {/* Production Warning Banner */}
-        {isVercel && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-amber-50 border-2 border-amber-300 rounded-xl p-4 mb-6 flex items-start gap-3"
-          >
-            <FaExclamationTriangle className="text-amber-500 text-xl flex-shrink-0 mt-0.5" />
-            <div>
-              <h3 className="font-bold text-amber-800">Read-Only Mode (Production)</h3>
-              <p className="text-amber-700 text-sm mt-1">
-                Uploading, editing, and deleting images is <strong>not available</strong> on the deployed site. 
-                Vercel uses a read-only file system. To manage images, run the site locally with <code className="bg-amber-100 px-1.5 py-0.5 rounded text-xs font-mono">npm run dev</code> and push changes to GitHub.
-              </p>
-            </div>
-          </motion.div>
-        )}
 
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

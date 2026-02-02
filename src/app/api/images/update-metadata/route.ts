@@ -1,46 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
-import { readFile, writeFile } from 'fs/promises'
-import { join } from 'path'
+import { createSupabaseAdmin } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
-interface ImageItem {
-  id: string
-  path: string
-  category: string
-  location: string
-  description: string
-  currentFile: string
-  type: string
-  lastUpdated?: string
-  uploadedBy?: string
-}
-
-interface GalleryItem {
-  id: string
-  title: string
-  category: string
-  image: string
-  featured: boolean
-}
-
 export async function PUT(request: NextRequest) {
   try {
-    // Check if running on Vercel (read-only file system)
-    if (process.env.VERCEL) {
-      return NextResponse.json(
-        { 
-          error: 'Read-only mode', 
-          details: 'Image editing is not available on production. Vercel uses a read-only file system. Please run locally with npm run dev to make changes.' 
-        }, 
-        { status: 403 }
-      )
-    }
-
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json(
+        { error: 'Supabase not configured', details: 'Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY' },
+        { status: 503 }
+      )
     }
 
     const { imageId, description, location } = await request.json()
@@ -49,41 +24,49 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Image ID is required' }, { status: 400 })
     }
 
-    const imagesMetadataPath = join(process.cwd(), 'src', 'data', 'images.json')
-    const imagesData = JSON.parse(await readFile(imagesMetadataPath, 'utf-8')) as ImageItem[]
-
-    const imageIndex = imagesData.findIndex((img) => img.id === imageId)
-    if (imageIndex === -1) {
-      return NextResponse.json({ error: 'Image not found' }, { status: 404 })
+    const supabase = createSupabaseAdmin()
+    const updates: Record<string, unknown> = {
+      last_updated: new Date().toISOString(),
+      uploaded_by: 'admin',
     }
-
     if (typeof description === 'string' && description.trim()) {
-      imagesData[imageIndex].description = description.trim()
+      updates.description = description.trim()
     }
     if (typeof location === 'string' && location.trim()) {
-      imagesData[imageIndex].location = location.trim()
+      updates.location = location.trim()
     }
-    imagesData[imageIndex].lastUpdated = new Date().toISOString()
-    imagesData[imageIndex].uploadedBy = 'admin'
 
-    await writeFile(imagesMetadataPath, JSON.stringify(imagesData, null, 2), 'utf-8')
+    const { data, error } = await supabase
+      .from('images')
+      .update(updates)
+      .eq('id', imageId)
+      .select()
+      .single()
 
-    // Sync gallery title when editing gallery images (displayed on site comes from gallery.json)
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Image not found' }, { status: 404 })
+      }
+      throw error
+    }
+
     if (imageId.startsWith('gallery-') && typeof description === 'string' && description.trim()) {
       const galleryId = imageId.replace('gallery-', '')
-      const galleryPath = join(process.cwd(), 'src', 'data', 'gallery.json')
-      const galleryData = JSON.parse(await readFile(galleryPath, 'utf-8')) as GalleryItem[]
-      const galleryIndex = galleryData.findIndex((item) => item.id === galleryId)
-      if (galleryIndex !== -1) {
-        galleryData[galleryIndex].title = description.trim()
-        await writeFile(galleryPath, JSON.stringify(galleryData, null, 2), 'utf-8')
-      }
+      await supabase
+        .from('gallery')
+        .update({ title: description.trim() })
+        .eq('id', parseInt(galleryId, 10))
     }
 
     return NextResponse.json({
       success: true,
       message: 'Image metadata updated successfully',
-      image: imagesData[imageIndex]
+      image: {
+        ...data,
+        currentFile: data.current_file,
+        lastUpdated: data.last_updated,
+        uploadedBy: data.uploaded_by,
+      },
     })
   } catch (error) {
     console.error('Metadata update error:', error)
