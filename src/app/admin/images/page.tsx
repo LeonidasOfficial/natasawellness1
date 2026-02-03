@@ -103,15 +103,18 @@ export default function ImageManagementPage() {
         // Ensure we have an array
         if (Array.isArray(data)) {
           setImages(data)
-          // filterImages() will be called automatically by useEffect when images changes
+          // Explicitly call filterImages with the new data to ensure it runs immediately
+          filterImages(data)
         } else {
           console.error('Invalid data format from API:', data)
           const fallback = imageMetadata as ImageItem[]
           setImages(fallback)
+          filterImages(fallback)
         }
       } else {
         const fallback = imageMetadata as ImageItem[]
         setImages(fallback)
+        filterImages(fallback)
       }
     } catch (error) {
       console.error('Failed to load images:', error)
@@ -120,8 +123,9 @@ export default function ImageManagementPage() {
     }
   }
 
-  const filterImages = () => {
-    let filtered = [...images]
+  const filterImages = (imagesToFilter?: ImageItem[]) => {
+    const sourceImages = imagesToFilter || images
+    let filtered = [...sourceImages]
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(img => img.category === selectedCategory)
     }
@@ -208,34 +212,7 @@ export default function ImageManagementPage() {
       if (res.ok && data.image) {
         toast.success('✅ Image saved successfully!')
         
-        // Normalize the image data to match our interface
-        const updatedImage: ImageItem = {
-          id: data.image.id,
-          path: data.image.path,
-          category: data.image.category,
-          location: data.image.location,
-          description: data.image.description,
-          currentFile: data.image.currentFile,
-          type: data.image.type,
-          lastUpdated: data.image.lastUpdated,
-          uploadedBy: data.image.uploadedBy,
-        }
-        
-        // Update state immediately with the returned image data
-        setImages(prev => {
-          const existingIndex = prev.findIndex(img => img.id === updatedImage.id)
-          if (existingIndex >= 0) {
-            // Replace existing
-            const updated = [...prev]
-            updated[existingIndex] = updatedImage
-            return updated
-          } else {
-            // Add new
-            return [...prev, updatedImage]
-          }
-        })
-        
-        // Force reload from server with cache busting
+        // Force reload from server to get fresh data (this will update state and filter)
         await loadImages(true)
         
         // Close modal after reload completes
@@ -243,7 +220,7 @@ export default function ImageManagementPage() {
           setSelectedImage(null)
           setNewImageFile(null)
           setNewImagePreview(null)
-        }, 300)
+        }, 500)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
@@ -323,36 +300,12 @@ export default function ImageManagementPage() {
       if (res.ok && data.image) {
         toast.success('✅ Gallery image added!')
         
-        // Normalize the image data to match our interface
-        const newImage: ImageItem = {
-          id: data.image.id,
-          path: data.image.path,
-          category: data.image.category,
-          location: data.image.location,
-          description: data.image.description,
-          currentFile: data.image.currentFile,
-          type: data.image.type,
-          lastUpdated: data.image.lastUpdated,
-          uploadedBy: data.image.uploadedBy,
-        }
-        
-        // Add new image to state immediately
-        setImages(prev => {
-          const existingIndex = prev.findIndex(img => img.id === newImage.id)
-          if (existingIndex >= 0) {
-            const updated = [...prev]
-            updated[existingIndex] = newImage
-            return updated
-          }
-          return [...prev, newImage]
-        })
-        
         // Ensure category filter shows Gallery images
         if (selectedCategory !== 'all' && selectedCategory !== 'Gallery') {
           setSelectedCategory('Gallery')
         }
         
-        // Force reload from server with cache busting
+        // Force reload from server to get fresh data (this will update state and filter)
         await loadImages(true)
         
         // Close modal after reload completes
@@ -362,7 +315,7 @@ export default function ImageManagementPage() {
           setNewGalleryCategory('facial')
           setNewGalleryFile(null)
           setNewGalleryPreview(null)
-        }, 300)
+        }, 500)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
