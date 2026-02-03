@@ -43,13 +43,23 @@ export async function GET() {
     
     if (sbUrl && sbKey) {
       const supabase = createSupabaseAdmin()
+      
+      // Try a count query first for diagnostics
+      const { count, error: countError } = await supabase
+        .from('images')
+        .select('*', { count: 'exact', head: true })
+      
+      // Then get actual data
       const { data, error } = await supabase.from('images').select('*').order('id')
       
       // Debug: Add header showing Supabase status and truncated URL for verification
       const urlPrefix = sbUrl.substring(0, 30)
+      const status = error 
+        ? `error:${error.message}` 
+        : `ok:${data?.length ?? 0}-rows,count:${count ?? 'null'},countErr:${countError?.message ?? 'none'}`
       responseHeaders = {
         ...headers,
-        'X-Supabase-Status': error ? `error:${error.message}` : `ok:${data?.length ?? 0}-rows`,
+        'X-Supabase-Status': status,
         'X-Supabase-URL': urlPrefix
       }
       
