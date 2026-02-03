@@ -125,6 +125,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const lastUpdated = new Date().toISOString()
+    
     const newImageMeta = {
       id: `gallery-${inserted.id}`,
       path: publicUrl,
@@ -134,11 +136,19 @@ export async function POST(request: NextRequest) {
       description: `Gallery image - ${title}`,
       current_file: uniqueName,
       type: 'gallery',
+      last_updated: lastUpdated,
+      uploaded_by: 'admin',
     }
 
     const { error: imagesInsertError } = await supabase.from('images').insert(newImageMeta)
     if (imagesInsertError) {
       console.error('Images table insert error:', imagesInsertError)
+    }
+
+    const headers = {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
     }
 
     return NextResponse.json({
@@ -150,7 +160,18 @@ export async function POST(request: NextRequest) {
         image: inserted.image,
         featured: inserted.featured ?? true,
       },
-    })
+      image: {
+        id: `gallery-${inserted.id}`,
+        path: publicUrl,
+        category: 'Gallery',
+        location: `Gallery Page - ${title}`,
+        description: `Gallery image - ${title}`,
+        currentFile: uniqueName,
+        type: 'gallery',
+        lastUpdated,
+        uploadedBy: 'admin',
+      },
+    }, { headers })
   } catch (error) {
     console.error('Gallery add error:', error)
     return NextResponse.json(

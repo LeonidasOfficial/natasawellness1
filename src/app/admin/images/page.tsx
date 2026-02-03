@@ -87,7 +87,13 @@ export default function ImageManagementPage() {
 
   const loadImages = async () => {
     try {
-      const res = await fetch('/api/images')
+      // Add cache-busting to ensure fresh data
+      const res = await fetch(`/api/images?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
       if (res.ok) {
         const data = await res.json()
         setImages(data)
@@ -184,6 +190,21 @@ export default function ImageManagementPage() {
       const data = await res.json()
       if (res.ok) {
         toast.success('✅ Image saved successfully!')
+        // Update the image in state immediately with new data from server
+        if (data.image) {
+          setImages(prev => prev.map(img => 
+            img.id === selectedImage.id 
+              ? { ...data.image }
+              : img
+          ))
+          // Also update filtered images
+          setFilteredImages(prev => prev.map(img => 
+            img.id === selectedImage.id 
+              ? { ...data.image }
+              : img
+          ))
+        }
+        // Then reload all images to ensure consistency
         await loadImages()
         setSelectedImage(null)
         setNewImageFile(null)
@@ -264,12 +285,21 @@ export default function ImageManagementPage() {
       const data = await res.json()
       if (res.ok) {
         toast.success('✅ Gallery image added!')
+        // Add the new image to state immediately
+        if (data.image) {
+          setImages(prev => [...prev, data.image])
+          setFilteredImages(prev => [...prev, data.image])
+        }
+        // Then reload all images to ensure consistency
         await loadImages()
-        setAddGalleryModalOpen(false)
-        setNewGalleryTitle('')
-        setNewGalleryCategory('facial')
-        setNewGalleryFile(null)
-        setNewGalleryPreview(null)
+        // Close modal after a brief delay
+        setTimeout(() => {
+          setAddGalleryModalOpen(false)
+          setNewGalleryTitle('')
+          setNewGalleryCategory('facial')
+          setNewGalleryFile(null)
+          setNewGalleryPreview(null)
+        }, 100)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {

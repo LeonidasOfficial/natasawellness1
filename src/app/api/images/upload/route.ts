@@ -86,8 +86,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    const lastUpdated = new Date().toISOString()
+    
     // Use upsert to create the row if it doesn't exist (e.g., when Supabase tables are empty)
-    const { error: upsertError } = await supabase
+    const { error: upsertError, data: upsertedData } = await supabase
       .from('images')
       .upsert({
         id: imageId,
@@ -98,9 +100,11 @@ export async function POST(request: NextRequest) {
         location: location || '',
         current_file: currentFile,
         type,
-        last_updated: new Date().toISOString(),
+        last_updated: lastUpdated,
         uploaded_by: 'admin',
       }, { onConflict: 'id' })
+      .select()
+      .single()
 
     if (upsertError) {
       console.error('Metadata upsert error:', upsertError)
@@ -110,12 +114,29 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const headers = {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Image uploaded successfully',
       path: publicUrl,
       storagePath,
-    })
+      image: {
+        id: imageId,
+        path: publicUrl,
+        category,
+        description: description || '',
+        location: location || '',
+        currentFile: currentFile,
+        type,
+        lastUpdated,
+        uploadedBy: 'admin',
+      },
+    }, { headers })
   } catch (error) {
     console.error('Image upload error:', error)
     return NextResponse.json(
