@@ -25,7 +25,7 @@ async function getStaticImages() {
 }
 
 export async function GET() {
-  const headers = {
+  const headers: Record<string, string> = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
@@ -36,8 +36,15 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Get all images from Supabase
-      const { data, error } = await supabase.from('images').select('*').limit(1000)
+      // Get all images from Supabase with explicit limit
+      const { data, error, count } = await supabase
+        .from('images')
+        .select('*', { count: 'exact' })
+        .limit(1000)
+      
+      headers['X-DB-Rows'] = String(data?.length ?? 0)
+      headers['X-DB-Count'] = String(count ?? 0)
+      headers['X-DB-Error'] = error?.message ?? 'none'
       
       if (!error && data && data.length > 0) {
         return NextResponse.json(data.map(mapImageRow), { headers })
@@ -50,6 +57,7 @@ export async function GET() {
 
     // Fallback to static images
     const staticImages = await getStaticImages()
+    headers['X-Source'] = 'static'
     return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)
