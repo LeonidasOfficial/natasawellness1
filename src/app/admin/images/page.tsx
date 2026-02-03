@@ -85,28 +85,36 @@ export default function ImageManagementPage() {
     }
   }
 
-  const loadImages = async () => {
+  const loadImages = async (forceRefresh = false) => {
     try {
-      // Add cache-busting to ensure fresh data
-      const res = await fetch(`/api/images?t=${Date.now()}`, {
+      // Add cache-busting to ensure fresh data - use timestamp + random to prevent any caching
+      const cacheBuster = forceRefresh ? `&_=${Date.now()}-${Math.random()}` : `?t=${Date.now()}`
+      const res = await fetch(`/api/images${cacheBuster}`, {
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
         },
       })
       if (res.ok) {
         const data = await res.json()
-        setImages(data)
-        // filterImages() will be called automatically by useEffect when images changes
+        // Ensure we have an array
+        if (Array.isArray(data)) {
+          setImages(data)
+          // filterImages() will be called automatically by useEffect when images changes
+        } else {
+          console.error('Invalid data format from API:', data)
+          const fallback = imageMetadata as ImageItem[]
+          setImages(fallback)
+        }
       } else {
         const fallback = imageMetadata as ImageItem[]
         setImages(fallback)
-        // filterImages() will be called automatically
       }
-    } catch {
+    } catch (error) {
+      console.error('Failed to load images:', error)
       const fallback = imageMetadata as ImageItem[]
       setImages(fallback)
-      // filterImages() will be called automatically
     }
   }
 
@@ -188,12 +196,46 @@ export default function ImageManagementPage() {
       formData.append('description', editedDescription)
       formData.append('location', editedLocation)
 
-      const res = await fetch('/api/images/upload', { method: 'POST', body: formData })
+      const res = await fetch('/api/images/upload', { 
+        method: 'POST', 
+        body: formData,
+        cache: 'no-store',
+      })
       const data = await res.json()
-      if (res.ok) {
+      
+      if (res.ok && data.image) {
         toast.success('✅ Image saved successfully!')
-        // Reload images first to get fresh data from server
-        await loadImages()
+        
+        // Normalize the image data to match our interface
+        const updatedImage: ImageItem = {
+          id: data.image.id,
+          path: data.image.path,
+          category: data.image.category,
+          location: data.image.location,
+          description: data.image.description,
+          currentFile: data.image.currentFile,
+          type: data.image.type,
+          lastUpdated: data.image.lastUpdated,
+          uploadedBy: data.image.uploadedBy,
+        }
+        
+        // Update state immediately with the returned image data
+        setImages(prev => {
+          const existingIndex = prev.findIndex(img => img.id === updatedImage.id)
+          if (existingIndex >= 0) {
+            // Replace existing
+            const updated = [...prev]
+            updated[existingIndex] = updatedImage
+            return updated
+          } else {
+            // Add new
+            return [...prev, updatedImage]
+          }
+        })
+        
+        // Force reload from server with cache busting
+        await loadImages(true)
+        
         // Close modal after reload completes
         setTimeout(() => {
           setSelectedImage(null)
@@ -272,17 +314,46 @@ export default function ImageManagementPage() {
         method: 'POST',
         body: formData,
         credentials: 'include',
+        cache: 'no-store',
       })
       const data = await res.json()
-      if (res.ok) {
+      
+      if (res.ok && data.image) {
         toast.success('✅ Gallery image added!')
-        // Reload images first to get fresh data from server
-        await loadImages()
+        
+        // Normalize the image data to match our interface
+        const newImage: ImageItem = {
+          id: data.image.id,
+          path: data.image.path,
+          category: data.image.category,
+          location: data.image.location,
+          description: data.image.description,
+          currentFile: data.image.currentFile,
+          type: data.image.type,
+          lastUpdated: data.image.lastUpdated,
+          uploadedBy: data.image.uploadedBy,
+        }
+        
+        // Add new image to state immediately
+        setImages(prev => {
+          const existingIndex = prev.findIndex(img => img.id === newImage.id)
+          if (existingIndex >= 0) {
+            const updated = [...prev]
+            updated[existingIndex] = newImage
+            return updated
+          }
+          return [...prev, newImage]
+        })
+        
         // Ensure category filter shows Gallery images
         if (selectedCategory !== 'all' && selectedCategory !== 'Gallery') {
           setSelectedCategory('Gallery')
         }
-        // Close modal after a brief delay
+        
+        // Force reload from server with cache busting
+        await loadImages(true)
+        
+        // Close modal after reload completes
         setTimeout(() => {
           setAddGalleryModalOpen(false)
           setNewGalleryTitle('')
@@ -392,7 +463,7 @@ export default function ImageManagementPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {imagesToShow.map((image) => (
                       <motion.div
-                        key={image.id}
+                        key={`${image.id}-${image.lastUpdated || image.path}`}
                         initial={{ opacity: 0, scale: 0.96 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="bg-light rounded-xl overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group border-2 border-transparent hover:border-primary/30"
@@ -400,6 +471,7 @@ export default function ImageManagementPage() {
                       >
                         <div className="relative aspect-video bg-gray-100">
                           <img
+                            key={`${image.id}-${image.lastUpdated || image.path}`}
                             src={`${image.path}?t=${image.lastUpdated ? new Date(image.lastUpdated).getTime() : Date.now()}`}
                             alt={image.description}
                             className="w-full h-full object-cover"
@@ -490,7 +562,13 @@ export default function ImageManagementPage() {
                     <div>
                       <h3 className="font-semibold text-dark mb-3">Current</h3>
                       <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200">
-                        <img src={`${selectedImage.path}?t=${Date.now()}`} alt="Current" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '/img/placeholder.jpg' }} />
+                        <img 
+                          key={`current-${selectedImage.id}-${selectedImage.lastUpdated || Date.now()}`}
+                          src={`${selectedImage.path}?t=${selectedImage.lastUpdated ? new Date(selectedImage.lastUpdated).getTime() : Date.now()}`} 
+                          alt="Current" 
+                          className="w-full h-full object-cover" 
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/img/placeholder.jpg' }} 
+                        />
                       </div>
                       <p className="text-xs text-gray-500 mt-2 font-mono">{selectedImage.currentFile}</p>
                     </div>
