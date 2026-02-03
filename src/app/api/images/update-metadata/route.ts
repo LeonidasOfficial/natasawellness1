@@ -25,28 +25,58 @@ export async function PUT(request: NextRequest) {
     }
 
     const supabase = createSupabaseAdmin()
-    const updates: Record<string, unknown> = {
+    
+    // First try to get existing row
+    const { data: existing } = await supabase
+      .from('images')
+      .select('*')
+      .eq('id', imageId)
+      .single()
+
+    // Determine values - use existing or derive from imageId
+    const descValue = typeof description === 'string' && description.trim() ? description.trim() : (existing?.description || '')
+    const locValue = typeof location === 'string' && location.trim() ? location.trim() : (existing?.location || '')
+    
+    // Derive category and type from imageId if creating new row
+    let category = existing?.category || 'Gallery'
+    let type = existing?.type || 'gallery'
+    if (!existing) {
+      if (imageId.startsWith('hero-')) {
+        category = 'Hero Section'
+        type = 'hero'
+      } else if (imageId === 'about') {
+        category = 'About Section'
+        type = 'content'
+      } else if (imageId.startsWith('service-') || imageId.includes('manicure') || imageId.includes('massage') || imageId.includes('facial')) {
+        category = 'Services'
+        type = 'icon'
+      } else if (imageId === 'page-header') {
+        category = 'Page Headers'
+        type = 'background'
+      }
+    }
+
+    // Use upsert to create or update the row
+    const upsertData = {
+      id: imageId,
+      path: existing?.path || `/img/${imageId.replace('gallery-', 'gallery-')}.jpg`,
+      storage_path: existing?.storage_path || null,
+      category,
+      description: descValue,
+      location: locValue,
+      current_file: existing?.current_file || `${imageId}.jpg`,
+      type,
       last_updated: new Date().toISOString(),
       uploaded_by: 'admin',
-    }
-    if (typeof description === 'string' && description.trim()) {
-      updates.description = description.trim()
-    }
-    if (typeof location === 'string' && location.trim()) {
-      updates.location = location.trim()
     }
 
     const { data, error } = await supabase
       .from('images')
-      .update(updates)
-      .eq('id', imageId)
+      .upsert(upsertData, { onConflict: 'id' })
       .select()
       .single()
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json({ error: 'Image not found' }, { status: 404 })
-      }
       throw error
     }
 

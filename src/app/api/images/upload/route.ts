@@ -60,22 +60,52 @@ export async function POST(request: NextRequest) {
     const { data: urlData } = supabase.storage.from('images').getPublicUrl(storagePath)
     const publicUrl = urlData.publicUrl
 
-    const { error: updateError } = await supabase
+    // Get existing row data if any (to preserve category/type)
+    const { data: existing } = await supabase
       .from('images')
-      .update({
+      .select('category, type')
+      .eq('id', imageId)
+      .single()
+
+    // Derive category and type from imageId if creating new row
+    let category = existing?.category || 'Gallery'
+    let type = existing?.type || 'gallery'
+    if (!existing) {
+      if (imageId.startsWith('hero-')) {
+        category = 'Hero Section'
+        type = imageId === 'hero-bg' ? 'background' : 'hero'
+      } else if (imageId === 'about') {
+        category = 'About Section'
+        type = 'content'
+      } else if (imageId.startsWith('service-') || ['skin-care', 'manicure', 'pedicure', 'makeup', 'haircut', 'massage', 'facials', 'waxing', 'eyelashes', 'spraytan'].includes(imageId)) {
+        category = 'Services'
+        type = 'icon'
+      } else if (imageId === 'page-header') {
+        category = 'Page Headers'
+        type = 'background'
+      }
+    }
+
+    // Use upsert to create the row if it doesn't exist (e.g., when Supabase tables are empty)
+    const { error: upsertError } = await supabase
+      .from('images')
+      .upsert({
+        id: imageId,
         path: publicUrl,
         storage_path: storagePath,
-        description: description || undefined,
-        location: location || undefined,
+        category,
+        description: description || '',
+        location: location || '',
+        current_file: currentFile,
+        type,
         last_updated: new Date().toISOString(),
         uploaded_by: 'admin',
-      })
-      .eq('id', imageId)
+      }, { onConflict: 'id' })
 
-    if (updateError) {
-      console.error('Metadata update error:', updateError)
+    if (upsertError) {
+      console.error('Metadata upsert error:', upsertError)
       return NextResponse.json(
-        { error: 'Failed to update metadata', details: updateError.message },
+        { error: 'Failed to save metadata', details: upsertError.message },
         { status: 500 }
       )
     }
