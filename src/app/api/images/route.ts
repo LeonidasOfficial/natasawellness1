@@ -36,9 +36,17 @@ export async function GET() {
     const staticImages = await getStaticImages()
     
     // If Supabase is configured, merge any updated data from there
+    let responseHeaders = { ...headers, 'X-Supabase-Status': 'not-configured' }
+    
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('images').select('*').order('id')
+      
+      // Debug: Add header showing Supabase status
+      responseHeaders = {
+        ...headers,
+        'X-Supabase-Status': error ? `error:${error.message}` : `ok:${data?.length ?? 0}-rows`
+      }
       
       if (!error && data && data.length > 0) {
         // Create a map of Supabase images by ID for fast lookup
@@ -56,11 +64,11 @@ export async function GET() {
           .filter(row => !staticIds.has(row.id))
           .map(mapImageRow)
         
-        return NextResponse.json([...merged, ...newImages], { headers })
+        return NextResponse.json([...merged, ...newImages], { headers: responseHeaders })
       }
     }
 
-    return NextResponse.json(staticImages, { headers })
+    return NextResponse.json(staticImages, { headers: responseHeaders })
   } catch (error) {
     console.error('Failed to read images:', error)
     return NextResponse.json({ error: 'Failed to load images' }, { status: 500, headers })
