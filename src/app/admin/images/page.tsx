@@ -107,11 +107,15 @@ export default function ImageManagementPage() {
         const data = await res.json()
         // Ensure we have an array
         if (Array.isArray(data)) {
-          console.log(`Loaded ${data.length} images from API`)
+          console.log(`[Admin Images] Loaded ${data.length} images from API`)
+          const galleryImages = data.filter(img => img.category === 'Gallery')
+          console.log(`[Admin Images] Found ${galleryImages.length} Gallery images`)
+          
           // Use functional update to ensure we're working with latest state
           setImages(prev => {
             // Force update by creating new array reference
             const newImages = [...data]
+            console.log(`[Admin Images] Setting ${newImages.length} images in state`)
             return newImages
           })
           // Explicitly call filterImages with the new data to ensure it runs immediately
@@ -152,6 +156,7 @@ export default function ImageManagementPage() {
         img.currentFile.toLowerCase().includes(query)
       )
     }
+    console.log(`[Admin Images] Filtered to ${filtered.length} images (category: ${selectedCategory}, query: "${searchQuery}")`)
     setFilteredImages(filtered)
   }
 

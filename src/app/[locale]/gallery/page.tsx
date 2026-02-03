@@ -26,34 +26,57 @@ export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
 
-  const loadGallery = async () => {
+  const loadGallery = async (forceRefresh = false) => {
     try {
-      const res = await fetch(`/api/gallery?t=${Date.now()}`, {
+      const timestamp = Date.now()
+      const random = Math.random()
+      const cacheBuster = forceRefresh ? `?_=${timestamp}-${random}` : `?t=${timestamp}`
+      
+      const res = await fetch(`/api/gallery${cacheBuster}`, {
+        method: 'GET',
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'X-Requested-With': 'XMLHttpRequest',
         },
       })
+      
       if (res.ok) {
         const data = await res.json()
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
+          console.log(`[Gallery Page] Loaded ${data.length} gallery items`)
+          // Always update state, even if empty (to clear old data)
           setGalleryData(data)
+        } else {
+          console.error('[Gallery Page] Invalid data format:', data)
         }
+      } else {
+        console.error('[Gallery Page] Failed to fetch gallery:', res.status, res.statusText)
       }
     } catch (error) {
-      console.error('Failed to load gallery:', error)
+      console.error('[Gallery Page] Failed to load gallery:', error)
     }
   }
 
   useEffect(() => {
-    loadGallery()
+    loadGallery(true) // Force refresh on mount
     
     // Refresh when window regains focus (user returns from admin)
     const handleFocus = () => {
-      loadGallery()
+      loadGallery(true)
     }
     window.addEventListener('focus', handleFocus)
-    return () => window.removeEventListener('focus', handleFocus)
+    
+    // Also refresh periodically to catch updates
+    const interval = setInterval(() => {
+      loadGallery(true)
+    }, 10000) // Every 10 seconds
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      clearInterval(interval)
+    }
   }, [])
 
   const lightboxSlides = galleryData.map(item => ({

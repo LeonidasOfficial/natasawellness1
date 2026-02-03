@@ -23,11 +23,16 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Get all gallery items from Supabase
-      const { data, error } = await supabase.from('gallery').select('*').limit(1000)
+      // Get all gallery items from Supabase, ordered by id DESC to get newest first
+      const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('id', { ascending: false })
+        .limit(1000)
       
-      if (!error && data && data.length > 0) {
-        const galleryItems = data.map((row) => ({
+      if (!error) {
+        // Always return Supabase data if available, even if empty
+        const galleryItems = (data || []).map((row) => ({
           id: String(row.id),
           title: row.title,
           category: row.category,
@@ -35,11 +40,14 @@ export async function GET() {
           featured: row.featured ?? true,
         }))
         
+        console.log(`[Gallery API] Returning ${galleryItems.length} gallery items from Supabase`)
         return NextResponse.json(galleryItems, { headers })
       }
       
       if (error) {
         console.error('Supabase gallery query error:', error)
+        // Don't fall back to static if there's a real error - return empty array
+        return NextResponse.json([], { headers })
       }
     }
 
@@ -140,9 +148,17 @@ export async function POST(request: NextRequest) {
       uploaded_by: 'admin',
     }
 
-    const { error: imagesInsertError } = await supabase.from('images').insert(newImageMeta)
+    // Use upsert instead of insert to handle conflicts
+    const { error: imagesInsertError } = await supabase
+      .from('images')
+      .upsert(newImageMeta, { onConflict: 'id' })
+      .select()
+    
     if (imagesInsertError) {
-      console.error('Images table insert error:', imagesInsertError)
+      console.error('Images table upsert error:', imagesInsertError)
+      // Don't fail the request, but log the error
+    } else {
+      console.log(`[Gallery API] Successfully saved image metadata with id: ${newImageMeta.id}`)
     }
 
     const headers = {
