@@ -97,14 +97,16 @@ export default function ImageManagementPage() {
       if (res.ok) {
         const data = await res.json()
         setImages(data)
-        setFilteredImages(data)
+        // filterImages() will be called automatically by useEffect when images changes
       } else {
-        setImages(imageMetadata as ImageItem[])
-        setFilteredImages(imageMetadata as ImageItem[])
+        const fallback = imageMetadata as ImageItem[]
+        setImages(fallback)
+        // filterImages() will be called automatically
       }
     } catch {
-      setImages(imageMetadata as ImageItem[])
-      setFilteredImages(imageMetadata as ImageItem[])
+      const fallback = imageMetadata as ImageItem[]
+      setImages(fallback)
+      // filterImages() will be called automatically
     }
   }
 
@@ -190,25 +192,14 @@ export default function ImageManagementPage() {
       const data = await res.json()
       if (res.ok) {
         toast.success('✅ Image saved successfully!')
-        // Update the image in state immediately with new data from server
-        if (data.image) {
-          setImages(prev => prev.map(img => 
-            img.id === selectedImage.id 
-              ? { ...data.image }
-              : img
-          ))
-          // Also update filtered images
-          setFilteredImages(prev => prev.map(img => 
-            img.id === selectedImage.id 
-              ? { ...data.image }
-              : img
-          ))
-        }
-        // Then reload all images to ensure consistency
+        // Reload images first to get fresh data from server
         await loadImages()
-        setSelectedImage(null)
-        setNewImageFile(null)
-        setNewImagePreview(null)
+        // Close modal after reload completes
+        setTimeout(() => {
+          setSelectedImage(null)
+          setNewImageFile(null)
+          setNewImagePreview(null)
+        }, 300)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
@@ -285,13 +276,12 @@ export default function ImageManagementPage() {
       const data = await res.json()
       if (res.ok) {
         toast.success('✅ Gallery image added!')
-        // Add the new image to state immediately
-        if (data.image) {
-          setImages(prev => [...prev, data.image])
-          setFilteredImages(prev => [...prev, data.image])
-        }
-        // Then reload all images to ensure consistency
+        // Reload images first to get fresh data from server
         await loadImages()
+        // Ensure category filter shows Gallery images
+        if (selectedCategory !== 'all' && selectedCategory !== 'Gallery') {
+          setSelectedCategory('Gallery')
+        }
         // Close modal after a brief delay
         setTimeout(() => {
           setAddGalleryModalOpen(false)
@@ -299,7 +289,7 @@ export default function ImageManagementPage() {
           setNewGalleryCategory('facial')
           setNewGalleryFile(null)
           setNewGalleryPreview(null)
-        }, 100)
+        }, 300)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {

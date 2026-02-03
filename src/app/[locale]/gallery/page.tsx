@@ -26,11 +26,34 @@ export default function GalleryPage() {
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
 
+  const loadGallery = async () => {
+    try {
+      const res = await fetch(`/api/gallery?t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        if (Array.isArray(data) && data.length > 0) {
+          setGalleryData(data)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load gallery:', error)
+    }
+  }
+
   useEffect(() => {
-    fetch('/api/gallery')
-      .then((res) => res.ok ? res.json() : [])
-      .then((data) => Array.isArray(data) && data.length > 0 ? setGalleryData(data) : null)
-      .catch(() => {})
+    loadGallery()
+    
+    // Refresh when window regains focus (user returns from admin)
+    const handleFocus = () => {
+      loadGallery()
+    }
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
   }, [])
 
   const lightboxSlides = galleryData.map(item => ({
