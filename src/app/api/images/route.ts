@@ -36,14 +36,24 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Get all images from Supabase
+      // Get all images from Supabase, ordered by last_updated DESC to get newest first
       const { data, error } = await supabase
         .from('images')
         .select('*', { count: 'exact' })
+        .order('last_updated', { ascending: false, nullsFirst: false })
         .limit(1000)
       
       if (!error && data && data.length > 0) {
-        return NextResponse.json(data.map(mapImageRow), { headers })
+        // Map and return the data
+        const mappedData = data.map(mapImageRow)
+        console.log(`[API] Returning ${mappedData.length} images from Supabase`)
+        return NextResponse.json(mappedData, { headers })
+      }
+      
+      // If no data but no error, return empty array instead of falling back
+      if (!error && (!data || data.length === 0)) {
+        console.log('[API] No images found in Supabase, returning empty array')
+        return NextResponse.json([], { headers })
       }
       
       if (error) {

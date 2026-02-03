@@ -60,6 +60,7 @@ export default function ImageManagementPage() {
   const [newGalleryFile, setNewGalleryFile] = useState<File | null>(null)
   const [newGalleryPreview, setNewGalleryPreview] = useState<string | null>(null)
   const [addGalleryModalOpen, setAddGalleryModalOpen] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)
   const addGalleryFileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -91,20 +92,32 @@ export default function ImageManagementPage() {
       const timestamp = Date.now()
       const random = Math.random()
       const cacheBuster = forceRefresh ? `?_=${timestamp}-${random}` : `?t=${timestamp}`
+      
       const res = await fetch(`/api/images${cacheBuster}`, {
+        method: 'GET',
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
+          'X-Requested-With': 'XMLHttpRequest',
         },
       })
+      
       if (res.ok) {
         const data = await res.json()
         // Ensure we have an array
         if (Array.isArray(data)) {
-          setImages(data)
+          console.log(`Loaded ${data.length} images from API`)
+          // Use functional update to ensure we're working with latest state
+          setImages(prev => {
+            // Force update by creating new array reference
+            const newImages = [...data]
+            return newImages
+          })
           // Explicitly call filterImages with the new data to ensure it runs immediately
           filterImages(data)
+          // Force a re-render by updating refresh key
+          setRefreshKey(prev => prev + 1)
         } else {
           console.error('Invalid data format from API:', data)
           const fallback = imageMetadata as ImageItem[]
@@ -112,6 +125,7 @@ export default function ImageManagementPage() {
           filterImages(fallback)
         }
       } else {
+        console.error('Failed to fetch images:', res.status, res.statusText)
         const fallback = imageMetadata as ImageItem[]
         setImages(fallback)
         filterImages(fallback)
@@ -120,6 +134,7 @@ export default function ImageManagementPage() {
       console.error('Failed to load images:', error)
       const fallback = imageMetadata as ImageItem[]
       setImages(fallback)
+      filterImages(fallback)
     }
   }
 
@@ -212,15 +227,24 @@ export default function ImageManagementPage() {
       if (res.ok && data.image) {
         toast.success('✅ Image saved successfully!')
         
-        // Force reload from server to get fresh data (this will update state and filter)
+        // Clear uploading state
+        setUploadingImage(null)
+        
+        // Wait a moment for database to commit, then force reload
+        await new Promise(resolve => setTimeout(resolve, 500))
         await loadImages(true)
+        
+        // Force another refresh after a short delay to ensure we have latest data
+        setTimeout(async () => {
+          await loadImages(true)
+        }, 1000)
         
         // Close modal after reload completes
         setTimeout(() => {
           setSelectedImage(null)
           setNewImageFile(null)
           setNewImagePreview(null)
-        }, 500)
+        }, 1500)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
@@ -305,8 +329,14 @@ export default function ImageManagementPage() {
           setSelectedCategory('Gallery')
         }
         
-        // Force reload from server to get fresh data (this will update state and filter)
+        // Wait a moment for database to commit, then force reload
+        await new Promise(resolve => setTimeout(resolve, 500))
         await loadImages(true)
+        
+        // Force another refresh after a short delay to ensure we have latest data
+        setTimeout(async () => {
+          await loadImages(true)
+        }, 1000)
         
         // Close modal after reload completes
         setTimeout(() => {
@@ -315,7 +345,7 @@ export default function ImageManagementPage() {
           setNewGalleryCategory('facial')
           setNewGalleryFile(null)
           setNewGalleryPreview(null)
-        }, 500)
+        }, 1500)
       } else if (res.status === 503 && data.error === 'Supabase not configured') {
         toast.error('⚠️ Supabase not configured. Add env variables.', { duration: 5000 })
       } else {
@@ -418,7 +448,7 @@ export default function ImageManagementPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {imagesToShow.map((image) => (
                       <motion.div
-                        key={`${image.id}-${image.lastUpdated || image.path}`}
+                        key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
                         initial={{ opacity: 0, scale: 0.96 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="bg-light rounded-xl overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group border-2 border-transparent hover:border-primary/30"
