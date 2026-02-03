@@ -145,7 +145,11 @@ export async function POST(request: NextRequest) {
       type: 'gallery',
     }
 
-    await supabase.from('images').insert(newImageMeta)
+    const { error: imagesInsertError } = await supabase.from('images').insert(newImageMeta)
+    if (imagesInsertError) {
+      console.error('Images table insert error:', imagesInsertError)
+      // Don't fail the request, but log the error - the gallery item was already created
+    }
 
     return NextResponse.json({
       success: true,
