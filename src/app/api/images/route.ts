@@ -25,43 +25,39 @@ async function getStaticImages() {
 }
 
 export async function GET() {
-  const headers = {
+  const headers: Record<string, string> = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
   }
   
   try {
-    // Always start with static images as base
-    const staticImages = await getStaticImages()
-    
-    // If Supabase is configured, merge any updated data from there
+    // If Supabase is configured, return Supabase data
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Use explicit limit to ensure we get all rows (Supabase can have unexpected default limits)
+      // Get all images from Supabase - use explicit limit
       const { data, error } = await supabase.from('images').select('*').limit(1000)
       
+      // Debug headers
+      headers['X-Supabase-Rows'] = String(data?.length ?? 0)
+      headers['X-Supabase-Error'] = error?.message ?? 'none'
+      
       if (!error && data && data.length > 0) {
-        // Create a map of Supabase images by ID for fast lookup
-        const supabaseMap = new Map(data.map(row => [row.id, mapImageRow(row)]))
-        
-        // Merge: use Supabase data where available, otherwise static
-        const merged = staticImages.map((staticImg: Record<string, unknown>) => {
-          const supabaseVersion = supabaseMap.get(staticImg.id as string)
-          return supabaseVersion || staticImg
-        })
-        
-        // Also include any Supabase images not in static (e.g., new gallery items)
-        const staticIds = new Set(staticImages.map((img: Record<string, unknown>) => img.id))
-        const newImages = data
-          .filter(row => !staticIds.has(row.id))
-          .map(mapImageRow)
-        
-        return NextResponse.json([...merged, ...newImages], { headers })
+        // Return all Supabase data directly
+        headers['X-Source'] = 'supabase'
+        return NextResponse.json(data.map(mapImageRow), { headers })
+      }
+      
+      // If Supabase query failed or returned empty, fall back to static
+      if (error) {
+        console.error('Supabase query error:', error)
       }
     }
 
+    // Fallback to static images
+    const staticImages = await getStaticImages()
+    headers['X-Source'] = 'static'
     return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)

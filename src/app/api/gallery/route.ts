@@ -12,25 +12,25 @@ async function getStaticGallery() {
 }
 
 export async function GET() {
-  const headers = {
+  const headers: Record<string, string> = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
   }
   
   try {
-    // Always start with static gallery as base
-    const staticGallery = await getStaticGallery()
-    
-    // If Supabase is configured, merge any updated data from there
+    // If Supabase is configured, return Supabase data
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
-      // Note: Avoid .order() when using RLS to prevent potential issues
-      // Use explicit limit to ensure we get all rows
+      
+      // Get all gallery items from Supabase
       const { data, error } = await supabase.from('gallery').select('*').limit(1000)
       
+      headers['X-Supabase-Rows'] = String(data?.length ?? 0)
+      headers['X-Supabase-Error'] = error?.message ?? 'none'
+      
       if (!error && data && data.length > 0) {
-        const supabaseGallery = data.map((row) => ({
+        const galleryItems = data.map((row) => ({
           id: String(row.id),
           title: row.title,
           category: row.category,
@@ -38,23 +38,18 @@ export async function GET() {
           featured: row.featured ?? true,
         }))
         
-        // Create a map of Supabase items by ID
-        const supabaseMap = new Map(supabaseGallery.map(item => [item.id, item]))
-        
-        // Merge: use Supabase data where available, otherwise static
-        const merged = staticGallery.map((staticItem: Record<string, unknown>) => {
-          const supabaseVersion = supabaseMap.get(String(staticItem.id))
-          return supabaseVersion || staticItem
-        })
-        
-        // Also include any Supabase items not in static (new gallery items)
-        const staticIds = new Set(staticGallery.map((item: Record<string, unknown>) => String(item.id)))
-        const newItems = supabaseGallery.filter(item => !staticIds.has(item.id))
-        
-        return NextResponse.json([...merged, ...newItems], { headers })
+        headers['X-Source'] = 'supabase'
+        return NextResponse.json(galleryItems, { headers })
+      }
+      
+      if (error) {
+        console.error('Supabase gallery query error:', error)
       }
     }
 
+    // Fallback to static gallery
+    const staticGallery = await getStaticGallery()
+    headers['X-Source'] = 'static'
     return NextResponse.json(staticGallery, { headers })
   } catch (error) {
     console.error('Failed to read gallery:', error)
@@ -149,7 +144,6 @@ export async function POST(request: NextRequest) {
     const { error: imagesInsertError } = await supabase.from('images').insert(newImageMeta)
     if (imagesInsertError) {
       console.error('Images table insert error:', imagesInsertError)
-      // Don't fail the request, but log the error - the gallery item was already created
     }
 
     return NextResponse.json({
