@@ -13,22 +13,41 @@ async function getStaticGallery() {
 
 export async function GET() {
   try {
+    // Always start with static gallery as base
+    const staticGallery = await getStaticGallery()
+    
+    // If Supabase is configured, merge any updated data from there
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('gallery').select('*').order('id')
-      if (error) throw error
-      const mapped = (data || []).map((row) => ({
-        id: String(row.id),
-        title: row.title,
-        category: row.category,
-        image: row.image,
-        featured: row.featured ?? true,
-      }))
-      // Fallback to static JSON when Supabase tables are empty (before data migration)
-      if (mapped.length > 0) return NextResponse.json(mapped)
+      
+      if (!error && data && data.length > 0) {
+        const supabaseGallery = data.map((row) => ({
+          id: String(row.id),
+          title: row.title,
+          category: row.category,
+          image: row.image,
+          featured: row.featured ?? true,
+        }))
+        
+        // Create a map of Supabase items by ID
+        const supabaseMap = new Map(supabaseGallery.map(item => [item.id, item]))
+        
+        // Merge: use Supabase data where available, otherwise static
+        const merged = staticGallery.map((staticItem: Record<string, unknown>) => {
+          const supabaseVersion = supabaseMap.get(String(staticItem.id))
+          return supabaseVersion || staticItem
+        })
+        
+        // Also include any Supabase items not in static (new gallery items)
+        const staticIds = new Set(staticGallery.map((item: Record<string, unknown>) => String(item.id)))
+        const newItems = supabaseGallery.filter(item => !staticIds.has(item.id))
+        
+        return NextResponse.json([...merged, ...newItems])
+      }
     }
 
-    return NextResponse.json(await getStaticGallery())
+    return NextResponse.json(staticGallery)
   } catch (error) {
     console.error('Failed to read gallery:', error)
     return NextResponse.json({ error: 'Failed to load gallery' }, { status: 500 })

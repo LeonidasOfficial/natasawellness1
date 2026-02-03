@@ -26,17 +26,35 @@ async function getStaticImages() {
 
 export async function GET() {
   try {
+    // Always start with static images as base
+    const staticImages = await getStaticImages()
+    
+    // If Supabase is configured, merge any updated data from there
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('images').select('*').order('id')
-      if (error) throw error
-      const mapped = (data || []).map(mapImageRow)
-      // Fallback to static JSON when Supabase tables are empty (before data migration)
-      if (mapped.length > 0) return NextResponse.json(mapped)
+      
+      if (!error && data && data.length > 0) {
+        // Create a map of Supabase images by ID for fast lookup
+        const supabaseMap = new Map(data.map(row => [row.id, mapImageRow(row)]))
+        
+        // Merge: use Supabase data where available, otherwise static
+        const merged = staticImages.map((staticImg: Record<string, unknown>) => {
+          const supabaseVersion = supabaseMap.get(staticImg.id as string)
+          return supabaseVersion || staticImg
+        })
+        
+        // Also include any Supabase images not in static (e.g., new gallery items)
+        const staticIds = new Set(staticImages.map((img: Record<string, unknown>) => img.id))
+        const newImages = data
+          .filter(row => !staticIds.has(row.id))
+          .map(mapImageRow)
+        
+        return NextResponse.json([...merged, ...newImages])
+      }
     }
 
-    const imagesData = await getStaticImages()
-    return NextResponse.json(imagesData)
+    return NextResponse.json(staticImages)
   } catch (error) {
     console.error('Failed to read images:', error)
     return NextResponse.json({ error: 'Failed to load images' }, { status: 500 })
