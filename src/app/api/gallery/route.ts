@@ -12,6 +12,12 @@ async function getStaticGallery() {
 }
 
 export async function GET() {
+  const headers = {
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  }
+  
   try {
     // Always start with static gallery as base
     const staticGallery = await getStaticGallery()
@@ -43,14 +49,14 @@ export async function GET() {
         const staticIds = new Set(staticGallery.map((item: Record<string, unknown>) => String(item.id)))
         const newItems = supabaseGallery.filter(item => !staticIds.has(item.id))
         
-        return NextResponse.json([...merged, ...newItems])
+        return NextResponse.json([...merged, ...newItems], { headers })
       }
     }
 
-    return NextResponse.json(staticGallery)
+    return NextResponse.json(staticGallery, { headers })
   } catch (error) {
     console.error('Failed to read gallery:', error)
-    return NextResponse.json({ error: 'Failed to load gallery' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to load gallery' }, { status: 500, headers })
   }
 }
 

@@ -25,6 +25,12 @@ async function getStaticImages() {
 }
 
 export async function GET() {
+  const headers = {
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+  }
+  
   try {
     // Always start with static images as base
     const staticImages = await getStaticImages()
@@ -50,13 +56,13 @@ export async function GET() {
           .filter(row => !staticIds.has(row.id))
           .map(mapImageRow)
         
-        return NextResponse.json([...merged, ...newImages])
+        return NextResponse.json([...merged, ...newImages], { headers })
       }
     }
 
-    return NextResponse.json(staticImages)
+    return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)
-    return NextResponse.json({ error: 'Failed to load images' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to load images' }, { status: 500, headers })
   }
 }
