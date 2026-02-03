@@ -88,7 +88,9 @@ export default function ImageManagementPage() {
   const loadImages = async (forceRefresh = false) => {
     try {
       // Add cache-busting to ensure fresh data - use timestamp + random to prevent any caching
-      const cacheBuster = forceRefresh ? `&_=${Date.now()}-${Math.random()}` : `?t=${Date.now()}`
+      const timestamp = Date.now()
+      const random = Math.random()
+      const cacheBuster = forceRefresh ? `?_=${timestamp}-${random}` : `?t=${timestamp}`
       const res = await fetch(`/api/images${cacheBuster}`, {
         cache: 'no-store',
         headers: {
