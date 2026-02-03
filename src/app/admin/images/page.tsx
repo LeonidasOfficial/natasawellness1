@@ -447,14 +447,26 @@ export default function ImageManagementPage() {
         {/* Section-based layout */}
         <div className="space-y-10">
           {SECTION_ORDER.map(({ category, label, canAdd, canDelete }) => {
-            const imagesToShow =
+            let imagesToShow =
               selectedCategory === 'all'
                 ? filteredImages.filter((img) => img.category === category)
                 : selectedCategory === category
                   ? filteredImages
                   : []
 
+            // Special handling for Gallery: Show first 6, then all
+            if (category === 'Gallery' && selectedCategory === 'all') {
+              // Don't filter here - we'll handle it in the render
+            }
+
             if (imagesToShow.length === 0 && !canAdd) return null
+
+            // For Gallery section, split into two groups
+            const galleryImages = category === 'Gallery' && selectedCategory === 'all'
+              ? filteredImages.filter((img) => img.category === 'Gallery')
+              : imagesToShow
+            const firstSixGallery = galleryImages.slice(0, 6)
+            const remainingGallery = galleryImages.slice(6)
 
             return (
               <motion.section
@@ -469,14 +481,125 @@ export default function ImageManagementPage() {
                     {label}
                   </h2>
                   <p className="text-gray-600 text-sm mt-1">
-                    {imagesToShow.length} image{imagesToShow.length !== 1 ? 's' : ''}
+                    {category === 'Gallery' && selectedCategory === 'all' 
+                      ? `${galleryImages.length} image${galleryImages.length !== 1 ? 's' : ''} (First 6 shown on homepage, all shown on gallery page)`
+                      : `${imagesToShow.length} image${imagesToShow.length !== 1 ? 's' : ''}`
+                    }
                     {canAdd && ' • You can add and delete images here'}
                   </p>
                 </div>
 
                 <div className="p-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {imagesToShow.map((image) => (
+                  {/* First 6 images section (for Gallery only) */}
+                  {category === 'Gallery' && selectedCategory === 'all' && firstSixGallery.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="font-playfair text-xl font-bold text-dark mb-4 flex items-center gap-2">
+                        <span className="w-1.5 h-6 bg-primary rounded-full" />
+                        First 6 Images (Homepage - Explore Our Gallery)
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {firstSixGallery.map((image) => (
+                          <motion.div
+                            key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="bg-light rounded-xl overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group border-2 border-transparent hover:border-primary/30"
+                            onClick={() => handleImageSelect(image)}
+                          >
+                            <div className="relative aspect-video bg-gray-100">
+                              <img
+                                key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
+                                src={`${image.path}?t=${image.lastUpdated ? new Date(image.lastUpdated).getTime() : Date.now()}`}
+                                alt={image.description}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                              <div className="absolute top-2 left-2 bg-dark/80 text-white px-2 py-1 rounded text-xs font-semibold">
+                                {image.currentFile}
+                              </div>
+                              {canDelete && (
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); handleDeleteGallery(image) }}
+                                  disabled={deletingId === image.id}
+                                  className="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
+                                >
+                                  <FaTrash className="text-sm" />
+                                </button>
+                              )}
+                            </div>
+                            <div className="p-3">
+                              <h3 className="font-bold text-dark text-sm line-clamp-1">{image.location}</h3>
+                              <p className="text-gray-600 text-xs line-clamp-2">{image.description}</p>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setPreviewImage(image.path) }}
+                                className="mt-2 text-primary text-xs font-semibold hover:underline flex items-center gap-1"
+                              >
+                                <FaEye /> Preview
+                              </button>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* All remaining images section (for Gallery only) */}
+                  {category === 'Gallery' && selectedCategory === 'all' && remainingGallery.length > 0 && (
+                    <div className="mb-8">
+                      <h3 className="font-playfair text-xl font-bold text-dark mb-4 flex items-center gap-2">
+                        <span className="w-1.5 h-6 bg-primary rounded-full" />
+                        All Gallery Images (Gallery Page - Explore Our Portfolio)
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {remainingGallery.map((image) => (
+                          <motion.div
+                            key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="bg-light rounded-xl overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group border-2 border-transparent hover:border-primary/30"
+                            onClick={() => handleImageSelect(image)}
+                          >
+                            <div className="relative aspect-video bg-gray-100">
+                              <img
+                                key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
+                                src={`${image.path}?t=${image.lastUpdated ? new Date(image.lastUpdated).getTime() : Date.now()}`}
+                                alt={image.description}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                              />
+                              <div className="absolute top-2 left-2 bg-dark/80 text-white px-2 py-1 rounded text-xs font-semibold">
+                                {image.currentFile}
+                              </div>
+                              {canDelete && (
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); handleDeleteGallery(image) }}
+                                  disabled={deletingId === image.id}
+                                  className="absolute top-2 right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50"
+                                >
+                                  <FaTrash className="text-sm" />
+                                </button>
+                              )}
+                            </div>
+                            <div className="p-3">
+                              <h3 className="font-bold text-dark text-sm line-clamp-1">{image.location}</h3>
+                              <p className="text-gray-600 text-xs line-clamp-2">{image.description}</p>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setPreviewImage(image.path) }}
+                                className="mt-2 text-primary text-xs font-semibold hover:underline flex items-center gap-1"
+                              >
+                                <FaEye /> Preview
+                              </button>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Regular grid for non-Gallery sections or when Gallery is filtered */}
+                  {!(category === 'Gallery' && selectedCategory === 'all') && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {imagesToShow.map((image) => (
                       <motion.div
                         key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
                         initial={{ opacity: 0, scale: 0.96 }}
@@ -516,24 +639,26 @@ export default function ImageManagementPage() {
                           </button>
                         </div>
                       </motion.div>
-                    ))}
-                    
-                    {/* Add new card - after existing images */}
-                    {canAdd && category === 'Gallery' && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.96 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        onClick={() => setAddGalleryModalOpen(true)}
-                        className="aspect-video rounded-xl border-2 border-dashed border-primary/50 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 hover:border-primary cursor-pointer flex flex-col items-center justify-center gap-2 min-h-[200px] transition-all group"
-                      >
-                        <div className="w-14 h-14 rounded-full bg-primary/30 group-hover:bg-primary/50 flex items-center justify-center transition-all group-hover:scale-110">
-                          <FaPlus className="text-2xl text-primary" />
-                        </div>
-                        <span className="font-semibold text-dark text-sm">Add Image</span>
-                        <span className="text-xs text-gray-500 px-3 text-center">Click to add new gallery image</span>
-                      </motion.div>
-                    )}
-                  </div>
+                      ))}
+                      
+                      {/* Add new card - after existing images */}
+                      {canAdd && category === 'Gallery' && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.96 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          onClick={() => setAddGalleryModalOpen(true)}
+                          className="aspect-video rounded-xl border-2 border-dashed border-primary/50 bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 hover:border-primary cursor-pointer flex flex-col items-center justify-center gap-2 min-h-[200px] transition-all group"
+                        >
+                          <div className="w-14 h-14 rounded-full bg-primary/30 group-hover:bg-primary/50 flex items-center justify-center transition-all group-hover:scale-110">
+                            <FaPlus className="text-2xl text-primary" />
+                          </div>
+                          <span className="font-semibold text-dark text-sm">Add Image</span>
+                          <span className="text-xs text-gray-500 px-3 text-center">Click to add new gallery image</span>
+                        </motion.div>
+                      )}
+                    </div>
+                  )}
+
                 </div>
               </motion.section>
             )

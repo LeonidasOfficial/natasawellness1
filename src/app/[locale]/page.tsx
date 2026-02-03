@@ -33,10 +33,33 @@ export default function Home() {
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 })
 
   useEffect(() => {
-    fetch('/api/gallery')
-      .then((res) => res.ok ? res.json() : [])
-      .then((data) => Array.isArray(data) && data.length > 0 ? setGalleryData(data) : null)
-      .catch(() => {})
+    const loadGallery = async () => {
+      try {
+        const timestamp = Date.now()
+        const res = await fetch(`/api/gallery?t=${timestamp}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+          },
+        })
+        if (res.ok) {
+          const data = await res.json()
+          if (Array.isArray(data)) {
+            console.log(`[Homepage] Loaded ${data.length} gallery items`)
+            // Always update, even if empty (to clear stale data)
+            setGalleryData(data)
+          }
+        }
+      } catch (error) {
+        console.error('[Homepage] Failed to load gallery:', error)
+      }
+    }
+    loadGallery()
+    
+    // Refresh periodically
+    const interval = setInterval(loadGallery, 15000) // Every 15 seconds
+    return () => clearInterval(interval)
   }, [])
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.1 })
   const [ref3, inView3] = useInView({ triggerOnce: true, threshold: 0.1 })
