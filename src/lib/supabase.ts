@@ -23,10 +23,5 @@ export function createSupabaseAdmin() {
     db: {
       schema: 'public',
     },
-    global: {
-      headers: {
-        'x-my-custom-header': 'admin-client',
-      },
-    },
   })
 }

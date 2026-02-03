@@ -25,7 +25,7 @@ async function getStaticImages() {
 }
 
 export async function GET() {
-  const headers: Record<string, string> = {
+  const headers = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
@@ -34,30 +34,15 @@ export async function GET() {
   try {
     // If Supabase is configured, return Supabase data
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      // Debug: show credentials info
-      const urlPart = process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(8, 25) || 'none'
-      const keyPart = process.env.SUPABASE_SERVICE_ROLE_KEY?.substring(0, 10) || 'none'
-      const keyLen = process.env.SUPABASE_SERVICE_ROLE_KEY?.length || 0
-      headers['X-Supabase-URL'] = urlPart
-      headers['X-Supabase-Key'] = keyPart
-      headers['X-Key-Length'] = String(keyLen)
-      
       const supabase = createSupabaseAdmin()
       
-      // Get all images from Supabase - use explicit limit
+      // Get all images from Supabase
       const { data, error } = await supabase.from('images').select('*').limit(1000)
       
-      // Debug headers
-      headers['X-Supabase-Rows'] = String(data?.length ?? 0)
-      headers['X-Supabase-Error'] = error?.message ?? 'none'
-      
       if (!error && data && data.length > 0) {
-        // Return all Supabase data directly
-        headers['X-Source'] = 'supabase'
         return NextResponse.json(data.map(mapImageRow), { headers })
       }
       
-      // If Supabase query failed or returned empty, fall back to static
       if (error) {
         console.error('Supabase query error:', error)
       }
@@ -65,7 +50,6 @@ export async function GET() {
 
     // Fallback to static images
     const staticImages = await getStaticImages()
-    headers['X-Source'] = 'static'
     return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)

@@ -12,7 +12,7 @@ async function getStaticGallery() {
 }
 
 export async function GET() {
-  const headers: Record<string, string> = {
+  const headers = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
@@ -26,9 +26,6 @@ export async function GET() {
       // Get all gallery items from Supabase
       const { data, error } = await supabase.from('gallery').select('*').limit(1000)
       
-      headers['X-Supabase-Rows'] = String(data?.length ?? 0)
-      headers['X-Supabase-Error'] = error?.message ?? 'none'
-      
       if (!error && data && data.length > 0) {
         const galleryItems = data.map((row) => ({
           id: String(row.id),
@@ -38,7 +35,6 @@ export async function GET() {
           featured: row.featured ?? true,
         }))
         
-        headers['X-Source'] = 'supabase'
         return NextResponse.json(galleryItems, { headers })
       }
       
@@ -49,7 +45,6 @@ export async function GET() {
 
     // Fallback to static gallery
     const staticGallery = await getStaticGallery()
-    headers['X-Source'] = 'static'
     return NextResponse.json(staticGallery, { headers })
   } catch (error) {
     console.error('Failed to read gallery:', error)
