@@ -37,15 +37,20 @@ export async function GET() {
     
     // If Supabase is configured, merge any updated data from there
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      // Add URL hash for debugging (don't expose full URL)
+      const urlHash = process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(8, 20) || 'none'
+      headers['X-Supabase-Project'] = urlHash
+      
       const supabase = createSupabaseAdmin()
       
       // Note: Don't use .order('id') - causes issues with TEXT primary keys and RLS in Supabase
       const { data, error } = await supabase.from('images').select('*')
       
-      console.log('[Images API] Supabase query - rows:', data?.length ?? 0, 'error:', error?.message ?? 'none')
+      const rowIds = data?.map(r => r.id).join(',') || 'none'
+      console.log('[Images API] Supabase query - rows:', data?.length ?? 0, 'ids:', rowIds, 'error:', error?.message ?? 'none')
       
       // Add debug header
-      headers['X-Supabase-Debug'] = `rows:${data?.length ?? 0},error:${error?.message ?? 'none'}`
+      headers['X-Supabase-Debug'] = `rows:${data?.length ?? 0},ids:${rowIds},error:${error?.message ?? 'none'}`
       
       if (!error && data && data.length > 0) {
         // Create a map of Supabase images by ID for fast lookup
