@@ -20,5 +20,13 @@ export function createSupabaseAdmin() {
       autoRefreshToken: false,
       persistSession: false,
     },
+    db: {
+      schema: 'public',
+    },
+    global: {
+      headers: {
+        'x-my-custom-header': 'admin-client',
+      },
+    },
   })
 }
