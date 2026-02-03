@@ -13,7 +13,8 @@ import {
   FaSearch,
   FaEye,
   FaTrash,
-  FaPlus
+  FaPlus,
+  FaSync
 } from 'react-icons/fa'
 import Link from 'next/link'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
@@ -394,7 +395,7 @@ export default function ImageManagementPage() {
         </div>
 
         <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
@@ -416,6 +417,14 @@ export default function ImageManagementPage() {
                 ))}
               </select>
             </div>
+            <button
+              onClick={() => loadImages(true)}
+              className="px-6 py-3 bg-primary text-dark rounded-lg font-semibold hover:bg-primary-dark transition-colors flex items-center justify-center gap-2"
+              title="Refresh images"
+            >
+              <FaSync className="text-lg" />
+              Refresh
+            </button>
           </div>
         </div>
 
