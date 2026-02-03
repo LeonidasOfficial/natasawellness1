@@ -49,8 +49,8 @@ export async function GET() {
         .from('images')
         .select('*', { count: 'exact', head: true })
       
-      // Then get actual data
-      const { data, error } = await supabase.from('images').select('*').order('id')
+      // Then get actual data (removed .order('id') to debug)
+      const { data, error } = await supabase.from('images').select('*')
       
       // Debug: Add header showing Supabase status and truncated URL for verification
       const urlPrefix = sbUrl.substring(0, 30)
