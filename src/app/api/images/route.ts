@@ -34,6 +34,12 @@ export async function GET() {
   try {
     // If Supabase is configured, return Supabase data
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      // Debug: show part of the URL to verify it's correct
+      const urlPart = process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(8, 25) || 'none'
+      const keyPart = process.env.SUPABASE_SERVICE_ROLE_KEY?.substring(0, 10) || 'none'
+      headers['X-Supabase-URL'] = urlPart
+      headers['X-Supabase-Key'] = keyPart
+      
       const supabase = createSupabaseAdmin()
       
       // Get all images from Supabase - use explicit limit
