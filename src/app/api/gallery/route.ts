@@ -26,7 +26,8 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       // Note: Avoid .order() when using RLS to prevent potential issues
-      const { data, error } = await supabase.from('gallery').select('*')
+      // Use explicit limit to ensure we get all rows
+      const { data, error } = await supabase.from('gallery').select('*').limit(1000)
       
       if (!error && data && data.length > 0) {
         const supabaseGallery = data.map((row) => ({
@@ -63,18 +64,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('[Gallery POST] Starting request')
-    
     const authResult = await verifyAuth(request)
-    console.log('[Gallery POST] Auth result:', authResult.isValid ? 'valid' : 'invalid')
-    
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const hasSupabase = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
-    console.log('[Gallery POST] Supabase configured:', hasSupabase)
-    
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return NextResponse.json(
         { error: 'Supabase not configured', details: 'Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY' },
@@ -113,13 +107,12 @@ export async function POST(request: NextRequest) {
       .upload(storagePath, buffer, { contentType: imageFile.type })
 
     if (uploadError) {
-      console.error('[Gallery POST] Storage upload error:', uploadError)
+      console.error('Storage upload error:', uploadError)
       return NextResponse.json(
         { error: 'Failed to upload image', details: uploadError.message },
         { status: 500 }
       )
     }
-    console.log('[Gallery POST] Storage upload successful:', storagePath)
 
     const { data: urlData } = supabase.storage.from('images').getPublicUrl(storagePath)
     const publicUrl = urlData.publicUrl
@@ -135,13 +128,12 @@ export async function POST(request: NextRequest) {
     const { data: inserted, error: insertError } = await supabase.from('gallery').insert(newGalleryItem).select().single()
 
     if (insertError) {
-      console.error('[Gallery POST] Gallery insert error:', insertError)
+      console.error('Gallery insert error:', insertError)
       return NextResponse.json(
         { error: 'Failed to add gallery image', details: insertError.message },
         { status: 500 }
       )
     }
-    console.log('[Gallery POST] Gallery insert successful, id:', inserted.id)
 
     const newImageMeta = {
       id: `gallery-${inserted.id}`,

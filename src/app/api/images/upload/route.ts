@@ -6,11 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('[Images Upload] Starting request')
-    
     const authResult = await verifyAuth(request)
-    console.log('[Images Upload] Auth result:', authResult.isValid ? 'valid' : 'invalid')
-    
     if (!authResult.isValid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -114,7 +110,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[Images Upload] Success, path:', publicUrl)
     return NextResponse.json({
       success: true,
       message: 'Image uploaded successfully',

@@ -25,7 +25,7 @@ async function getStaticImages() {
 }
 
 export async function GET() {
-  const headers: Record<string, string> = {
+  const headers = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
@@ -37,21 +37,10 @@ export async function GET() {
     
     // If Supabase is configured, merge any updated data from there
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      // Add URL hash for debugging (don't expose full URL)
-      const urlHash = process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(8, 20) || 'none'
-      headers['X-Supabase-Project'] = urlHash
-      
       const supabase = createSupabaseAdmin()
       
-      // Note: Don't use .order('id') - causes issues with TEXT primary keys and RLS in Supabase
-      // Use explicit limit to ensure we get all rows
+      // Use explicit limit to ensure we get all rows (Supabase can have unexpected default limits)
       const { data, error } = await supabase.from('images').select('*').limit(1000)
-      
-      const rowIds = data?.map(r => r.id).join(',') || 'none'
-      console.log('[Images API] Supabase query - rows:', data?.length ?? 0, 'ids:', rowIds, 'error:', error?.message ?? 'none')
-      
-      // Add debug header
-      headers['X-Supabase-Debug'] = `rows:${data?.length ?? 0},ids:${rowIds},error:${error?.message ?? 'none'}`
       
       if (!error && data && data.length > 0) {
         // Create a map of Supabase images by ID for fast lookup
@@ -69,12 +58,10 @@ export async function GET() {
           .filter(row => !staticIds.has(row.id))
           .map(mapImageRow)
         
-        headers['X-Supabase-Source'] = 'merged'
         return NextResponse.json([...merged, ...newImages], { headers })
       }
     }
 
-    headers['X-Supabase-Source'] = 'static-fallback'
     return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)
