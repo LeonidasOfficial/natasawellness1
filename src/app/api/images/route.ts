@@ -44,7 +44,8 @@ export async function GET() {
       const supabase = createSupabaseAdmin()
       
       // Note: Don't use .order('id') - causes issues with TEXT primary keys and RLS in Supabase
-      const { data, error } = await supabase.from('images').select('*')
+      // Use explicit limit to ensure we get all rows
+      const { data, error } = await supabase.from('images').select('*').limit(1000)
       
       const rowIds = data?.map(r => r.id).join(',') || 'none'
       console.log('[Images API] Supabase query - rows:', data?.length ?? 0, 'ids:', rowIds, 'error:', error?.message ?? 'none')
