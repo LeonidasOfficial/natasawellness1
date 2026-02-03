@@ -25,7 +25,7 @@ async function getStaticImages() {
 }
 
 export async function GET() {
-  const headers = {
+  const headers: Record<string, string> = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0',
@@ -41,6 +41,11 @@ export async function GET() {
       
       // Note: Don't use .order('id') - causes issues with TEXT primary keys and RLS in Supabase
       const { data, error } = await supabase.from('images').select('*')
+      
+      console.log('[Images API] Supabase query - rows:', data?.length ?? 0, 'error:', error?.message ?? 'none')
+      
+      // Add debug header
+      headers['X-Supabase-Debug'] = `rows:${data?.length ?? 0},error:${error?.message ?? 'none'}`
       
       if (!error && data && data.length > 0) {
         // Create a map of Supabase images by ID for fast lookup
@@ -58,10 +63,12 @@ export async function GET() {
           .filter(row => !staticIds.has(row.id))
           .map(mapImageRow)
         
+        headers['X-Supabase-Source'] = 'merged'
         return NextResponse.json([...merged, ...newImages], { headers })
       }
     }
 
+    headers['X-Supabase-Source'] = 'static-fallback'
     return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)
