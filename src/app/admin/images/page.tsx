@@ -122,7 +122,7 @@ export default function ImageManagementPage() {
           // Explicitly call filterImages with the new data to ensure it runs immediately
           filterImages(data)
           // Force a re-render by updating refresh key
-          setRefreshKey(prev => prev + 1)
+          setRefreshKey(_prev => _prev + 1)
         } else {
           console.error('Invalid data format from API:', data)
           const fallback = imageMetadata as ImageItem[]
@@ -146,18 +146,34 @@ export default function ImageManagementPage() {
   const filterImages = (imagesToFilter?: ImageItem[]) => {
     const sourceImages = imagesToFilter || images
     let filtered = [...sourceImages]
+    
+    // Log all categories present
+    const categoriesPresent = Array.from(new Set(sourceImages.map(img => img.category)))
+    console.log(`[Admin Images] Filtering ${sourceImages.length} images. Categories present:`, categoriesPresent)
+    
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(img => img.category === selectedCategory)
+      console.log(`[Admin Images] After category filter (${selectedCategory}): ${filtered.length} images`)
     }
+    
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
+      const beforeSearch = filtered.length
       filtered = filtered.filter(img => 
         img.location.toLowerCase().includes(query) ||
         img.description.toLowerCase().includes(query) ||
         img.currentFile.toLowerCase().includes(query)
       )
+      console.log(`[Admin Images] After search filter ("${searchQuery}"): ${filtered.length} images (was ${beforeSearch})`)
     }
-    console.log(`[Admin Images] Filtered to ${filtered.length} images (category: ${selectedCategory}, query: "${searchQuery}")`)
+    
+    // Log Gallery images specifically
+    if (selectedCategory === 'all' || selectedCategory === 'Gallery') {
+      const galleryInFiltered = filtered.filter(img => img.category === 'Gallery')
+      console.log(`[Admin Images] Gallery images in filtered results: ${galleryInFiltered.length}`, galleryInFiltered.map(img => ({ id: img.id, file: img.currentFile })))
+    }
+    
+    console.log(`[Admin Images] Final filtered count: ${filtered.length} images (category: ${selectedCategory}, query: "${searchQuery}")`)
     setFilteredImages(filtered)
   }
 
