@@ -36,32 +36,11 @@ export async function GET() {
     const staticImages = await getStaticImages()
     
     // If Supabase is configured, merge any updated data from there
-    let responseHeaders: Record<string, string> = { ...headers, 'X-Supabase-Status': 'not-configured' }
-    
-    const sbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    
-    if (sbUrl && sbKey) {
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Try a count query first for diagnostics
-      const { count, error: countError } = await supabase
-        .from('images')
-        .select('*', { count: 'exact', head: true })
-      
-      // Then get actual data (removed .order('id') to debug)
+      // Note: Don't use .order('id') - causes issues with TEXT primary keys and RLS in Supabase
       const { data, error } = await supabase.from('images').select('*')
-      
-      // Debug: Add header showing Supabase status and truncated URL for verification
-      const urlPrefix = sbUrl.substring(0, 30)
-      const status = error 
-        ? `error:${error.message}` 
-        : `ok:${data?.length ?? 0}-rows,count:${count ?? 'null'},countErr:${countError?.message ?? 'none'}`
-      responseHeaders = {
-        ...headers,
-        'X-Supabase-Status': status,
-        'X-Supabase-URL': urlPrefix
-      }
       
       if (!error && data && data.length > 0) {
         // Create a map of Supabase images by ID for fast lookup
@@ -79,11 +58,11 @@ export async function GET() {
           .filter(row => !staticIds.has(row.id))
           .map(mapImageRow)
         
-        return NextResponse.json([...merged, ...newImages], { headers: responseHeaders })
+        return NextResponse.json([...merged, ...newImages], { headers })
       }
     }
 
-    return NextResponse.json(staticImages, { headers: responseHeaders })
+    return NextResponse.json(staticImages, { headers })
   } catch (error) {
     console.error('Failed to read images:', error)
     return NextResponse.json({ error: 'Failed to load images' }, { status: 500, headers })

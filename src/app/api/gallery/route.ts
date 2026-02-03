@@ -25,7 +25,8 @@ export async function GET() {
     // If Supabase is configured, merge any updated data from there
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
-      const { data, error } = await supabase.from('gallery').select('*').order('id')
+      // Note: Avoid .order() when using RLS to prevent potential issues
+      const { data, error } = await supabase.from('gallery').select('*')
       
       if (!error && data && data.length > 0) {
         const supabaseGallery = data.map((row) => ({
