@@ -36,16 +36,21 @@ export async function GET() {
     const staticImages = await getStaticImages()
     
     // If Supabase is configured, merge any updated data from there
-    let responseHeaders = { ...headers, 'X-Supabase-Status': 'not-configured' }
+    let responseHeaders: Record<string, string> = { ...headers, 'X-Supabase-Status': 'not-configured' }
     
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    const sbUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    
+    if (sbUrl && sbKey) {
       const supabase = createSupabaseAdmin()
       const { data, error } = await supabase.from('images').select('*').order('id')
       
-      // Debug: Add header showing Supabase status
+      // Debug: Add header showing Supabase status and truncated URL for verification
+      const urlPrefix = sbUrl.substring(0, 30)
       responseHeaders = {
         ...headers,
-        'X-Supabase-Status': error ? `error:${error.message}` : `ok:${data?.length ?? 0}-rows`
+        'X-Supabase-Status': error ? `error:${error.message}` : `ok:${data?.length ?? 0}-rows`,
+        'X-Supabase-URL': urlPrefix
       }
       
       if (!error && data && data.length > 0) {
