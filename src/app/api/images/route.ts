@@ -36,24 +36,21 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Get all images from Supabase, ordered by last_updated DESC to get newest first
+      // Get ALL images from Supabase - order by id DESC (newest first), then by last_updated
+      // This ensures we get all images even if last_updated is null
       const { data, error } = await supabase
         .from('images')
         .select('*', { count: 'exact' })
-        .order('last_updated', { ascending: false, nullsFirst: false })
+        .order('id', { ascending: false })
+        .order('last_updated', { ascending: false, nullsFirst: true })
         .limit(1000)
       
-      if (!error && data && data.length > 0) {
-        // Map and return the data
-        const mappedData = data.map(mapImageRow)
-        console.log(`[API] Returning ${mappedData.length} images from Supabase`)
+      if (!error) {
+        // Always return Supabase data if available, even if empty
+        const mappedData = (data || []).map(mapImageRow)
+        const galleryCount = mappedData.filter(img => img.category === 'Gallery').length
+        console.log(`[Images API] Returning ${mappedData.length} total images (${galleryCount} Gallery images) from Supabase`)
         return NextResponse.json(mappedData, { headers })
-      }
-      
-      // If no data but no error, return empty array instead of falling back
-      if (!error && (!data || data.length === 0)) {
-        console.log('[API] No images found in Supabase, returning empty array')
-        return NextResponse.json([], { headers })
       }
       
       if (error) {

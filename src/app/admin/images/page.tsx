@@ -110,13 +110,13 @@ export default function ImageManagementPage() {
         if (Array.isArray(data)) {
           console.log(`[Admin Images] Loaded ${data.length} images from API`)
           const galleryImages = data.filter(img => img.category === 'Gallery')
-          console.log(`[Admin Images] Found ${galleryImages.length} Gallery images`)
+          console.log(`[Admin Images] Found ${galleryImages.length} Gallery images:`, galleryImages.map(img => ({ id: img.id, path: img.path, file: img.currentFile })))
           
           // Use functional update to ensure we're working with latest state
           setImages(prev => {
             // Force update by creating new array reference
             const newImages = [...data]
-            console.log(`[Admin Images] Setting ${newImages.length} images in state`)
+            console.log(`[Admin Images] Setting ${newImages.length} images in state (${galleryImages.length} Gallery)`)
             return newImages
           })
           // Explicitly call filterImages with the new data to ensure it runs immediately
@@ -470,11 +470,11 @@ export default function ImageManagementPage() {
                       >
                         <div className="relative aspect-video bg-gray-100">
                           <img
-                            key={`${image.id}-${image.lastUpdated || image.path}`}
+                            key={`${image.id}-${image.lastUpdated || image.path}-${refreshKey}`}
                             src={`${image.path}?t=${image.lastUpdated ? new Date(image.lastUpdated).getTime() : Date.now()}`}
                             alt={image.description}
                             className="w-full h-full object-cover"
-                            onError={(e) => { (e.target as HTMLImageElement).src = '/img/placeholder.jpg' }}
+                            loading="lazy"
                           />
                           <div className="absolute top-2 left-2 bg-dark/80 text-white px-2 py-1 rounded text-xs font-semibold">
                             {image.currentFile}
@@ -566,7 +566,6 @@ export default function ImageManagementPage() {
                           src={`${selectedImage.path}?t=${selectedImage.lastUpdated ? new Date(selectedImage.lastUpdated).getTime() : Date.now()}`} 
                           alt="Current" 
                           className="w-full h-full object-cover" 
-                          onError={(e) => { (e.target as HTMLImageElement).src = '/img/placeholder.jpg' }} 
                         />
                       </div>
                       <p className="text-xs text-gray-500 mt-2 font-mono">{selectedImage.currentFile}</p>

@@ -23,10 +23,10 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createSupabaseAdmin()
       
-      // Get all gallery items from Supabase, ordered by id DESC to get newest first
+      // Get ALL gallery items from Supabase, ordered by id DESC to get newest first
       const { data, error } = await supabase
         .from('gallery')
-        .select('*')
+        .select('*', { count: 'exact' })
         .order('id', { ascending: false })
         .limit(1000)
       
@@ -40,7 +40,7 @@ export async function GET() {
           featured: row.featured ?? true,
         }))
         
-        console.log(`[Gallery API] Returning ${galleryItems.length} gallery items from Supabase`)
+        console.log(`[Gallery API] Returning ${galleryItems.length} gallery items from Supabase (total in DB: ${data?.length || 0})`)
         return NextResponse.json(galleryItems, { headers })
       }
       
