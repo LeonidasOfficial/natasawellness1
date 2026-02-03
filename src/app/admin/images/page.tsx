@@ -548,7 +548,7 @@ export default function ImageManagementPage() {
                       <h3 className="font-semibold text-dark mb-3">Current</h3>
                       <div className="aspect-video bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200">
                         <img 
-                          key={`current-${selectedImage.id}-${selectedImage.lastUpdated || Date.now()}`}
+                          key={`current-${selectedImage.id}-${selectedImage.lastUpdated || Date.now()}-${refreshKey}`}
                           src={`${selectedImage.path}?t=${selectedImage.lastUpdated ? new Date(selectedImage.lastUpdated).getTime() : Date.now()}`} 
                           alt="Current" 
                           className="w-full h-full object-cover" 
