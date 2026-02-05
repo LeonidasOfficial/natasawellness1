@@ -109,11 +109,6 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
                   <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-bold mb-1">{promotionsData.promoSection.promoBox.percentage}%</h1>
                   <p className="text-white text-xl">{t('promotions.promoBox.unit')}</p>
                 </div>
-                <div className="text-center lg:text-left">
-                  <p className="text-dark mb-3 text-sm md:text-base leading-relaxed">
-                    {t('promotions.promoBox.description')}
-                  </p>
-                </div>
               </div>
             </motion.div>
           </MediumParallaxLayer>

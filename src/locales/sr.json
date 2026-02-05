@@ -106,7 +106,7 @@
       "description": "Brzi, profesionalan spraj tan za prirodan, blistav sjaj koji traje do 14 dana."
     },
     "service6": {
-      "name": "Tretmani Uklanjanja Dlaka",
+      "name": "Depilacija / Voskom",
       "description": "Koristimo blagi, visokokvalitetni strip vosak za uklanjanje dlaka iz korena za glatku kožu i finiji porast. Pogodan za sve tipove kože, uključujući osetljivu kožu."
     },
     "service7": {
@@ -138,7 +138,7 @@
       "service3": "Pedikir",
       "service4": "Podizanje Trepavica",
       "service5": "Spraj Tan",
-      "service6": "Tretmani Uklanjanja Dlaka"
+      "service6": "Depilacija / Voskom"
     }
   },
   "workingHours": {
