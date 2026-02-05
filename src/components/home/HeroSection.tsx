@@ -184,52 +184,49 @@ const HeroSection = () => {
               </motion.svg>
             </div>
 
-            {/* Contact Info */}
+            {/* Contact Info - compact, single-line layout */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6"
+              className="flex flex-wrap gap-3"
             >
               <motion.div
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="flex items-start gap-5 glass glass-hover p-5 rounded-xl shadow-lg cursor-pointer group backdrop-blur-xl min-w-0"
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 glass glass-hover px-4 py-3 rounded-lg shadow-md cursor-pointer group backdrop-blur-xl min-w-[200px]"
               >
-                <div className="w-14 h-14 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
-                  <FaPhone className="text-dark group-hover:text-primary text-xl transition-colors duration-300" />
+                <div className="w-10 h-10 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
+                  <FaPhone className="text-dark group-hover:text-primary text-sm transition-colors duration-300" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h5 className="text-primary font-semibold text-xs uppercase mb-1.5 tracking-wider">{t('hero.callUs')}</h5>
-                  <p className="text-dark font-bold text-base md:text-lg whitespace-nowrap">063 1020 305</p>
+                <div className="min-w-0">
+                  <h5 className="text-primary font-semibold text-[10px] uppercase tracking-wider mb-0.5">{t('hero.callUs')}</h5>
+                  <p className="text-dark font-bold text-sm whitespace-nowrap">063 1020 305</p>
                 </div>
               </motion.div>
 
               <motion.div
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="flex items-start gap-5 glass glass-hover p-5 rounded-xl shadow-lg cursor-pointer group backdrop-blur-xl min-w-0"
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 glass glass-hover px-4 py-3 rounded-lg shadow-md cursor-pointer group backdrop-blur-xl min-w-[220px]"
               >
-                <div className="w-14 h-14 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
-                  <FaEnvelope className="text-dark group-hover:text-primary text-xl transition-colors duration-300" />
+                <div className="w-10 h-10 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
+                  <FaEnvelope className="text-dark group-hover:text-primary text-sm transition-colors duration-300" />
                 </div>
-                <div className="min-w-0 flex-1 overflow-hidden">
-                  <h5 className="text-primary font-semibold text-xs uppercase mb-1.5 tracking-wider">{t('hero.emailUs')}</h5>
-                  <p className="text-dark font-bold text-base md:text-lg break-all leading-snug">info@natasawellness.com</p>
+                <div className="min-w-0">
+                  <h5 className="text-primary font-semibold text-[10px] uppercase tracking-wider mb-0.5">{t('hero.emailUs')}</h5>
+                  <p className="text-dark font-bold text-sm whitespace-nowrap">info@natasawellness.com</p>
                 </div>
               </motion.div>
 
               <motion.div
-                whileHover={{ scale: 1.02, y: -2 }}
-                className="flex items-start gap-5 glass glass-hover p-5 rounded-xl shadow-lg cursor-pointer group backdrop-blur-xl min-w-0"
+                whileHover={{ scale: 1.02 }}
+                className="flex items-center gap-3 glass glass-hover px-4 py-3 rounded-lg shadow-md cursor-pointer group backdrop-blur-xl min-w-[280px]"
               >
-                <div className="w-14 h-14 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
-                  <FaClock className="text-dark group-hover:text-primary text-xl transition-colors duration-300" />
+                <div className="w-10 h-10 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
+                  <FaClock className="text-dark group-hover:text-primary text-sm transition-colors duration-300" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h5 className="text-primary font-semibold text-xs uppercase mb-1.5 tracking-wider">{t('workingHours.title')}</h5>
-                  <p className="text-dark font-bold text-base md:text-lg leading-snug">
-                    <span className="block">Mon–Fri: 09:00–20:00</span>
-                    <span className="block">Sat: 09:00–14:00</span>
-                  </p>
+                <div className="min-w-0">
+                  <h5 className="text-primary font-semibold text-[10px] uppercase tracking-wider mb-0.5">{t('workingHours.title')}</h5>
+                  <p className="text-dark font-bold text-sm whitespace-nowrap">Mon–Fri 09:00–20:00 · Sat 09:00–14:00</p>
                 </div>
               </motion.div>
             </motion.div>
