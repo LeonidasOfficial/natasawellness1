@@ -189,9 +189,6 @@ export default function PriceListPage() {
               className="text-center"
             >
               <h2 className="font-dancing text-4xl md:text-5xl text-primary mb-2">{t('priceList.subtitle')}</h2>
-              <h1 className="font-playfair text-3xl md:text-5xl font-bold text-dark mb-4">
-                {t('priceList.title')}
-              </h1>
               <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
                 {t('priceList.description')}
               </p>
