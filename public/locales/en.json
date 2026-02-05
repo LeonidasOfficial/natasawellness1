@@ -88,6 +88,15 @@
     "clients": "Happy Clients",
     "satisfaction": "Satisfaction"
   },
+  "gallery": {
+    "ourWork": "Our Work",
+    "title": "Explore Our Gallery",
+    "viewFull": "View Full Gallery"
+  },
+  "testimonials": {
+    "subtitle": "Testimonial",
+    "title": "What Clients Say!"
+  },
   "admin": {
     "dashboard": "Dashboard",
     "login": "Login",

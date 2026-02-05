@@ -31,15 +31,15 @@ const Footer = () => {
 
     // Simulate API call
     setTimeout(() => {
-      toast.success('Successfully subscribed to our newsletter!')
+      toast.success(t('footer.newsletterSuccess'))
       setEmail('')
       setIsSubscribing(false)
     }, 1000)
   }
 
   const quickLinks = [
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact Us', path: '/contact' },
+    { key: 'aboutUs', path: '/about' },
+    { key: 'contactUs', path: '/contact' },
   ]
 
   const socialLinks = [
@@ -103,8 +103,7 @@ const Footer = () => {
             </Link>
 
             <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-              Opustite telo, smirite um, obnovite duh. Nataša Wellness nudi profesionalne kozmetičke i 
-              wellness tretmane sa preko 25 godina iskustva. Personalizovana nega i pažnja posvećena vama.
+              {t('footer.description')}
             </p>
 
             <div className="space-y-2 md:space-y-3">
@@ -169,7 +168,7 @@ const Footer = () => {
           <motion.div variants={itemVariants} className="space-y-4 md:space-y-6">
             {/* Quick Links */}
             <div>
-              <h5 className="text-primary font-playfair text-lg md:text-xl font-semibold mb-3 md:mb-4">Quick Links</h5>
+              <h5 className="text-primary font-playfair text-lg md:text-xl font-semibold mb-3 md:mb-4">{t('footer.quickLinks')}</h5>
               <ul className="space-y-1 md:space-y-2">
                 {quickLinks.map((link, index) => (
                   <motion.li 
@@ -178,7 +177,7 @@ const Footer = () => {
                     transition={{ duration: 0.2 }}
                   >
                     <Link
-                      href={link.path}
+                      href={createLink(link.path)}
                       className="text-gray-300 hover:text-primary transition-colors duration-400 flex items-center gap-2 group text-sm md:text-base link-underline"
                     >
                       <motion.span 
@@ -188,7 +187,7 @@ const Footer = () => {
                       >
                         ›
                       </motion.span>
-                      {link.name}
+                      {t(`footer.${link.key}`)}
                     </Link>
                   </motion.li>
                 ))}
@@ -197,14 +196,14 @@ const Footer = () => {
 
             {/* Newsletter */}
             <div>
-              <h5 className="text-primary font-playfair text-lg md:text-xl font-semibold mb-3 md:mb-4">Newsletter</h5>
+              <h5 className="text-primary font-playfair text-lg md:text-xl font-semibold mb-3 md:mb-4">{t('footer.newsletter')}</h5>
               <form onSubmit={handleNewsletterSubmit} className="space-y-2 md:space-y-3">
                 <div className="relative">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter Your Email"
+                    placeholder={t('footer.newsletterPlaceholder')}
                     required
                     className="w-full bg-gray-800 border-2 border-gray-700 rounded-lg px-4 md:px-6 py-3 md:py-4 pr-12 md:pr-14 text-white placeholder-gray-500 focus:border-primary focus:outline-none transition-colors text-sm md:text-base"
                   />
@@ -220,7 +219,7 @@ const Footer = () => {
                   </motion.button>
                 </div>
                 <p className="text-gray-400 text-xs md:text-sm">
-                  Subscribe to get special offers and beauty tips!
+                  {t('footer.newsletterDescription')}
                 </p>
               </form>
             </div>
@@ -238,7 +237,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="text-gray-400 text-sm text-center md:text-left"
             >
-              © {new Date().getFullYear()} <Link href={createLink('/')} className="text-primary hover:underline">Nataša Wellness</Link>. Sva prava zadržana.
+              © {new Date().getFullYear()} <Link href={createLink('/')} className="text-primary hover:underline">Nataša Wellness</Link>. {t('footer.copyright')}.
             </motion.p>
 
             <motion.p 
@@ -247,7 +246,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="text-gray-400 text-sm flex items-center gap-2"
             >
-              Napravljeno sa <FaHeart className="text-primary animate-pulse" /> od Danilo Peric
+              {t('footer.craftedWith')} <FaHeart className="text-primary animate-pulse" /> {t('footer.by')}
             </motion.p>
           </div>
         </div>

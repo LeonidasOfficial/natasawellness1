@@ -7,6 +7,7 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import Link from 'next/link'
 import { FaCalendarAlt, FaUsers, FaStar, FaArrowRight, FaQuoteLeft } from 'react-icons/fa'
 import { useTranslation } from '@/contexts/TranslationContext'
+import { useLocaleLink } from '@/hooks/useLocaleLink'
 import ParallaxLayer, { MediumParallaxLayer } from '@/components/ui/ParallaxLayer'
 import DecorativeDivider from '@/components/ui/DecorativeDivider'
 import PromotionalParallaxSection from '@/components/home/PromotionalParallaxSection'
@@ -30,6 +31,7 @@ interface GalleryItem {
 
 export default function Home() {
   const { t, translations } = useTranslation()
+  const { createLink } = useLocaleLink()
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
   const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set())
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -266,7 +268,7 @@ export default function Home() {
         {/* Gallery Preview with Individual Parallax */}
         <section ref={ref4} className="w-full section-padding bg-white relative">
           <div className="container-custom max-w-7xl">
-            <SectionTitle subtitle="Our Work" title="Explore Our Gallery" />
+            <SectionTitle subtitle={t('gallery.ourWork')} title={t('gallery.title')} />
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
               {[
@@ -314,13 +316,13 @@ export default function Home() {
             </div>
 
             <div className="text-center mt-8">
-              <Link href="/gallery">
+              <Link href={createLink('/gallery')}>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-primary text-dark px-8 py-4 rounded-full font-bold uppercase tracking-wider hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg"
                 >
-                  View Full Gallery
+                  {t('gallery.viewFull')}
                 </motion.button>
               </Link>
             </div>
@@ -330,7 +332,7 @@ export default function Home() {
         {/* Testimonials Preview */}
         <section className="w-full section-padding bg-light">
           <div className="container-custom max-w-7xl">
-            <SectionTitle subtitle="Testimonial" title="What Clients Say!" />
+            <SectionTitle subtitle={t('testimonials.subtitle')} title={t('testimonials.title')} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
               {testimonialsData.slice(0, 3).map((testimonial, index) => (

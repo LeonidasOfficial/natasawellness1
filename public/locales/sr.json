@@ -88,6 +88,15 @@
     "clients": "Zadovoljnih Klijenata",
     "satisfaction": "Zadovoljstvo"
   },
+  "gallery": {
+    "ourWork": "Naš Rad",
+    "title": "Istražite Našu Galeriju",
+    "viewFull": "Pogledajte Celu Galeriju"
+  },
+  "testimonials": {
+    "subtitle": "Utisci",
+    "title": "Šta Kažu Naši Klijenti!"
+  },
   "admin": {
     "dashboard": "Kontrolna Tabla",
     "login": "Prijavljivanje",

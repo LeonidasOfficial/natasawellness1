@@ -88,6 +88,15 @@
     "clients": "Zufriedene Kunden",
     "satisfaction": "Zufriedenheit"
   },
+  "gallery": {
+    "ourWork": "Unsere Arbeit",
+    "title": "Entdecken Sie Unsere Galerie",
+    "viewFull": "Galerie Ansehen"
+  },
+  "testimonials": {
+    "subtitle": "Referenzen",
+    "title": "Was Unsere Kunden Sagen!"
+  },
   "admin": {
     "dashboard": "Dashboard",
     "login": "Anmelden",
