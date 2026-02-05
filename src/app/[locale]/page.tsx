@@ -79,20 +79,6 @@ export default function Home() {
   const [ref3, inView3] = useInView({ triggerOnce: true, threshold: 0.1 })
   const [ref4, inView4] = useInView({ triggerOnce: true, threshold: 0.1 })
 
-  // Show loading state while translations are loading
-  if (!translations || Object.keys(translations).length === 0) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 mx-auto mb-4 relative">
-            <img src="/img/admin-ajax.png" alt="Loading" className="w-full h-full object-contain" />
-          </div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </main>
-    )
-  }
-
   return (
     <main>
         <HeroSection />
@@ -138,11 +124,11 @@ export default function Home() {
                 </div>
 
                 <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                  My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
+                  {t('about.journey')}
                   <br /><br />
-                  Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                  {t('about.passion')}
                   <br /><br />
-                  Beauty to me is natural, and to embrace every single expression wrinkle.
+                  {t('about.beauty')}
                 </p>
 
                 {/* Stats */}
@@ -166,7 +152,7 @@ export default function Home() {
                       <FaCalendarAlt className="text-5xl text-primary mx-auto mb-3" />
                     </motion.div>
                     <h2 className="text-5xl font-bold text-dark mb-2">26</h2>
-                    <p className="text-dark font-semibold uppercase">Years Experience</p>
+                    <p className="text-dark font-semibold uppercase">{t('about.yearsExperience')}</p>
                   </motion.div>
 
                   <motion.div
@@ -188,7 +174,7 @@ export default function Home() {
                       <FaUsers className="text-5xl text-primary mx-auto mb-3" />
                     </motion.div>
                     <h2 className="text-5xl font-bold text-dark mb-2">2500+</h2>
-                    <p className="text-dark font-semibold uppercase">Happy Customers</p>
+                    <p className="text-dark font-semibold uppercase">{t('about.happyCustomers')}</p>
                   </motion.div>
                 </div>
 

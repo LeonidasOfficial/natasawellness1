@@ -74,6 +74,20 @@
     "saturday": "Subota",
     "sunday": "Nedelja"
   },
+  "about": {
+    "title": "O Nama",
+    "journey": "Moje putovanje u svet lepote počelo je 2000. godine, strastvena u šminki i želeći da budem šminker, ne znajući koliko je ogromna raznolikost u profesiji lepote. Tokom mog učenja sve više sam volela sve o kozmetici i različitim tretmanima kao što su tretmani lica, epilacija i nokti koji su me najviše zanimali. Diplomu sam dobila 2004. u Luksemburgu. 2016. završila sam i dobila diplomu Spa menadžera u Španiji, proširujući svoje znanje o dobrobiti, opuštanju, biologiji-anatomiji kože, aromaterapiji i još mnogo toga...",
+    "passion": "Strastvena sam i volim trenutak kada moj klijent i ja vidimo pozitivnu razliku na njihovoj koži, noktima ili telu, mogućnost da ih posavetujem i osetim zahvalnost i uvažavanje je NAJBOLJI trenutak.",
+    "beauty": "Lepota je za mene prirodna, i da prihvatim svaku brazdu izraza.",
+    "yearsExperience": "Godina Iskustva",
+    "happyCustomers": "Zadovoljnih Kupaca",
+    "ourStory": "Naša Priča",
+    "excellence": "Izvrsnost u Lepoti od 2000.",
+    "years": "26 Godina",
+    "experience": "Iskustvo",
+    "clients": "Zadovoljnih Klijenata",
+    "satisfaction": "Zadovoljstvo"
+  },
   "admin": {
     "dashboard": "Kontrolna Tabla",
     "login": "Prijavljivanje",
@@ -96,7 +110,38 @@
     "selectCategory": "Izaberite Kategoriju Tretmana",
     "treatments": "Tretmani",
     "price": "Cena",
-    "duration": "Trajanje"
+    "duration": "Trajanje",
+    "cat": {
+      "face": "Tretmani Lica",
+      "hair-removal": "Depilacija / Voskom",
+      "pedikir": "Pedikir",
+      "pedikir-gl": "Pedikir sa gel lakom (GL)",
+      "manikir": "Manikir",
+      "manikir-gl": "Manikir sa Gel Lak (GL)",
+      "manikir-gel": "Manikir + Gel / Gum Gel / Poligel + Gel Lak",
+      "eyes": "Farbanje trepavice i obrve / Lash + brow lift",
+      "wellness": "Supreme Wellbeing / Vrhunsko blagostanje",
+      "makeup": "Šminkanje",
+      "tan": "Sprej Tan"
+    },
+    "catDesc": {
+      "face": "Ekskluzivni francuski kozmetički brend",
+      "hair-removal": "Profesionalna depilacija voskom",
+      "pedikir": "Profesionalna nega stopala i noktiju",
+      "pedikir-gl": "Dugotrajna nega stopala sa gel lakom",
+      "manikir": "Profesionalna nega noktiju ruku",
+      "manikir-gl": "Dugotrajna gel aplikacija na noktima",
+      "manikir-gel": "Ojačavanje i izlivanje noktiju",
+      "eyes": "Tretmani za savršen pogled",
+      "wellness": "Opuštanje i revitalizacija tela",
+      "makeup": "Profesionalnim kozmetičkim brendom",
+      "tan": "Prirodan sun-kissed izgled"
+    },
+    "fn": {
+      "1": "* uključuje depilaciju nausnica i obrva",
+      "2": "* vreme depilacije zavisi od rasta, količine i debljine dlake",
+      "7": "* korekcija noktiju se preporučuje svake 3-4 nedelje"
+    }
   },
   "services": {
     "service1": {

@@ -74,6 +74,20 @@
     "saturday": "Samedi",
     "sunday": "Dimanche"
   },
+  "about": {
+    "title": "À Propos",
+    "journey": "Mon parcours dans le monde de la beauté a commencé en 2000, passionnée par le maquillage et voulant devenir maquilleuse sans savoir à quel point la variété dans la profession de la beauté serait immense. Pendant mon apprentissage, j'ai aimé de plus en plus tout ce qui concerne la cosmétique et les différents traitements tels que les soins du visage, l'épilation et les ongles qui m'intéressaient le plus. Diplôme obtenu en 2004 au Luxembourg. En 2016, j'ai obtenu mon diplôme de Spa Manager en Espagne, élargissant mes connaissances en bien-être, relaxation, biologie-anatomie de la peau, aromathérapie et plus encore...",
+    "passion": "Passionnée et j'aime le moment où ma cliente et moi voyons la différence positive sur sa peau, ses ongles ou son corps, pouvoir la conseiller et ressentir la gratitude et l'appréciation est le MEILLEUR moment.",
+    "beauty": "La beauté pour moi est naturelle, et embrasser chaque ride d'expression.",
+    "yearsExperience": "Années d'Expérience",
+    "happyCustomers": "Clients Satisfaits",
+    "ourStory": "Notre Histoire",
+    "excellence": "Excellence en Beauté depuis 2000",
+    "years": "26 Ans",
+    "experience": "Expérience",
+    "clients": "Clients Satisfaits",
+    "satisfaction": "Satisfaction"
+  },
   "admin": {
     "dashboard": "Tableau de Bord",
     "login": "Connexion",
@@ -96,7 +110,38 @@
     "selectCategory": "Sélectionnez une Catégorie de Traitement",
     "treatments": "Traitements",
     "price": "Prix",
-    "duration": "Durée"
+    "duration": "Durée",
+    "cat": {
+      "face": "Soins du Visage",
+      "hair-removal": "Épilation à la Cire",
+      "pedikir": "Pédicure",
+      "pedikir-gl": "Pédicure avec Vernis Gel (GL)",
+      "manikir": "Manucure",
+      "manikir-gl": "Manucure avec Vernis Gel (GL)",
+      "manikir-gel": "Manucure + Gel / Gum Gel / Polygel + Vernis Gel",
+      "eyes": "Teinture Cils et Sourcils / Lash + Brow Lift",
+      "wellness": "Supreme Wellbeing",
+      "makeup": "Maquillage",
+      "tan": "Bronzage en Spray"
+    },
+    "catDesc": {
+      "face": "Marque cosmétique française exclusive",
+      "hair-removal": "Épilation professionnelle à la cire",
+      "pedikir": "Soins professionnels des pieds et des ongles",
+      "pedikir-gl": "Soins des pieds durables avec vernis gel",
+      "manikir": "Soins professionnels des mains et des ongles",
+      "manikir-gl": "Application gel durable sur les ongles",
+      "manikir-gel": "Renforcement et extension des ongles",
+      "eyes": "Traitements pour le regard parfait",
+      "wellness": "Relaxation et revitalisation du corps",
+      "makeup": "Marque cosmétique professionnelle",
+      "tan": "Look naturel bronzé"
+    },
+    "fn": {
+      "1": "* inclut épilation oreilles et sourcils",
+      "2": "* le temps d'épilation dépend de la pousse, quantité et épaisseur des poils",
+      "7": "* correction des ongles recommandée toutes les 3-4 semaines"
+    }
   },
   "services": {
     "service1": {

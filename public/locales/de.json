@@ -74,6 +74,20 @@
     "saturday": "Samstag",
     "sunday": "Sonntag"
   },
+  "about": {
+    "title": "Über Uns",
+    "journey": "Meine Reise in die Welt der Schönheit begann im Jahr 2000, leidenschaftlich an Make-up und mit dem Wunsch, Make-up-Künstlerin zu werden, ohne zu wissen, wie groß die Vielfalt im Schönheitsberuf sein würde. Während meiner Ausbildung liebte ich mehr und mehr alles über Kosmetik und die verschiedenen Behandlungen wie Gesichtsbehandlungen, Epilation und Nägel, die mich am meisten interessierten. Abschluss 2004 in Luxemburg. 2016 absolvierte ich mein Spa-Manager-Diplom in Spanien und erweiterte mein Wissen in Wohlbefinden, Entspannung, Hautbiologie-Anatomie, Aromatherapie und mehr...",
+    "passion": "Leidenschaftlich und ich liebe den Moment, wenn meine Kundin und ich den positiven Unterschied an ihrer Haut, ihren Nägeln oder ihrem Körper sehen, sie beraten zu können und Dankbarkeit und Anerkennung zu spüren – das ist der BESTE Moment.",
+    "beauty": "Schönheit ist für mich natürlich und jede Ausdrucksfalte zu umarmen.",
+    "yearsExperience": "Jahre Erfahrung",
+    "happyCustomers": "Zufriedene Kunden",
+    "ourStory": "Unsere Geschichte",
+    "excellence": "Exzellenz in Schönheit seit 2000",
+    "years": "26 Jahre",
+    "experience": "Erfahrung",
+    "clients": "Zufriedene Kunden",
+    "satisfaction": "Zufriedenheit"
+  },
   "admin": {
     "dashboard": "Dashboard",
     "login": "Anmelden",
@@ -96,7 +110,38 @@
     "selectCategory": "Behandlungskategorie Auswählen",
     "treatments": "Behandlungen",
     "price": "Preis",
-    "duration": "Dauer"
+    "duration": "Dauer",
+    "cat": {
+      "face": "Gesichtsbehandlungen",
+      "hair-removal": "Haarentfernung / Wachs",
+      "pedikir": "Pediküre",
+      "pedikir-gl": "Pediküre mit Gellack (GL)",
+      "manikir": "Maniküre",
+      "manikir-gl": "Maniküre mit Gellack (GL)",
+      "manikir-gel": "Maniküre + Gel / Gum Gel / Polygel + Gellack",
+      "eyes": "Wimpern- und Brauenfärbung / Lash + Brow Lift",
+      "wellness": "Supreme Wellbeing",
+      "makeup": "Make-up",
+      "tan": "Spray-Tan"
+    },
+    "catDesc": {
+      "face": "Exklusive französische Kosmetikmarke",
+      "hair-removal": "Professionelle Wachsentfernung",
+      "pedikir": "Professionelle Fuß- und Nagelpflege",
+      "pedikir-gl": "Langanhaltende Fußpflege mit Gellack",
+      "manikir": "Professionelle Hand- und Nagelpflege",
+      "manikir-gl": "Langanhaltende Gel-Anwendung auf Nägeln",
+      "manikir-gel": "Nagelverstärkung und -verlängerung",
+      "eyes": "Behandlungen für den perfekten Blick",
+      "wellness": "Entspannung und Körperrevitalisierung",
+      "makeup": "Professionelle Kosmetikmarke",
+      "tan": "Natürlicher Sonnenkuss-Look"
+    },
+    "fn": {
+      "1": "* inkl. Ohr- und Augenbrauenepilation",
+      "2": "* Wachszeit hängt von Wachstum, Menge und Dicke der Haare ab",
+      "7": "* Nagelkorrektur alle 3-4 Wochen empfohlen"
+    }
   },
   "services": {
     "service1": {

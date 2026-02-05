@@ -3,12 +3,14 @@
 import ScrollToTop from '@/components/ui/ScrollToTop'
 import { motion } from 'framer-motion'
 import { FaCalendarAlt, FaUsers, FaHeart } from 'react-icons/fa'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 export default function AboutPage() {
+  const { t } = useTranslation()
   const features = [
-    { icon: FaCalendarAlt, title: '26 Years', desc: 'Experience' },
-    { icon: FaUsers, title: '2500+', desc: 'Happy Clients' },
-    { icon: FaHeart, title: '100%', desc: 'Satisfaction' }
+    { icon: FaCalendarAlt, title: '26', descKey: 'about.yearsExperience' },
+    { icon: FaUsers, title: '2500+', descKey: 'about.clients' },
+    { icon: FaHeart, title: '100%', descKey: 'about.satisfaction' }
   ]
 
   return (
@@ -16,7 +18,7 @@ export default function AboutPage() {
       <section className="relative bg-light py-12 md:py-16">
         <div className="container-custom text-center">
           <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="font-playfair text-4xl md:text-6xl font-bold text-dark">
-            About Us
+            {t('about.title')}
           </motion.h1>
         </div>
       </section>
@@ -29,15 +31,15 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4">
-              <h2 className="font-dancing text-4xl md:text-5xl text-primary">Our Story</h2>
-              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-dark">Excellence in Beauty Since 2000</h1>
+              <h2 className="font-dancing text-4xl md:text-5xl text-primary">{t('about.ourStory')}</h2>
+              <h1 className="font-playfair text-3xl md:text-4xl font-bold text-dark">{t('about.excellence')}</h1>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...
+                {t('about.journey')}
               </p>
               <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-                Passionate and love the moment when my client and I see the positive difference on their skin, nails or body, being able to consult them and feel the gratitude and appreciation is the BEST moment.
+                {t('about.passion')}
                 <br /><br />
-                Beauty to me is natural, and to embrace every single expression wrinkle.
+                {t('about.beauty')}
               </p>
             </motion.div>
           </div>
@@ -55,7 +57,7 @@ export default function AboutPage() {
               >
                 <feature.icon className="text-4xl md:text-5xl text-primary mx-auto mb-3" />
                 <h3 className="text-2xl md:text-3xl font-bold text-dark mb-1">{feature.title}</h3>
-                <p className="text-gray-600 font-semibold text-sm md:text-base">{feature.desc}</p>
+                <p className="text-gray-600 font-semibold text-sm md:text-base">{t(feature.descKey)}</p>
               </motion.div>
             ))}
           </div>

@@ -1,6 +1,8 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+// Fallback translations so page renders immediately (no blocking loading state)
+import srFallback from '../../public/locales/sr.json'
 
 type Locale = 'en' | 'sr' | 'fr' | 'de'
 
@@ -22,14 +24,14 @@ export function TranslationProvider({
 }) {
   // Use initialLocale prop directly, fallback to 'sr'
   const [locale, setLocaleState] = useState<Locale>(initialLocale || 'sr')
-  const [translations, setTranslations] = useState<Record<string, unknown>>({})
+  const [translations, setTranslations] = useState<Record<string, unknown>>(() => (srFallback as Record<string, unknown>) || {})
   const [_isLoading, setIsLoading] = useState(true)
 
   // Sync locale with initialLocale prop when it changes
   useEffect(() => {
     if (initialLocale && initialLocale !== locale) {
       setLocaleState(initialLocale)
-      setTranslations({}) // Clear translations to force reload
+      setTranslations(srFallback as Record<string, unknown>) // Use fallback while loading new locale
     }
   }, [initialLocale, locale])
 

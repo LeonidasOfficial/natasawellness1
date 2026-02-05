@@ -26,6 +26,7 @@ import {
 
 import { useTranslation } from '@/contexts/TranslationContext'
 import fallbackPriceList from '@/data/price-list.json'
+import { pricelistTreatmentTranslations } from '@/data/pricelist-translations'
 
 // Icon mapping - each category has a unique icon (fallback when no image)
 const iconMap: { [key: string]: any } = {
@@ -135,6 +136,37 @@ export default function PriceListPage() {
     setSelectedCategory(category)
   }
 
+  // Translation helpers - use translated value if exists, else fallback to raw data
+  const getCategoryName = (category: Category) => {
+    const key = `priceList.cat.${category.icon}`
+    const translated = t(key)
+    return translated === key ? category.category : translated
+  }
+  const getCategoryDesc = (category: Category) => {
+    const key = `priceList.catDesc.${category.icon}`
+    const translated = t(key)
+    return translated === key ? category.description : translated
+  }
+  const getTreatmentName = (treatment: Treatment) => {
+    const tr = pricelistTreatmentTranslations[treatment.id]
+    if (tr && tr[locale as keyof typeof tr]) return tr[locale as keyof typeof tr]
+    const key = `priceList.trt.${treatment.id}`
+    const translated = t(key)
+    return translated === key ? treatment.name : translated
+  }
+  const getTreatmentDesc = (treatment: Treatment) => {
+    if (!treatment.description) return ''
+    const key = `priceList.trtDesc.${treatment.id}`
+    const translated = t(key)
+    return translated === key ? treatment.description : translated
+  }
+  const getFootnote = (category: Category) => {
+    if (!category.footnote) return ''
+    const key = `priceList.fn.${category.id}`
+    const translated = t(key)
+    return translated === key ? category.footnote : translated
+  }
+
   const closeModal = () => {
     setSelectedCategory(null)
   }
@@ -193,7 +225,7 @@ export default function PriceListPage() {
                     {/* Icon or image */}
                     <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 overflow-hidden">
                       {categoryImage ? (
-                        <img src={categoryImage} alt={category.category} className="w-full h-full object-contain p-1" />
+                        <img src={categoryImage} alt={getCategoryName(category)} className="w-full h-full object-contain p-1" />
                       ) : (
                         <IconComponent className="text-3xl text-dark" />
                       )}
@@ -201,10 +233,10 @@ export default function PriceListPage() {
 
                     {/* Content */}
                     <h3 className="font-playfair text-xl md:text-2xl font-bold text-dark mb-2 group-hover:text-primary transition-colors">
-                      {category.category}
+                      {getCategoryName(category)}
                     </h3>
                     <p className="text-gray-600 mb-3 text-sm md:text-base">
-                      {category.description}
+                      {getCategoryDesc(category)}
                     </p>
 
                     {/* Treatment Count */}
@@ -262,7 +294,7 @@ export default function PriceListPage() {
                       return (
                         <div className="w-12 h-12 md:w-16 md:h-16 bg-dark rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden">
                           {modalImage ? (
-                            <img src={modalImage} alt={selectedCategory.category} className="w-full h-full object-contain p-1" />
+                            <img src={modalImage} alt={getCategoryName(selectedCategory)} className="w-full h-full object-contain p-1" />
                           ) : (
                             <IconComponent className="text-2xl md:text-3xl text-primary" />
                           )}
@@ -271,10 +303,10 @@ export default function PriceListPage() {
                     })()}
                     <div className="min-w-0 flex-1">
                       <h2 className="font-playfair text-xl md:text-2xl lg:text-3xl font-bold text-dark truncate">
-                        {selectedCategory.category}
+                        {getCategoryName(selectedCategory)}
                       </h2>
                       <p className="text-dark/80 text-sm md:text-base truncate">
-                        {selectedCategory.description}
+                        {getCategoryDesc(selectedCategory)}
                       </p>
                     </div>
                   </div>
@@ -294,14 +326,14 @@ export default function PriceListPage() {
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 md:gap-3">
                           <div className="flex-1 min-w-0">
                             <h3 className="font-playfair text-base md:text-lg font-bold text-dark mb-1 group-hover:text-primary transition-colors flex items-center gap-2 flex-wrap">
-                              <span className="break-words">{treatment.name}</span>
+                              <span className="break-words">{getTreatmentName(treatment)}</span>
                               {treatment.note && (
                                 <span className="text-primary text-sm md:text-base font-bold flex-shrink-0">{treatment.note}</span>
                               )}
                             </h3>
-                            {treatment.description && (
+                            {getTreatmentDesc(treatment) && (
                               <p className="text-gray-600 mb-1 md:mb-2 text-xs md:text-sm break-words">
-                                {treatment.description}
+                                {getTreatmentDesc(treatment)}
                               </p>
                             )}
                           </div>
@@ -338,10 +370,10 @@ export default function PriceListPage() {
                       </motion.div>
                     ))}
                   </div>
-                  {selectedCategory.footnote && (
+                  {getFootnote(selectedCategory) && (
                     <div className="mt-6 pt-6 border-t border-gray-200">
                       <p className="text-sm text-gray-600">
-                        <span className="text-primary font-bold">{selectedCategory.footnote.split(' ')[0]}</span> {selectedCategory.footnote.substring(selectedCategory.footnote.indexOf(' ') + 1)}
+                        <span className="text-primary font-bold">{getFootnote(selectedCategory).split(' ')[0]}</span> {getFootnote(selectedCategory).substring(getFootnote(selectedCategory).indexOf(' ') + 1)}
                       </p>
                     </div>
                   )}
