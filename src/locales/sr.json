@@ -27,7 +27,8 @@
     "readMore": "Pročitaj Više",
     "bookAppointment": "Zakažite Termin",
     "viewAll": "Pogledaj Sve",
-    "backToHome": "Nazad na Početnu"
+    "backToHome": "Nazad na Početnu",
+    "viewPricing": "Cenovnik"
   },
   "hero": {
     "welcome": "Dobrodošli",
@@ -82,6 +83,70 @@
     "treatments": "Tretmani",
     "price": "Cena",
     "duration": "Trajanje"
+  },
+  "services": {
+    "service1": {
+      "name": "Tretman Lica",
+      "description": "Iskustvo njegovanja naših Phyt tretmana lica može pružiti višestruke zdravstvene i lepote prednosti. Naši tretmani čišće pore, uklanjaju mrtve ćelije kože, hidriraju i neguju kožu. Naši tretmani su idealni za održavanje dobrog zdravlja kože i ostavljaju vas sa blistavim tenom. Svaki tretman je prilagođen vašoj jedinstvenoj koži. Dijagnostikujemo vašu kožu na licu mesta i biramo proizvode i tretmane koji vam najbolje odgovaraju."
+    },
+    "service2": {
+      "name": "Manikir",
+      "description": "Naš manikir uključuje oblikovanje noktiju, negu kutikule, opuštajuću masažu ruku i opciono lak u boji po vašem izboru."
+    },
+    "service3": {
+      "name": "Pedikir",
+      "description": "Naš pedikir je kompletna nega stopala za muškarce i žene, uključujući negu noktiju, rad na kutikuli, piling, hidrataciju, masažu i opcioni lak—ostavljajući vaša stopala olakšanim i osveženim."
+    },
+    "service4": {
+      "name": "Podizanje Trepavica",
+      "description": "Dugotrajno podizanje trepavica za savršen pogled. Prirodan i elegantan izgled."
+    },
+    "service5": {
+      "name": "Spraj Tan",
+      "description": "Brzi, profesionalan spraj tan za prirodan, blistav sjaj koji traje do 14 dana."
+    },
+    "service6": {
+      "name": "Tretmani Uklanjanja Dlaka",
+      "description": "Koristimo blagi, visokokvalitetni strip vosak za uklanjanje dlaka iz korena za glatku kožu i finiji porast. Pogodan za sve tipove kože, uključujući osetljivu kožu."
+    },
+    "service7": {
+      "name": "Šminkanje",
+      "description": "Profesionalna šminka za sve prilike. Od prirodnog do glamuroznog izgleda."
+    },
+    "service8": {
+      "name": "Sprej Tan",
+      "description": "Prirodan sun-kissed izgled bez štetnog UV zračenja. Savršena preplanulost."
+    },
+    "service9": {
+      "name": "Supreme Wellbeing",
+      "description": "Kompletna wellness terapija za opuštanje tela i uma. Aromaterapija i više."
+    }
+  },
+  "promotions": {
+    "title": "Cene",
+    "subtitle": "Salon Lepote",
+    "largeTitle": "Promocija",
+    "promoBox": {
+      "label": "Specijalna Ponuda za Dan Zaljubljenih",
+      "unit": "Popust na sve poklon vaučere, važeće od 01.02.2026 do 15.02.2026",
+      "description": "Zakažite svoj prvi termin i uživajte u 20% popusta na sve usluge!",
+      "buttonText": "Dobijte 20% Popusta"
+    },
+    "featuredServices": {
+      "service1": "Tretman Lica",
+      "service2": "Manikir",
+      "service3": "Pedikir",
+      "service4": "Podizanje Trepavica",
+      "service5": "Spraj Tan",
+      "service6": "Tretmani Uklanjanja Dlaka"
+    }
+  },
+  "workingHours": {
+    "title": "Radno Vreme",
+    "weekdays": "Ponedeljak - Petak",
+    "weekdaysTime": "09:00 - 20:00 po Terminu",
+    "saturday": "Subota",
+    "saturdayTime": "09:00 - 14:00 po Terminu"
   },
   "booking": {
     "title": "Zakažite Termin",

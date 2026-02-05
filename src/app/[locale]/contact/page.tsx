@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import ScrollToTop from '@/components/ui/ScrollToTop'
+import WorkingHoursCard from '@/components/ui/WorkingHoursCard'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane } from 'react-icons/fa'
@@ -65,8 +66,7 @@ export default function ContactPage() {
               {[
                 { icon: FaMapMarkerAlt, title: 'Our Location', text: '12 Mileta Arčića Pačinog, Velika Plana' },
                 { icon: FaPhone, title: 'Call Us', text: '063 1020 305' },
-                { icon: FaEnvelope, title: 'Email Us', text: 'info@natasawellness.com' },
-                { icon: FaClock, title: 'Working Hours', text: 'Ponedeljak-Subota: 09:00 - 18:00 (sa terminom do 20:00), Nedelja: Zatvoreno' }
+                { icon: FaEnvelope, title: 'Email Us', text: 'info@natasawellness.com' }
               ].map((item, i) => (
                 <motion.div key={i} whileHover={{ x: 10 }} className="flex items-start gap-3 p-5 bg-light rounded-xl hover:shadow-lg transition-all">
                   <item.icon className="text-2xl md:text-3xl text-primary flex-shrink-0 mt-1" />
@@ -76,6 +76,9 @@ export default function ContactPage() {
                   </div>
                 </motion.div>
               ))}
+
+              {/* Working Hours Card */}
+              <WorkingHoursCard />
             </motion.div>
 
             {/* Contact Form */}

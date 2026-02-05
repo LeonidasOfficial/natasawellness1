@@ -7,6 +7,7 @@ import {
   FaMapMarkerAlt, 
   FaPhoneAlt, 
   FaEnvelope, 
+  FaClock,
   FaFacebookF, 
   FaInstagram, 
   FaLinkedinIn, 
@@ -40,13 +41,11 @@ const Footer = () => {
   const quickLinks = [
     { name: 'About Us', path: '/about' },
     { name: 'Contact Us', path: '/contact' },
-    { name: 'Book Appointment', path: '/booking' },
   ]
 
   const socialLinks = [
     { name: 'twitter', url: 'https://twitter.com', color: 'hover:text-blue-400' },
     { name: 'facebook', url: 'https://facebook.com', color: 'hover:text-blue-600' },
-    { name: 'linkedin', url: 'https://linkedin.com', color: 'hover:text-blue-500' },
     { name: 'instagram', url: 'https://instagram.com', color: 'hover:text-pink-500' },
   ]
 
@@ -56,8 +55,6 @@ const Footer = () => {
         return <FaTwitter className="text-lg" />
       case 'facebook':
         return <FaFacebookF className="text-lg" />
-      case 'linkedin':
-        return <FaLinkedinIn className="text-lg" />
       case 'instagram':
         return <FaInstagram className="text-lg" />
       default:
@@ -134,6 +131,20 @@ const Footer = () => {
               >
                 <FaEnvelope className="text-primary text-lg md:text-xl flex-shrink-0" />
                 <span className="text-sm md:text-base break-all">info@natasawellness.com</span>
+              </motion.div>
+
+              <motion.div 
+                whileHover={{ x: 10 }}
+                className="flex flex-col gap-1 text-gray-300 hover:text-primary transition-colors cursor-pointer"
+              >
+                <div className="flex items-center gap-2 md:gap-3">
+                  <FaClock className="text-primary text-lg md:text-xl flex-shrink-0" />
+                  <span className="text-sm md:text-base font-semibold">{t('workingHours.title')}</span>
+                </div>
+                <div className="pl-8 md:pl-10 text-xs md:text-sm">
+                  <p>{t('workingHours.weekdays')}: {t('workingHours.weekdaysTime')}</p>
+                  <p>{t('workingHours.saturday')}: {t('workingHours.saturdayTime')}</p>
+                </div>
               </motion.div>
             </div>
 

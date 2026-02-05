@@ -2,11 +2,11 @@
   "promoSection": {
     "title": "Pricing",
     "subtitle": "Beauty Salon",
-    "largeTitle": "Pricing",
+    "largeTitle": "Promotion",
     "promoBox": {
-      "label": "Enjoy",
-      "percentage": 20,
-      "unit": "Off",
+      "label": "St.Valentines Special",
+      "percentage": 10,
+      "unit": "Off all gift vouchers, valid from 01.02.2026 to 15.02.2026",
       "description": "Book your first appointment and enjoy 20% off on all services!",
       "buttonText": "Get 20% Off",
       "buttonLink": "/booking"
@@ -23,25 +23,25 @@
       "id": "1",
       "name": "Tretman Lica",
       "image": "/img/facials.png",
-      "price": 3500
+      "price": 3800
     },
     {
       "id": "2",
       "name": "Manikir",
       "image": "/img/manicure.png",
-      "price": 1500
+      "price": 950
     },
     {
       "id": "3",
       "name": "Pedikir",
       "image": "/img/pedicure.png",
-      "price": 2000
+      "price": 1900
     },
     {
       "id": "4",
       "name": "Podizanje Trepavica",
       "image": "/img/eyelashes.png",
-      "price": 2500
+      "price": 2000
     },
     {
       "id": "5",

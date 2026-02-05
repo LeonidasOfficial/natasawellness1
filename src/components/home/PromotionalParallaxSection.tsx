@@ -94,35 +94,25 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
               className="text-center lg:text-left w-full"
             >
               <h2 className="font-dancing text-white text-3xl md:text-4xl mb-1 tracking-wide">
-                {promotionsData.promoSection.title}
+                {t('promotions.title')}
               </h2>
               <h1 className="font-playfair text-dark text-2xl md:text-3xl mb-2 tracking-wide">
-                {promotionsData.promoSection.subtitle}
+                {t('promotions.subtitle')}
               </h1>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-dark uppercase tracking-widest mb-6">
-                {promotionsData.promoSection.largeTitle}
+                {t('promotions.largeTitle')}
               </h1>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
                 <div className="bg-dark p-6 rounded-xl text-center shadow-glow">
-                  <h4 className="text-white text-lg mb-1">{promotionsData.promoSection.promoBox.label}</h4>
+                  <h4 className="text-white text-lg mb-1">{t('promotions.promoBox.label')}</h4>
                   <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-bold mb-1">{promotionsData.promoSection.promoBox.percentage}%</h1>
-                  <p className="text-white text-xl">{promotionsData.promoSection.promoBox.unit}</p>
+                  <p className="text-white text-xl">{t('promotions.promoBox.unit')}</p>
                 </div>
                 <div className="text-center lg:text-left">
                   <p className="text-dark mb-3 text-sm md:text-base leading-relaxed">
-                    {promotionsData.promoSection.promoBox.description}
+                    {t('promotions.promoBox.description')}
                   </p>
-                  <Link href={promotionsData.promoSection.promoBox.buttonLink}>
-                    <motion.button
-                      whileHover={{ scale: 1.08, y: -3 }}
-                      whileTap={{ scale: 0.96 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="bg-dark text-primary px-6 py-3 rounded-full font-bold hover:bg-white hover:text-dark transition-all shadow-xl hover:shadow-card-hover"
-                    >
-                      {promotionsData.promoSection.promoBox.buttonText}
-                    </motion.button>
-                  </Link>
                 </div>
               </div>
             </motion.div>

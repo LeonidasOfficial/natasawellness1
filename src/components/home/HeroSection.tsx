@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
-import { FaPhone, FaEnvelope, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaPhone, FaEnvelope, FaClock, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Link from 'next/link'
 import { useTranslation } from '@/contexts/TranslationContext'
 import { useLocaleLink } from '@/hooks/useLocaleLink'
@@ -189,7 +189,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
             >
               <motion.div
                 whileHover={{ scale: 1.05, x: 10 }}
@@ -214,6 +214,19 @@ const HeroSection = () => {
                 <div>
                   <h5 className="text-primary font-semibold text-sm uppercase mb-1">{t('hero.emailUs')}</h5>
                   <p className="text-dark font-bold text-lg">info@natasawellness.com</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05, x: 10 }}
+                className="flex items-center gap-4 glass glass-hover p-4 rounded-lg shadow-lg cursor-pointer group backdrop-blur-xl"
+              >
+                <div className="w-14 h-14 bg-primary flex items-center justify-center flex-shrink-0 rounded-lg group-hover:bg-dark transition-colors duration-300">
+                  <FaClock className="text-dark group-hover:text-primary text-xl transition-colors duration-300" />
+                </div>
+                <div>
+                  <h5 className="text-primary font-semibold text-sm uppercase mb-1">{t('workingHours.title')}</h5>
+                  <p className="text-dark font-bold text-lg">Mon-Fri: 09:00-20:00 | Sat: 09:00-14:00</p>
                 </div>
               </motion.div>
             </motion.div>

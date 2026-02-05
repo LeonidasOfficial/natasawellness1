@@ -27,7 +27,8 @@
     "readMore": "Mehr Lesen",
     "bookAppointment": "Termin Buchen",
     "viewAll": "Alle Anzeigen",
-    "backToHome": "Zurück zur Startseite"
+    "backToHome": "Zurück zur Startseite",
+    "viewPricing": "Preisliste"
   },
   "hero": {
     "welcome": "Willkommen",
@@ -121,7 +122,45 @@
     "service6": {
       "name": "Haarentfernung",
       "description": "Wir verwenden sanften, hochwertigen Streifenwachs, um Haare an der Wurzel zu entfernen für glatte Haut und feineren Nachwuchs. Geeignet für alle Hauttypen, einschließlich empfindlicher Haut."
+    },
+    "service7": {
+      "name": "Make-up",
+      "description": "Professionelles Make-up für alle Anlässe. Von natürlich bis glamourös."
+    },
+    "service8": {
+      "name": "Spray-Tan",
+      "description": "Natürlicher sonnengeküsster Look ohne schädliche UV-Strahlung. Perfekte Bräune."
+    },
+    "service9": {
+      "name": "Höchstes Wohlbefinden",
+      "description": "Komplette Wellness-Therapie für Körper- und Geist-Entspannung. Aromatherapie und mehr."
     }
+  },
+  "promotions": {
+    "title": "Preise",
+    "subtitle": "Schönheitssalon",
+    "largeTitle": "Aktion",
+    "promoBox": {
+      "label": "Valentinstag-Special",
+      "unit": "Rabatt auf alle Gutscheine, gültig vom 01.02.2026 bis 15.02.2026",
+      "description": "Buchen Sie Ihren ersten Termin und genießen Sie 20% Rabatt auf alle Dienstleistungen!",
+      "buttonText": "20% Rabatt Erhalten"
+    },
+    "featuredServices": {
+      "service1": "Gesichtsbehandlung",
+      "service2": "Maniküre",
+      "service3": "Pediküre",
+      "service4": "Wimpernlifting",
+      "service5": "Spray-Tan",
+      "service6": "Haarentfernung"
+    }
+  },
+  "workingHours": {
+    "title": "Öffnungszeiten",
+    "weekdays": "Montag - Freitag",
+    "weekdaysTime": "09:00 - 20:00 nach Vereinbarung",
+    "saturday": "Samstag",
+    "saturdayTime": "09:00 - 14:00 nach Vereinbarung"
   },
   "booking": {
     "title": "Termin Buchen",

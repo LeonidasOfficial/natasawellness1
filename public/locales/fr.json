@@ -27,7 +27,8 @@
     "readMore": "Lire Plus",
     "bookAppointment": "Prendre Rendez-vous",
     "viewAll": "Voir Tout",
-    "backToHome": "Retour à l'Accueil"
+    "backToHome": "Retour à l'Accueil",
+    "viewPricing": "Liste de Prix"
   },
   "hero": {
     "welcome": "Bienvenue",
@@ -121,7 +122,45 @@
     "service6": {
       "name": "Épilation",
       "description": "Nous utilisons une cire à bandes douce et de haute qualité pour éliminer les poils à la racine pour une peau lisse et une repousse plus fine. Convient à tous les types de peau, y compris les peaux sensibles."
+    },
+    "service7": {
+      "name": "Maquillage",
+      "description": "Maquillage professionnel pour toutes les occasions. Des looks naturels aux glamours."
+    },
+    "service8": {
+      "name": "Bronzage en Spray",
+      "description": "Look bronzé naturel sans radiation UV nocive. Bronzage parfait."
+    },
+    "service9": {
+      "name": "Bien-être Suprême",
+      "description": "Thérapie de bien-être complète pour la relaxation du corps et de l'esprit. Aromathérapie et plus."
     }
+  },
+  "promotions": {
+    "title": "Tarification",
+    "subtitle": "Salon de Beauté",
+    "largeTitle": "Promotion",
+    "promoBox": {
+      "label": "Spécial Saint-Valentin",
+      "unit": "Remise sur tous les bons cadeaux, valable du 01.02.2026 au 15.02.2026",
+      "description": "Réservez votre premier rendez-vous et bénéficiez de 20% de réduction sur tous les services!",
+      "buttonText": "Obtenez 20% de Réduction"
+    },
+    "featuredServices": {
+      "service1": "Soins du Visage",
+      "service2": "Manucure",
+      "service3": "Pédicure",
+      "service4": "Rehaussement des Cils",
+      "service5": "Bronzage en Spray",
+      "service6": "Épilation"
+    }
+  },
+  "workingHours": {
+    "title": "Heures d'Ouverture",
+    "weekdays": "Lundi - Vendredi",
+    "weekdaysTime": "09:00 - 20:00 sur Rendez-vous",
+    "saturday": "Samedi",
+    "saturdayTime": "09:00 - 14:00 sur Rendez-vous"
   },
   "booking": {
     "title": "Prendre Rendez-vous",

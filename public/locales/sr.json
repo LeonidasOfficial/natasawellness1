@@ -27,7 +27,8 @@
     "readMore": "Pročitaj Više",
     "bookAppointment": "Zakažite Termin",
     "viewAll": "Vidi Sve",
-    "backToHome": "Nazad na Početnu"
+    "backToHome": "Nazad na Početnu",
+    "viewPricing": "Cenovnik"
   },
   "hero": {
     "welcome": "Dobrodošli",
@@ -121,7 +122,45 @@
     "service6": {
       "name": "Tretmani Uklanjanja Dlaka",
       "description": "Koristimo blagi, visokokvalitetni strip vosak za uklanjanje dlaka iz korena za glatku kožu i finiji porast. Pogodan za sve tipove kože, uključujući osetljivu kožu."
+    },
+    "service7": {
+      "name": "Šminkanje",
+      "description": "Profesionalna šminka za sve prilike. Od prirodnog do glamuroznog izgleda."
+    },
+    "service8": {
+      "name": "Sprej Tan",
+      "description": "Prirodan sun-kissed izgled bez štetnog UV zračenja. Savršena preplanulost."
+    },
+    "service9": {
+      "name": "Supreme Wellbeing",
+      "description": "Kompletna wellness terapija za opuštanje tela i uma. Aromaterapija i više."
     }
+  },
+  "promotions": {
+    "title": "Cene",
+    "subtitle": "Salon Lepote",
+    "largeTitle": "Promocija",
+    "promoBox": {
+      "label": "Specijalna Ponuda za Dan Zaljubljenih",
+      "unit": "Popust na sve poklon vaučere, važeće od 01.02.2026 do 15.02.2026",
+      "description": "Zakažite svoj prvi termin i uživajte u 20% popusta na sve usluge!",
+      "buttonText": "Dobijte 20% Popusta"
+    },
+    "featuredServices": {
+      "service1": "Tretman Lica",
+      "service2": "Manikir",
+      "service3": "Pedikir",
+      "service4": "Podizanje Trepavica",
+      "service5": "Spraj Tan",
+      "service6": "Tretmani Uklanjanja Dlaka"
+    }
+  },
+  "workingHours": {
+    "title": "Radno Vreme",
+    "weekdays": "Ponedeljak - Petak",
+    "weekdaysTime": "09:00 - 20:00 po Terminu",
+    "saturday": "Subota",
+    "saturdayTime": "09:00 - 14:00 po Terminu"
   },
   "booking": {
     "title": "Zakazivanje Termina",

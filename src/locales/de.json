@@ -27,7 +27,8 @@
     "readMore": "Mehr Lesen",
     "bookAppointment": "Termin Buchen",
     "viewAll": "Alle Anzeigen",
-    "backToHome": "Zurück zur Startseite"
+    "backToHome": "Zurück zur Startseite",
+    "viewPricing": "Preisliste"
   },
   "hero": {
     "welcome": "Willkommen",
@@ -82,6 +83,70 @@
     "treatments": "Behandlungen",
     "price": "Preis",
     "duration": "Dauer"
+  },
+  "services": {
+    "service1": {
+      "name": "Gesichtsbehandlung",
+      "description": "Das verwöhnende Erlebnis unserer Phyt-Gesichtsbehandlungen kann vielfältige gesundheitliche und Schönheitsvorteile bieten. Unsere Behandlungen reinigen Poren, peelen abgestorbene Hautzellen, hydratisieren und pflegen die Haut. Unsere Behandlungen sind ideal zur Aufrechterhaltung einer guten Hautgesundheit und verleihen Ihnen einen strahlenden Teint. Jede Behandlung wird auf Ihre einzigartige Haut abgestimmt. Wir diagnostizieren Ihre Haut vor Ort und wählen die Produkte und Behandlungen aus, die am besten zu Ihren Bedürfnissen passen."
+    },
+    "service2": {
+      "name": "Maniküre",
+      "description": "Unsere Maniküre umfasst Nagelformung, Nagelhautpflege, eine entspannende Handmassage und optionalen Nagellack in der Farbe Ihrer Wahl."
+    },
+    "service3": {
+      "name": "Pediküre",
+      "description": "Unsere Pediküre ist eine vollständige Fußbehandlung für Männer und Frauen, einschließlich Nagelpflege, Nagelhautarbeit, Peeling, Hydratation, Massage und optionalem Nagellack—lassen Sie Ihre Füße leicht und erfrischt fühlen."
+    },
+    "service4": {
+      "name": "Wimpernlifting",
+      "description": "Langanhaltendes Wimpernlifting für einen perfekten Blick. Natürliches und elegantes Aussehen."
+    },
+    "service5": {
+      "name": "Spray-Tan",
+      "description": "Eine schnelle, professionelle Spray-Tan-Behandlung für einen natürlichen, strahlenden Glow, der bis zu 14 Tage hält."
+    },
+    "service6": {
+      "name": "Haarentfernung",
+      "description": "Wir verwenden sanften, hochwertigen Streifenwachs, um Haare an der Wurzel zu entfernen für glatte Haut und feineren Nachwuchs. Geeignet für alle Hauttypen, einschließlich empfindlicher Haut."
+    },
+    "service7": {
+      "name": "Make-up",
+      "description": "Professionelles Make-up für alle Anlässe. Von natürlich bis glamourös."
+    },
+    "service8": {
+      "name": "Spray-Tan",
+      "description": "Natürlicher sonnengeküsster Look ohne schädliche UV-Strahlung. Perfekte Bräune."
+    },
+    "service9": {
+      "name": "Höchstes Wohlbefinden",
+      "description": "Komplette Wellness-Therapie für Körper- und Geist-Entspannung. Aromatherapie und mehr."
+    }
+  },
+  "promotions": {
+    "title": "Preise",
+    "subtitle": "Schönheitssalon",
+    "largeTitle": "Aktion",
+    "promoBox": {
+      "label": "Valentinstag-Special",
+      "unit": "Rabatt auf alle Gutscheine, gültig vom 01.02.2026 bis 15.02.2026",
+      "description": "Buchen Sie Ihren ersten Termin und genießen Sie 20% Rabatt auf alle Dienstleistungen!",
+      "buttonText": "20% Rabatt Erhalten"
+    },
+    "featuredServices": {
+      "service1": "Gesichtsbehandlung",
+      "service2": "Maniküre",
+      "service3": "Pediküre",
+      "service4": "Wimpernlifting",
+      "service5": "Spray-Tan",
+      "service6": "Haarentfernung"
+    }
+  },
+  "workingHours": {
+    "title": "Öffnungszeiten",
+    "weekdays": "Montag - Freitag",
+    "weekdaysTime": "09:00 - 20:00 nach Vereinbarung",
+    "saturday": "Samstag",
+    "saturdayTime": "09:00 - 14:00 nach Vereinbarung"
   },
   "booking": {
     "title": "Termin Buchen",

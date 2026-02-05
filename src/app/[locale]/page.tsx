@@ -10,6 +10,7 @@ import { useTranslation } from '@/contexts/TranslationContext'
 import ParallaxLayer, { MediumParallaxLayer } from '@/components/ui/ParallaxLayer'
 import DecorativeDivider from '@/components/ui/DecorativeDivider'
 import PromotionalParallaxSection from '@/components/home/PromotionalParallaxSection'
+import WorkingHoursCard from '@/components/ui/WorkingHoursCard'
 import { useState, useEffect } from 'react'
 
 // Import data
@@ -30,7 +31,20 @@ interface GalleryItem {
 export default function Home() {
   const { t, translations } = useTranslation()
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
+  const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set())
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 })
+
+  const toggleServiceDescription = (serviceId: string) => {
+    setExpandedServices(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(serviceId)) {
+        newSet.delete(serviceId)
+      } else {
+        newSet.add(serviceId)
+      }
+      return newSet
+    })
+  }
 
   useEffect(() => {
     const loadGallery = async () => {
@@ -205,6 +219,7 @@ export default function Home() {
                 const descKey = `services.service${service.id}.description`
                 const serviceName = t(nameKey) !== nameKey ? t(nameKey) : service.name
                 const serviceDesc = t(descKey) !== descKey ? t(descKey) : service.description
+                const isExpanded = expandedServices.has(service.id)
                 return (
                 <motion.div
                   key={service.id}
@@ -228,10 +243,24 @@ export default function Home() {
                   <h3 className="font-playfair text-lg md:text-xl font-bold text-dark mb-2 group-hover:text-primary transition-colors tracking-wide">
                     {serviceName}
                   </h3>
-                  <p className="text-gray-600 mb-3 text-xs md:text-sm leading-relaxed line-clamp-2">{serviceDesc}</p>
+                  <motion.div
+                    onClick={() => toggleServiceDescription(service.id)}
+                    className="cursor-pointer"
+                    animate={{ height: isExpanded ? 'auto' : 'auto' }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p className={`text-gray-600 mb-3 text-xs md:text-sm leading-relaxed ${isExpanded ? '' : 'line-clamp-2'}`}>
+                      {serviceDesc}
+                    </p>
+                    {serviceDesc.length > 100 && (
+                      <span className="text-primary text-xs font-semibold">
+                        {isExpanded ? '▲ Show less' : '▼ Read more'}
+                      </span>
+                    )}
+                  </motion.div>
                   <Link href="/pricelist" className="link-underline">
-                    <button className="text-primary font-semibold uppercase text-sm hover:text-dark transition-colors flex items-center gap-2 mx-auto group-hover:gap-4 transition-all">
-                      {t('common.readMore')} <FaArrowRight />
+                    <button className="text-primary font-semibold uppercase text-sm hover:text-dark transition-colors flex items-center gap-2 mx-auto group-hover:gap-4 transition-all mt-2">
+                      {t('common.viewPricing')} <FaArrowRight />
                     </button>
                   </Link>
                 </motion.div>
@@ -251,10 +280,17 @@ export default function Home() {
         {/* Gallery Preview with Individual Parallax */}
         <section ref={ref4} className="w-full section-padding bg-white relative">
           <div className="container-custom max-w-7xl">
-            <SectionTitle subtitle="Gallery" title="Explore Our Gallery" />
+            <SectionTitle title="Explore Our Gallery" />
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
-              {galleryData.slice(0, 6).map((item, index) => {
+              {[
+                { id: '1', title: 'Natasa Wellness', category: 'SPA', image: '/img/gallery-home-1.png' },
+                { id: '2', title: 'Phyt\'s FACIAL', category: 'Facial', image: '/img/gallery-home-2.png' },
+                { id: '3', title: 'Phyt\'s FACIAL', category: 'Facial', image: '/img/gallery-home-3.png' },
+                { id: '4', title: 'Phyt\'s FACIAL', category: 'Facial', image: '/img/gallery-home-4.png' },
+                { id: '5', title: 'Natasa Wellness', category: 'SPA', image: '/img/gallery-home-5.png' },
+                { id: '6', title: 'Natasa Wellness', category: 'SPA', image: '/img/gallery-home-6.png' },
+              ].map((item, index) => {
                 // Different parallax speeds for each row
                 const rowIndex = Math.floor(index / 3)
                 const parallaxSpeed = rowIndex === 0 ? 0.1 : rowIndex === 1 ? 0.2 : 0.3

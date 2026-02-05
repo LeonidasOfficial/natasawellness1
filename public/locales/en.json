@@ -27,7 +27,8 @@
     "readMore": "Read More",
     "bookAppointment": "Book Appointment",
     "viewAll": "View All",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "viewPricing": "Price List"
   },
   "hero": {
     "welcome": "Welcome",
@@ -121,7 +122,45 @@
     "service6": {
       "name": "Hair Removal",
       "description": "We use gentle, high-quality strip wax to remove hair from the root for smooth skin and finer regrowth. Suitable for all skin types, including sensitive skin."
+    },
+    "service7": {
+      "name": "Makeup",
+      "description": "Professional makeup for all occasions. From natural to glamorous looks."
+    },
+    "service8": {
+      "name": "Spray Tan",
+      "description": "Natural sun-kissed look without harmful UV radiation. Perfect tan."
+    },
+    "service9": {
+      "name": "Supreme Wellbeing",
+      "description": "Complete wellness therapy for body and mind relaxation. Aromatherapy and more."
     }
+  },
+  "promotions": {
+    "title": "Pricing",
+    "subtitle": "Beauty Salon",
+    "largeTitle": "Promotion",
+    "promoBox": {
+      "label": "St.Valentines Special",
+      "unit": "Off all gift vouchers, valid from 01.02.2026 to 15.02.2026",
+      "description": "Book your first appointment and enjoy 20% off on all services!",
+      "buttonText": "Get 20% Off"
+    },
+    "featuredServices": {
+      "service1": "Facial Treatment",
+      "service2": "Manicure",
+      "service3": "Pedicure",
+      "service4": "Eyelash Lift",
+      "service5": "Spray Tan",
+      "service6": "Hair Removal"
+    }
+  },
+  "workingHours": {
+    "title": "Working Hours",
+    "weekdays": "Monday - Friday",
+    "weekdaysTime": "09:00 - 20:00 by Appointment",
+    "saturday": "Saturday",
+    "saturdayTime": "09:00 - 14:00 by Appointment"
   },
   "booking": {
     "title": "Book Appointment",
