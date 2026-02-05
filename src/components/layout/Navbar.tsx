@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaFacebookF, FaInstagram, FaBars, FaTimes } from 'react-icons/fa'
@@ -96,7 +97,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between max-w-full">
             {/* Logo */}
             <Link href={createLink('/')} className="flex items-center gap-2 bg-primary py-4 px-4 md:py-6 md:px-8 hover:bg-primary-dark transition-colors duration-300 flex-shrink-0">
-              <img src="/img/admin-ajax.png" alt="Nataša Wellness" className="h-8 md:h-9 w-auto" />
+              <Image src="/img/admin-ajax.png" alt="Nataša Wellness" width={36} height={36} className="h-8 md:h-9 w-auto" />
               <h1 className="font-playfair text-xl md:text-2xl lg:text-3xl font-bold text-dark whitespace-nowrap">Nataša Wellness</h1>
             </Link>
 
@@ -141,7 +142,7 @@ const Navbar = () => {
               <LanguageSwitcher />
               
               <div className="flex items-center gap-3">
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
                     href={social.url}

@@ -280,7 +280,7 @@ export default function Home() {
         {/* Gallery Preview with Individual Parallax */}
         <section ref={ref4} className="w-full section-padding bg-white relative">
           <div className="container-custom max-w-7xl">
-            <SectionTitle title="Explore Our Gallery" />
+            <SectionTitle subtitle="Our Work" title="Explore Our Gallery" />
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
               {[

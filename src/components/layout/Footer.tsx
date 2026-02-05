@@ -10,7 +10,6 @@ import {
   FaClock,
   FaFacebookF, 
   FaInstagram, 
-  FaLinkedinIn, 
   FaTwitter,
   FaPaperPlane,
   FaHeart

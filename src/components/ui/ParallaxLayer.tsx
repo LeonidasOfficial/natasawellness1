@@ -18,7 +18,7 @@ export default function ParallaxLayer({
   speed = 0.5,
   direction = 'vertical',
   className = '',
-  offset = [0, 1],
+  offset: _offset = [0, 1],
   mobileSpeed,
 }: ParallaxLayerProps) {
   const ref = useRef<HTMLDivElement>(null)

@@ -58,7 +58,7 @@ export async function isAuthenticated(): Promise<boolean> {
   return verified !== null
 }
 
-export async function verifyAuth(request: Request) {
+export async function verifyAuth(_request: Request) {
   try {
     // Try to get token from cookie
     const cookieStore = await cookies()
@@ -74,7 +74,7 @@ export async function verifyAuth(request: Request) {
     }
     
     return { isValid: true, email: verified.email }
-  } catch (error) {
+  } catch (_error) {
     return { isValid: false, email: null }
   }
 }

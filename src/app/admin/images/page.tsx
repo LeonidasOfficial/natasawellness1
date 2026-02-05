@@ -113,7 +113,7 @@ export default function ImageManagementPage() {
           console.log(`[Admin Images] Found ${galleryImages.length} Gallery images:`, galleryImages.map(img => ({ id: img.id, path: img.path, file: img.currentFile })))
           
           // Use functional update to ensure we're working with latest state
-          setImages(prev => {
+          setImages(_prev => {
             // Force update by creating new array reference
             const newImages = [...data]
             console.log(`[Admin Images] Setting ${newImages.length} images in state (${galleryImages.length} Gallery)`)
@@ -447,7 +447,7 @@ export default function ImageManagementPage() {
         {/* Section-based layout */}
         <div className="space-y-10">
           {SECTION_ORDER.map(({ category, label, canAdd, canDelete }) => {
-            let imagesToShow =
+            const imagesToShow =
               selectedCategory === 'all'
                 ? filteredImages.filter((img) => img.category === category)
                 : selectedCategory === category

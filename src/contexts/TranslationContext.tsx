@@ -23,7 +23,7 @@ export function TranslationProvider({
   // Use initialLocale prop directly, fallback to 'sr'
   const [locale, setLocaleState] = useState<Locale>(initialLocale || 'sr')
   const [translations, setTranslations] = useState<Record<string, unknown>>({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [_isLoading, setIsLoading] = useState(true)
 
   // Sync locale with initialLocale prop when it changes
   useEffect(() => {
