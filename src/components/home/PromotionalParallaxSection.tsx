@@ -104,23 +104,23 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
               </h1>
 
               <div className="grid grid-cols-1 gap-4 items-center">
-                <div className="bg-dark p-6 md:p-8 rounded-2xl text-center shadow-glow border border-white/10 max-w-xl mx-auto lg:mx-0">
-                  <h4 className="text-white text-2xl md:text-3xl font-semibold leading-tight mb-4">
+                <div className="bg-dark p-5 sm:p-6 md:p-8 rounded-2xl text-center shadow-glow border border-white/10 max-w-xl mx-auto lg:mx-0">
+                  <h4 className="text-white text-xl sm:text-2xl md:text-3xl font-semibold leading-tight max-w-md mx-auto mb-3 md:mb-4">
                     {t('promotions.promoBox.label')}
                   </h4>
-                  <h1 className="text-white text-7xl md:text-8xl font-bold leading-none mb-4">
+                  <h1 className="text-white text-6xl sm:text-7xl md:text-8xl font-bold leading-none mb-3 md:mb-4">
                     {promotionsData.promoSection.promoBox.percentage}%
                   </h1>
-                  <p className="text-white/95 text-lg md:text-2xl leading-relaxed mb-6">
+                  <p className="text-white/95 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mx-auto mb-5 md:mb-6">
                     {t('promotions.promoBox.unit')}
                   </p>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center bg-primary text-dark font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:bg-white hover:scale-105"
+                    className="inline-flex w-full sm:w-auto items-center justify-center bg-primary text-dark text-sm sm:text-base font-semibold px-5 sm:px-6 py-3 rounded-full transition-all duration-300 hover:bg-white hover:scale-105"
                   >
                     {t('promotions.promoBox.buttonText')}
                   </Link>
-                  <p className="text-white/75 text-sm md:text-base leading-relaxed mt-5">
+                  <p className="text-white/75 text-xs sm:text-sm md:text-base leading-relaxed max-w-lg mx-auto mt-4 md:mt-5">
                     {t('promotions.promoBox.description')}
                   </p>
                 </div>
