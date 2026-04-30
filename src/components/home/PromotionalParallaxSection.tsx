@@ -107,13 +107,10 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
 
               <div className="grid grid-cols-1 gap-4 items-center">
                 <div className="bg-dark p-5 sm:p-6 md:p-8 rounded-2xl text-center shadow-glow border border-white/10 max-w-xl mx-auto lg:mx-0">
-                  <h4 className="text-white text-xl sm:text-2xl md:text-3xl font-semibold leading-tight max-w-md mx-auto mb-3 md:mb-4">
+                  <h4 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight max-w-md mx-auto mb-4 md:mb-5">
                     {t('promotions.promoBox.label')}
                   </h4>
-                  <h1 className="text-white text-6xl sm:text-7xl md:text-8xl font-bold leading-none mb-3 md:mb-4">
-                    {promotionsData.promoSection.promoBox.percentage}%
-                  </h1>
-                  <p className="text-white/95 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mx-auto mb-5 md:mb-6">
+                  <p className="text-white/95 text-base sm:text-lg md:text-xl leading-relaxed max-w-lg mx-auto mb-6 md:mb-7">
                     {t('promotions.promoBox.unit')}
                   </p>
                   <Link
