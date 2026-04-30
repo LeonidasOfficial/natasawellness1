@@ -127,10 +127,10 @@
     "subtitle": "Salon Lepote",
     "largeTitle": "Promocija",
     "promoBox": {
-      "label": "Specijalna Ponuda za Dan Zaljubljenih",
-      "unit": "Popust na sve poklon vaučere, važeće od 01.02.2026 do 15.02.2026",
-      "description": "Zakažite svoj prvi termin i uživajte u 20% popusta na sve usluge!",
-      "buttonText": "Dobijte 20% Popusta"
+      "label": "Punite 20, 30, 40 ili više?",
+      "unit": "Proslavite svoj jubilej uz personalizovani popust u visini vaših godina, kada zakažete ili nas posetite na svoj rođendan.",
+      "description": "Važi za jubilarne rođendane (20, 30, 40, 50, 60, 70…) isključivo na dan vašeg rođendana. ",
+      "buttonText": "Rezervišite svoj rođendanski tretman"
     },
     "featuredServices": {
       "service1": "Tretman Lica",
@@ -163,3 +163,4 @@
     "errorMessage": "Neuspešno zakazivanje. Molimo pokušajte ponovo."
   }
 }
+
