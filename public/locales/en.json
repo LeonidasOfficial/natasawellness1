@@ -1,4 +1,4 @@
-{
+
   "nav": {
     "home": "Home",
     "about": "About",
@@ -195,10 +195,10 @@
     "subtitle": "Beauty Salon",
     "largeTitle": "Promotion",
     "promoBox": {
-      "label": "St.Valentines Special",
-      "unit": "Off all gift vouchers, valid from 01.02.2026 to 15.02.2026",
-      "description": "Book your first appointment and enjoy 20% off on all services!",
-      "buttonText": "Get 20% Off"
+      "label": "Turning 20, 30, 40 or more?",
+      "unit": "Celebrate your milestone with a personalized discount equal to your age when you book or visit us on your birthday.",
+      "description": "Valid for milestone birthdays (20, 30, 40, 50, 60, 70...) exclusively on the day of your birthday.",
+      "buttonText": "Book your birthday treatment"
     },
     "featuredServices": {
       "service1": "Facial Treatment",
@@ -231,3 +231,4 @@
     "errorMessage": "Failed to book appointment. Please try again."
   }
 }
+
