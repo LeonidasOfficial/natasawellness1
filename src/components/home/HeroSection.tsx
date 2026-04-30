@@ -122,10 +122,37 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/30" />
       </motion.div>
 
+      {/* Full-bleed slide background */}
+      <motion.div
+        style={{
+          y: sliderY,
+          willChange: prefersReducedMotion ? 'auto' : 'transform',
+        }}
+        className="absolute inset-0 z-[1]"
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0.25 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0"
+          >
+            <img
+              src={slides[currentSlide].image}
+              alt={slides[currentSlide].title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-light/92 via-light/72 to-dark/35" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/65 via-dark/10 to-transparent" />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+
       <div className="w-full relative z-10">
-        <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
-          {/* Left Content - Medium Parallax */}
+        <div className="container-custom py-6 lg:py-8">
+          {/* Left Content - fixed visual anchor */}
           <motion.div
             initial={{ opacity: 0, x: -50, scale: 0.96 }}
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -135,7 +162,7 @@ const HeroSection = () => {
               y: contentY,
               willChange: prefersReducedMotion ? 'auto' : 'transform',
             }}
-            className="space-y-4 lg:space-y-6 py-6 lg:py-8"
+            className="space-y-4 lg:space-y-6 max-w-2xl"
           >
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -256,91 +283,67 @@ const HeroSection = () => {
               </motion.button>
             </motion.div>
           </motion.div>
-
-          {/* Right Content - Image Slider - Medium Parallax */}
-          <motion.div
-            initial={{ opacity: 0, x: 50, scale: 0.96 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              y: sliderY,
-              willChange: prefersReducedMotion ? 'auto' : 'transform',
-            }}
-            className="relative h-[500px] lg:h-[600px]"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl vignette"
-              >
-                <img
-                  src={slides[currentSlide].image}
-                  alt={slides[currentSlide].title}
-                  className="w-full h-full object-cover transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/70 via-dark/30 to-transparent flex items-end p-8">
-                  <div className="text-white">
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="font-dancing text-2xl mb-2"
-                    >
-                      {slides[currentSlide].subtitle}
-                    </motion.p>
-                    <motion.h3
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="font-playfair text-4xl font-bold"
-                    >
-                      {slides[currentSlide].title}
-                    </motion.h3>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Slider Controls */}
-            <div className="absolute bottom-4 right-4 flex gap-2 z-20">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={prevSlide}
-                className="w-12 h-12 bg-primary text-dark flex items-center justify-center rounded-full hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg"
-              >
-                <FaChevronLeft />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={nextSlide}
-                className="w-12 h-12 bg-primary text-dark flex items-center justify-center rounded-full hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg"
-              >
-                <FaChevronRight />
-              </motion.button>
-            </div>
-
-            {/* Slide Indicators */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide ? 'bg-primary w-8' : 'bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          </motion.div>
         </div>
-        </div>
+      </div>
+
+      {/* Slide caption - anchored bottom-right */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35, duration: 0.6 }}
+        className="absolute right-5 md:right-10 lg:right-16 bottom-24 md:bottom-28 z-20 max-w-[90vw] sm:max-w-md lg:max-w-xl text-right"
+      >
+        <motion.p
+          key={`subtitle-${currentSlide}`}
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.45 }}
+          className="font-dancing text-2xl md:text-3xl text-white/95 drop-shadow mb-1"
+        >
+          {slides[currentSlide].subtitle}
+        </motion.p>
+        <motion.h3
+          key={`title-${currentSlide}`}
+          initial={{ y: 18, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.08, duration: 0.5 }}
+          className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight"
+        >
+          {slides[currentSlide].title}
+        </motion.h3>
+      </motion.div>
+
+      {/* Slider Controls */}
+      <div className="absolute bottom-6 right-6 md:right-10 flex gap-2 z-20">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={prevSlide}
+          className="w-12 h-12 bg-primary text-dark flex items-center justify-center rounded-full hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg"
+        >
+          <FaChevronLeft />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={nextSlide}
+          className="w-12 h-12 bg-primary text-dark flex items-center justify-center rounded-full hover:bg-dark hover:text-primary transition-all duration-300 shadow-lg"
+        >
+          <FaChevronRight />
+        </motion.button>
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`h-2.5 rounded-full transition-all duration-300 ${
+              index === currentSlide ? 'bg-primary w-8' : 'bg-white/55 w-2.5'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Modern Decorative Elements - Fastest Parallax */}
