@@ -1,4 +1,4 @@
-
+{
   "nav": {
     "home": "Home",
     "about": "About",
@@ -231,4 +231,3 @@
     "errorMessage": "Failed to book appointment. Please try again."
   }
 }
-
