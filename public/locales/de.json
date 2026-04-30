@@ -195,10 +195,10 @@
     "subtitle": "Schönheitssalon",
     "largeTitle": "Aktion",
     "promoBox": {
-      "label": "Valentinstag-Special",
-      "unit": "Rabatt auf alle Gutscheine, gültig vom 01.02.2026 bis 15.02.2026",
-      "description": "Buchen Sie Ihren ersten Termin und genießen Sie 20% Rabatt auf alle Dienstleistungen!",
-      "buttonText": "20% Rabatt Erhalten"
+      "label": "Werden Sie 20, 30, 40 oder mehr?",
+      "unit": "Feiern Sie Ihr Jubiläum mit einem personalisierten Rabatt in Höhe Ihres Alters, wenn Sie an Ihrem Geburtstag einen Termin buchen oder uns besuchen.",
+      "description": "Gilt für runde Geburtstage (20, 30, 40, 50, 60, 70...) ausschließlich am Tag Ihres Geburtstags.",
+      "buttonText": "Buchen Sie Ihre Geburtstagsbehandlung"
     },
     "featuredServices": {
       "service1": "Gesichtsbehandlung",
@@ -231,3 +231,4 @@
     "errorMessage": "Buchung fehlgeschlagen. Bitte versuchen Sie es erneut."
   }
 }
+
