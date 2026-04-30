@@ -127,10 +127,10 @@
     "subtitle": "Salon de Beauté",
     "largeTitle": "Promotion",
     "promoBox": {
-      "label": "Spécial Saint-Valentin",
-      "unit": "Remise sur tous les bons cadeaux, valable du 01.02.2026 au 15.02.2026",
-      "description": "Réservez votre premier rendez-vous et bénéficiez de 20% de réduction sur tous les services!",
-      "buttonText": "Obtenez 20% de Réduction"
+      "label": "Vous fêtez vos 20, 30, 40 ans ou plus ?",
+      "unit": "Célébrez votre anniversaire marquant avec une remise personnalisée équivalente à votre âge, lorsque vous réservez ou nous rendez visite le jour de votre anniversaire.",
+      "description": "Valable pour les anniversaires marquants (20, 30, 40, 50, 60, 70...) exclusivement le jour de votre anniversaire.",
+      "buttonText": "Réservez votre soin d'anniversaire"
     },
     "featuredServices": {
       "service1": "Soins du Visage",
@@ -163,3 +163,4 @@
     "errorMessage": "Échec de la réservation. Veuillez réessayer."
   }
 }
+
