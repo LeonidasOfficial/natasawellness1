@@ -144,8 +144,9 @@ const HeroSection = () => {
               alt={slides[currentSlide].title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-light/92 via-light/72 to-dark/35" />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/65 via-dark/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-light/93 via-light/70 to-dark/45" />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/72 via-dark/15 to-transparent" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_88%,rgba(0,0,0,0.58),rgba(0,0,0,0.22)_32%,transparent_62%)]" />
           </motion.div>
         </AnimatePresence>
       </motion.div>
@@ -291,7 +292,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.35, duration: 0.6 }}
-        className="absolute right-5 md:right-10 lg:right-16 bottom-24 md:bottom-28 z-20 max-w-[90vw] sm:max-w-md lg:max-w-xl text-right"
+        className="absolute right-5 md:right-10 lg:right-16 bottom-24 md:bottom-28 z-20 max-w-[90vw] sm:max-w-md lg:max-w-2xl text-right bg-black/30 backdrop-blur-[2px] px-3 py-2 md:px-4 md:py-3 rounded-xl border border-white/10"
       >
         <motion.p
           key={`subtitle-${currentSlide}`}
@@ -307,7 +308,7 @@ const HeroSection = () => {
           initial={{ y: 18, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.08, duration: 0.5 }}
-          className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg leading-tight"
+          className="font-playfair text-3xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg leading-tight"
         >
           {slides[currentSlide].title}
         </motion.h3>
