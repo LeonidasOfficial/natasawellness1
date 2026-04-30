@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import ParallaxLayer, { MediumParallaxLayer } from '@/components/ui/ParallaxLayer'
 import { useTranslation } from '@/contexts/TranslationContext'
+import { useLocaleLink } from '@/hooks/useLocaleLink'
 
 interface PromotionalParallaxSectionProps {
   promotionsData: any
@@ -14,6 +15,7 @@ interface PromotionalParallaxSectionProps {
 const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSectionProps>(
   ({ promotionsData, inView }, ref) => {
     const { t } = useTranslation()
+    const { createLink } = useLocaleLink()
     const sectionRef = useRef<HTMLElement>(null)
     const internalRef = (ref as React.RefObject<HTMLElement>) || sectionRef
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -115,7 +117,7 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
                     {t('promotions.promoBox.unit')}
                   </p>
                   <Link
-                    href="/contact"
+                    href={createLink('/contact')}
                     className="inline-flex w-full sm:w-auto items-center justify-center bg-primary text-dark text-sm sm:text-base font-semibold px-5 sm:px-6 py-3 rounded-full transition-all duration-300 hover:bg-white hover:scale-105"
                   >
                     {t('promotions.promoBox.buttonText')}
