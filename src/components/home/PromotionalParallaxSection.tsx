@@ -103,11 +103,26 @@ const PromotionalParallaxSection = forwardRef<HTMLElement, PromotionalParallaxSe
                 {t('promotions.largeTitle')}
               </h1>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-                <div className="bg-dark p-6 rounded-xl text-center shadow-glow">
-                  <h4 className="text-white text-lg mb-1">{t('promotions.promoBox.label')}</h4>
-                  <h1 className="text-white text-5xl md:text-6xl lg:text-7xl font-bold mb-1">{promotionsData.promoSection.promoBox.percentage}%</h1>
-                  <p className="text-white text-xl">{t('promotions.promoBox.unit')}</p>
+              <div className="grid grid-cols-1 gap-4 items-center">
+                <div className="bg-dark p-6 md:p-8 rounded-2xl text-center shadow-glow border border-white/10 max-w-xl mx-auto lg:mx-0">
+                  <h4 className="text-white text-2xl md:text-3xl font-semibold leading-tight mb-4">
+                    {t('promotions.promoBox.label')}
+                  </h4>
+                  <h1 className="text-white text-7xl md:text-8xl font-bold leading-none mb-4">
+                    {promotionsData.promoSection.promoBox.percentage}%
+                  </h1>
+                  <p className="text-white/95 text-lg md:text-2xl leading-relaxed mb-6">
+                    {t('promotions.promoBox.unit')}
+                  </p>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center bg-primary text-dark font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:bg-white hover:scale-105"
+                  >
+                    {t('promotions.promoBox.buttonText')}
+                  </Link>
+                  <p className="text-white/75 text-sm md:text-base leading-relaxed mt-5">
+                    {t('promotions.promoBox.description')}
+                  </p>
                 </div>
               </div>
             </motion.div>
