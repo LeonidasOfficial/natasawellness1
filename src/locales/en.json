@@ -60,6 +60,24 @@
     "saturday": "Saturday",
     "sunday": "Sunday"
   },
+  "contactPage": {
+    "title": "Contact Us",
+    "getInTouch": "Get In Touch",
+    "visitSalon": "Visit Our Salon",
+    "description": "We'd love to hear from you! Contact us for appointments or inquiries.",
+    "locationTitle": "Our Location",
+    "callTitle": "Call Us",
+    "emailTitle": "Email Us",
+    "error": "An error occurred. Please try again.",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "subject": "Subject",
+      "message": "Your Message",
+      "send": "Send Message",
+      "sending": "Sending..."
+    }
+  },
   "admin": {
     "dashboard": "Dashboard",
     "login": "Login",

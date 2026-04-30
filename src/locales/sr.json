@@ -60,6 +60,24 @@
     "saturday": "Subota",
     "sunday": "Nedelja"
   },
+  "contactPage": {
+    "title": "Kontaktirajte Nas",
+    "getInTouch": "Stupite u Kontakt",
+    "visitSalon": "Posetite Naš Salon",
+    "description": "Rado ćemo vas čuti! Kontaktirajte nas za zakazivanje termina ili dodatne informacije.",
+    "locationTitle": "Naša Lokacija",
+    "callTitle": "Pozovite Nas",
+    "emailTitle": "Pišite Nam",
+    "error": "Došlo je do greške. Molimo pokušajte ponovo.",
+    "form": {
+      "name": "Vaše Ime",
+      "email": "Vaš Email",
+      "subject": "Tema",
+      "message": "Vaša Poruka",
+      "send": "Pošaljite Poruku",
+      "sending": "Slanje..."
+    }
+  },
   "admin": {
     "dashboard": "Kontrolna Tabla",
     "login": "Prijava",
@@ -163,4 +181,3 @@
     "errorMessage": "Neuspešno zakazivanje. Molimo pokušajte ponovo."
   }
 }
-

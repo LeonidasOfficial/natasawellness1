@@ -74,6 +74,24 @@
     "saturday": "Samstag",
     "sunday": "Sonntag"
   },
+  "contactPage": {
+    "title": "Kontaktieren Sie Uns",
+    "getInTouch": "Nehmen Sie Kontakt Auf",
+    "visitSalon": "Besuchen Sie Unseren Salon",
+    "description": "Wir freuen uns, von Ihnen zu hören! Kontaktieren Sie uns für Termine oder Anfragen.",
+    "locationTitle": "Unser Standort",
+    "callTitle": "Rufen Sie Uns An",
+    "emailTitle": "Schreiben Sie Uns",
+    "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "form": {
+      "name": "Ihr Name",
+      "email": "Ihre E-Mail",
+      "subject": "Betreff",
+      "message": "Ihre Nachricht",
+      "send": "Nachricht Senden",
+      "sending": "Wird gesendet..."
+    }
+  },
   "about": {
     "title": "Über Uns",
     "journey": "Meine Reise in die Welt der Schönheit begann im Jahr 2000, leidenschaftlich an Make-up und mit dem Wunsch, Make-up-Künstlerin zu werden, ohne zu wissen, wie groß die Vielfalt im Schönheitsberuf sein würde. Während meiner Ausbildung liebte ich mehr und mehr alles über Kosmetik und die verschiedenen Behandlungen wie Gesichtsbehandlungen, Epilation und Nägel, die mich am meisten interessierten. Abschluss 2004 in Luxemburg. 2016 absolvierte ich mein Spa-Manager-Diplom in Spanien und erweiterte mein Wissen in Wohlbefinden, Entspannung, Hautbiologie-Anatomie, Aromatherapie und mehr...",

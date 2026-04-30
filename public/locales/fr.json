@@ -74,6 +74,24 @@
     "saturday": "Samedi",
     "sunday": "Dimanche"
   },
+  "contactPage": {
+    "title": "Contactez-Nous",
+    "getInTouch": "Entrons en Contact",
+    "visitSalon": "Visitez Notre Salon",
+    "description": "Nous serions ravis d'avoir de vos nouvelles ! Contactez-nous pour prendre rendez-vous ou pour toute question.",
+    "locationTitle": "Notre Adresse",
+    "callTitle": "Appelez-Nous",
+    "emailTitle": "Envoyez-Nous un Email",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "form": {
+      "name": "Votre Nom",
+      "email": "Votre Email",
+      "subject": "Sujet",
+      "message": "Votre Message",
+      "send": "Envoyer le Message",
+      "sending": "Envoi..."
+    }
+  },
   "about": {
     "title": "À Propos",
     "journey": "Mon parcours dans le monde de la beauté a commencé en 2000, passionnée par le maquillage et voulant devenir maquilleuse sans savoir à quel point la variété dans la profession de la beauté serait immense. Pendant mon apprentissage, j'ai aimé de plus en plus tout ce qui concerne la cosmétique et les différents traitements tels que les soins du visage, l'épilation et les ongles qui m'intéressaient le plus. Diplôme obtenu en 2004 au Luxembourg. En 2016, j'ai obtenu mon diplôme de Spa Manager en Espagne, élargissant mes connaissances en bien-être, relaxation, biologie-anatomie de la peau, aromathérapie et plus encore...",

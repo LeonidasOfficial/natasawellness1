@@ -74,6 +74,24 @@
     "saturday": "Saturday",
     "sunday": "Sunday"
   },
+  "contactPage": {
+    "title": "Contact Us",
+    "getInTouch": "Get In Touch",
+    "visitSalon": "Visit Our Salon",
+    "description": "We'd love to hear from you! Contact us for appointments or inquiries.",
+    "locationTitle": "Our Location",
+    "callTitle": "Call Us",
+    "emailTitle": "Email Us",
+    "error": "An error occurred. Please try again.",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "subject": "Subject",
+      "message": "Your Message",
+      "send": "Send Message",
+      "sending": "Sending..."
+    }
+  },
   "about": {
     "title": "About Us",
     "journey": "My journey in the world of beauty started in the year 2000, passionate in make-up and wanting to be a make-up artist not knowing how enormous the variety in the beauty profession would be. During my apprenticeship I loved more and more everything about cosmetics and all the different treatments such as facials, epilation and nails which interested me most. Received my diploma 2004 in Luxembourg. 2016 I completed and received my Spa Manager diploma in Spain, expanding my knowledge in wellbeing, relaxation, skin biology-anatomy, aromatherapy and more...",

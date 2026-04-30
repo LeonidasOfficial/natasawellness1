@@ -60,6 +60,24 @@
     "saturday": "Samedi",
     "sunday": "Dimanche"
   },
+  "contactPage": {
+    "title": "Contactez-Nous",
+    "getInTouch": "Entrons en Contact",
+    "visitSalon": "Visitez Notre Salon",
+    "description": "Nous serions ravis d'avoir de vos nouvelles ! Contactez-nous pour prendre rendez-vous ou pour toute question.",
+    "locationTitle": "Notre Adresse",
+    "callTitle": "Appelez-Nous",
+    "emailTitle": "Envoyez-Nous un Email",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "form": {
+      "name": "Votre Nom",
+      "email": "Votre Email",
+      "subject": "Sujet",
+      "message": "Votre Message",
+      "send": "Envoyer le Message",
+      "sending": "Envoi..."
+    }
+  },
   "admin": {
     "dashboard": "Tableau de Bord",
     "login": "Connexion",

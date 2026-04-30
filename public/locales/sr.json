@@ -74,6 +74,24 @@
     "saturday": "Subota",
     "sunday": "Nedelja"
   },
+  "contactPage": {
+    "title": "Kontaktirajte Nas",
+    "getInTouch": "Stupite u Kontakt",
+    "visitSalon": "Posetite Naš Salon",
+    "description": "Rado ćemo vas čuti! Kontaktirajte nas za zakazivanje termina ili dodatne informacije.",
+    "locationTitle": "Naša Lokacija",
+    "callTitle": "Pozovite Nas",
+    "emailTitle": "Pišite Nam",
+    "error": "Došlo je do greške. Molimo pokušajte ponovo.",
+    "form": {
+      "name": "Vaše Ime",
+      "email": "Vaš Email",
+      "subject": "Tema",
+      "message": "Vaša Poruka",
+      "send": "Pošaljite Poruku",
+      "sending": "Slanje..."
+    }
+  },
   "about": {
     "title": "O Nama",
     "journey": "Moje putovanje u svet lepote počelo je 2000. godine, strastvena u šminki i želeći da budem šminker, ne znajući koliko je ogromna raznolikost u profesiji lepote. Tokom mog učenja sve više sam volela sve o kozmetici i različitim tretmanima kao što su tretmani lica, epilacija i nokti koji su me najviše zanimali. Diplomu sam dobila 2004. u Luksemburgu. 2016. završila sam i dobila diplomu Spa menadžera u Španiji, proširujući svoje znanje o dobrobiti, opuštanju, biologiji-anatomiji kože, aromaterapiji i još mnogo toga...",
