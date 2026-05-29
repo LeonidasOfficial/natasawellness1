@@ -175,7 +175,7 @@ export default function Home() {
                     >
                       <FaUsers className="text-5xl text-primary mx-auto mb-3" />
                     </motion.div>
-                    <h2 className="text-5xl font-bold text-dark mb-2">2500+</h2>
+                    <h2 className="text-5xl font-bold text-dark mb-2">35000+</h2>
                     <p className="text-dark font-semibold uppercase">{t('about.happyCustomers')}</p>
                   </motion.div>
                 </div>
