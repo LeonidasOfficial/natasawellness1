@@ -133,7 +133,7 @@ export default function AdminPriceListPage() {
             data: categoryForm
           })
         })
-        toast.success('✅ Changes saved to project files! Will persist after deployment.')
+        toast.success('✅ Changes saved successfully!')
       } else {
         // Create new category
         await fetch('/api/pricelist', {
@@ -144,7 +144,7 @@ export default function AdminPriceListPage() {
             data: categoryForm
           })
         })
-        toast.success('✅ Changes saved to project files! Will persist after deployment.')
+        toast.success('✅ Changes saved successfully!')
       }
       fetchPriceList()
       setShowCategoryModal(false)
@@ -162,7 +162,7 @@ export default function AdminPriceListPage() {
       await fetch(`/api/pricelist/${categoryId}?type=category`, {
         method: 'DELETE'
       })
-      toast.success('✅ Changes saved to project files! Will persist after deployment.')
+      toast.success('✅ Changes saved successfully!')
       fetchPriceList()
     } catch (error) {
       toast.error('Failed to delete category')
@@ -204,7 +204,7 @@ export default function AdminPriceListPage() {
             data: treatmentForm
           })
         })
-        toast.success('✅ Changes saved to project files! Will persist after deployment.')
+        toast.success('✅ Changes saved successfully!')
       } else {
         // Create new treatment
         await fetch('/api/pricelist', {
@@ -216,7 +216,7 @@ export default function AdminPriceListPage() {
             data: treatmentForm
           })
         })
-        toast.success('✅ Changes saved to project files! Will persist after deployment.')
+        toast.success('✅ Changes saved successfully!')
       }
       fetchPriceList()
       setShowTreatmentModal(false)
@@ -234,7 +234,7 @@ export default function AdminPriceListPage() {
       await fetch(`/api/pricelist/${treatmentId}?type=treatment&categoryId=${categoryId}`, {
         method: 'DELETE'
       })
-      toast.success('✅ Changes saved to project files! Will persist after deployment.')
+      toast.success('✅ Changes saved successfully!')
       fetchPriceList()
     } catch (error) {
       toast.error('Failed to delete treatment')

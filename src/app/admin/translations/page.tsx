@@ -27,12 +27,18 @@ export default function TranslationsManagement() {
   const loadTranslations = async () => {
     try {
       setLoading(true)
-      // Load all locale files
+      const fetchLocale = async (locale: string) => {
+        const res = await fetch(`/api/translations?locale=${locale}`, { cache: 'no-store' })
+        if (res.ok) return res.json()
+        const fallback = await fetch(`/locales/${locale}.json`)
+        return fallback.json()
+      }
+
       const [enData, srData, frData, deData] = await Promise.all([
-        fetch('/locales/en.json').then(r => r.json()),
-        fetch('/locales/sr.json').then(r => r.json()),
-        fetch('/locales/fr.json').then(r => r.json()),
-        fetch('/locales/de.json').then(r => r.json()),
+        fetchLocale('en'),
+        fetchLocale('sr'),
+        fetchLocale('fr'),
+        fetchLocale('de'),
       ])
 
       // Flatten nested objects into key-value pairs
@@ -126,7 +132,7 @@ export default function TranslationsManagement() {
         }),
       ])
 
-      toast.success('✅ Translations saved to project files! Will persist after deployment.')
+      toast.success('✅ Translations saved successfully!')
     } catch (error) {
       console.error('Failed to save translations:', error)
       toast.error('Failed to save translations')

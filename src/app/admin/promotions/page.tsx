@@ -144,7 +144,7 @@ export default function PromotionsManagementPage() {
       })
 
       if (res.ok) {
-        toast.success('✅ Promotions saved to project files! Will persist after deployment.')
+        toast.success('✅ Promotions saved successfully!')
       } else {
         toast.error('Failed to save promotions')
       }

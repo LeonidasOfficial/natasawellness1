@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readData, writeData } from '@/lib/db'
+import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
+
+const PRICE_LIST_KEY = 'price-list'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,7 +30,13 @@ type PriceList = Category[]
 // GET - Fetch all price list categories and treatments
 export async function GET() {
   try {
-    const priceList = await readData('price-list')
+    const priceList = await readContent(PRICE_LIST_KEY)
+    if (!priceList) {
+      return NextResponse.json(
+        { error: 'Price list not found' },
+        { status: 404 }
+      )
+    }
     return NextResponse.json(priceList)
   } catch (error) {
     return NextResponse.json(
@@ -53,7 +61,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { type, categoryId, data } = body
 
-    const priceList = await readData('price-list') as PriceList
+    const priceList = (await readContent<PriceList>(PRICE_LIST_KEY)) ?? []
 
     if (type === 'category') {
       // Add new category
@@ -88,10 +96,11 @@ export async function POST(request: NextRequest) {
       category.treatments.push(newTreatment)
     }
 
-    await writeData('price-list', priceList)
+    await writeContent(PRICE_LIST_KEY, priceList)
 
     return NextResponse.json({ success: true, data: priceList })
   } catch (error) {
+    console.error('Failed to add pricelist item:', error)
     return NextResponse.json(
       { error: 'Failed to add item' },
       { status: 500 }
@@ -112,10 +121,11 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json()
-    await writeData('price-list', body)
+    await writeContent(PRICE_LIST_KEY, body)
 
     return NextResponse.json({ success: true, data: body })
   } catch (error) {
+    console.error('Failed to update price list:', error)
     return NextResponse.json(
       { error: 'Failed to update price list' },
       { status: 500 }

@@ -8,7 +8,8 @@
     "start": "next start -p 3000",
     "lint": "next lint",
     "migrate:supabase": "node scripts/migrate-to-supabase.mjs",
-    "migrate:supabase-sql": "node scripts/run-supabase-migration.mjs"
+    "migrate:supabase-sql": "node scripts/run-supabase-migration.mjs",
+    "seed:site-content": "node scripts/seed-site-content.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.93.3",

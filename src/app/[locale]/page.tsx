@@ -19,7 +19,7 @@ import servicesData from '@/data/services.json'
 import teamData from '@/data/team.json'
 import testimonialsData from '@/data/testimonials.json'
 import galleryDataStatic from '@/data/gallery.json'
-import promotionsData from '@/data/promotions.json'
+import fallbackPromotionsData from '@/data/promotions.json'
 
 interface GalleryItem {
   id: string
@@ -33,6 +33,7 @@ export default function Home() {
   const { t, translations } = useTranslation()
   const { createLink } = useLocaleLink()
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
+  const [promotionsData, setPromotionsData] = useState(fallbackPromotionsData)
   const [expandedServices, setExpandedServices] = useState<Set<string>>(new Set())
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 })
 
@@ -71,10 +72,27 @@ export default function Home() {
         console.error('[Homepage] Failed to load gallery:', error)
       }
     }
+    const loadPromotions = async () => {
+      try {
+        const res = await fetch('/api/promotions', { cache: 'no-store' })
+        if (res.ok) {
+          const data = await res.json()
+          if (data && typeof data === 'object') {
+            setPromotionsData(data)
+          }
+        }
+      } catch (error) {
+        console.error('[Homepage] Failed to load promotions:', error)
+      }
+    }
+
     loadGallery()
-    
-    // Refresh periodically
-    const interval = setInterval(loadGallery, 15000) // Every 15 seconds
+    loadPromotions()
+
+    const interval = setInterval(() => {
+      loadGallery()
+      loadPromotions()
+    }, 15000)
     return () => clearInterval(interval)
   }, [])
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.1 })

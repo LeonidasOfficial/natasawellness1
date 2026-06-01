@@ -35,12 +35,21 @@ async function main() {
     process.exit(1)
   }
 
-  const sql = await readFile(join(root, 'supabase', 'migrations', '001_initial_schema.sql'), 'utf-8')
+  const migrationsDir = join(root, 'supabase', 'migrations')
+  const { readdir } = await import('fs/promises')
+  const files = (await readdir(migrationsDir))
+    .filter((f) => f.endsWith('.sql'))
+    .sort()
+
   const client = new pg.Client({ connectionString: dbUrl })
   await client.connect()
   try {
-    await client.query(sql)
-    console.log('SQL migration completed.')
+    for (const file of files) {
+      const sql = await readFile(join(migrationsDir, file), 'utf-8')
+      await client.query(sql)
+      console.log(`Applied: ${file}`)
+    }
+    console.log('SQL migrations completed.')
   } finally {
     await client.end()
   }

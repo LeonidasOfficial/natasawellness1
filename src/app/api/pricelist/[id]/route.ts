@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readData, writeData } from '@/lib/db'
+import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
+
+const PRICE_LIST_KEY = 'price-list'
 
 export const dynamic = 'force-dynamic'
 
@@ -44,7 +46,7 @@ export async function PUT(
     const body = await request.json()
     const { type, categoryId, data } = body
 
-    const priceList = await readData('price-list') as PriceList
+    const priceList = (await readContent<PriceList>(PRICE_LIST_KEY)) ?? []
 
     if (type === 'category') {
       // Update category
@@ -86,10 +88,11 @@ export async function PUT(
       }
     }
 
-    await writeData('price-list', priceList)
+    await writeContent(PRICE_LIST_KEY, priceList)
 
     return NextResponse.json({ success: true, data: priceList })
   } catch (error) {
+    console.error('Failed to update pricelist item:', error)
     return NextResponse.json(
       { error: 'Failed to update item' },
       { status: 500 }
@@ -117,12 +120,12 @@ export async function DELETE(
     const type = searchParams.get('type')
     const categoryId = searchParams.get('categoryId')
 
-    const priceList = await readData('price-list') as PriceList
+    const priceList = (await readContent<PriceList>(PRICE_LIST_KEY)) ?? []
 
     if (type === 'category') {
       // Delete entire category
       const newPriceList = priceList.filter((cat: Category) => cat.id !== id)
-      await writeData('price-list', newPriceList)
+      await writeContent(PRICE_LIST_KEY, newPriceList)
     } else if (type === 'treatment' && categoryId) {
       // Delete specific treatment
       const category = priceList.find((cat: Category) => cat.id === categoryId)
@@ -136,11 +139,12 @@ export async function DELETE(
       category.treatments = category.treatments.filter(
         (treatment: Treatment) => treatment.id !== id
       )
-      await writeData('price-list', priceList)
+      await writeContent(PRICE_LIST_KEY, priceList)
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
+    console.error('Failed to delete pricelist item:', error)
     return NextResponse.json(
       { error: 'Failed to delete item' },
       { status: 500 }

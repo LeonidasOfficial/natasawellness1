@@ -1,6 +1,9 @@
-# Supabase Image Management Setup
+# Supabase Setup (Vercel production)
 
-Image management now uses Supabase for persistent storage, so it works on Vercel production.
+Supabase is used for persistent storage on Vercel (read-only filesystem). This includes:
+
+- **Images & gallery** – Supabase Storage + `images` / `gallery` tables
+- **Price list, promotions, translations** – `site_content` table (JSON blobs)
 
 ## Quick setup
 
@@ -14,14 +17,20 @@ Image management now uses Supabase for persistent storage, so it works on Vercel
 
 **Option B** – Manual (no password needed):
 1. Open https://supabase.com/dashboard/project/jjlaajwggyyaoxdygdau/sql/new
-2. Copy the contents of `supabase/migrations/001_initial_schema.sql`
-3. Paste into the SQL Editor and click **Run**
+2. Copy and run each file in `supabase/migrations/` (001, then 002)
+3. Or paste both SQL files in order and click **Run**
 
-### Step 2: Migrate data (uploads images, inserts metadata)
+### Step 2: Seed CMS content (price list, promotions, translations)
+
+Run: `npm run seed:site-content`
+
+This copies your current JSON files into the `site_content` table so the admin panel and frontend use the same data on Vercel.
+
+### Step 3: Migrate images (uploads images, inserts metadata)
 
 Run: `npm run migrate:supabase`
 
-### Step 3: Add Vercel environment variables
+### Step 4: Add Vercel environment variables
 
 In Vercel: Project > Settings > Environment Variables, add:
 

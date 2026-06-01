@@ -1,15 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readData, writeData } from '@/lib/db'
+import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
 
+const PROMOTIONS_KEY = 'promotions'
+
 // GET - Fetch promotions data
 export async function GET() {
   try {
-    const promotions = await readData('promotions')
+    const promotions = await readContent(PROMOTIONS_KEY)
+    if (!promotions) {
+      return NextResponse.json(
+        { error: 'Promotions not found' },
+        { status: 404 }
+      )
+    }
     return NextResponse.json(promotions)
   } catch (error) {
+    console.error('Failed to fetch promotions:', error)
     return NextResponse.json(
       { error: 'Failed to fetch promotions' },
       { status: 500 }
@@ -20,7 +29,6 @@ export async function GET() {
 // PUT - Update promotions data
 export async function PUT(request: NextRequest) {
   try {
-    // Verify admin authentication
     const authResult = await verifyAuth(request)
     if (!authResult.isValid) {
       return NextResponse.json(
@@ -30,15 +38,11 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json()
-    await writeData('promotions', body)
-
-    console.log('✅ Promotions saved to: src/data/promotions.json')
-    console.log('📁 Changes persisted to project files')
+    await writeContent(PROMOTIONS_KEY, body)
 
     return NextResponse.json({
       success: true,
-      message: 'Promotions saved successfully to project files',
-      savedToProject: true
+      message: 'Promotions saved successfully',
     })
   } catch (error) {
     console.error('Error saving promotions:', error)
