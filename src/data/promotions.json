@@ -23,37 +23,37 @@
       "id": "1",
       "name": "Tretman Lica",
       "image": "/img/facials.png",
-      "price": 3800
+      "price": 3900
     },
     {
       "id": "2",
       "name": "Manikir",
       "image": "/img/manicure.png",
-      "price": 950
+      "price": 1050
     },
     {
       "id": "3",
       "name": "Pedikir",
       "image": "/img/pedicure.png",
-      "price": 1900
+      "price": 2100
     },
     {
       "id": "4",
       "name": "Podizanje Trepavica",
       "image": "/img/eyelashes.png",
-      "price": 2000
+      "price": 2100
     },
     {
       "id": "5",
       "name": "Spraj Tan",
       "image": "/img/spraytan.png",
-      "price": 2000
+      "price": 2200
     },
     {
       "id": "6",
       "name": "Tretmani Uklanjanja Dlaka",
       "image": "/img/waxing.png",
-      "price": 1500
+      "price": 1300
     }
   ]
 }
