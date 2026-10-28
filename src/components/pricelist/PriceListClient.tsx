@@ -21,13 +21,14 @@ import {
   FaHandPointRight,
   FaSun,
   FaHeart,
-  FaStar
+  FaStar,
+  FaUser
 } from 'react-icons/fa'
 
 import { useTranslation } from '@/contexts/TranslationContext'
 import fallbackPriceList from '@/data/price-list.json'
 import {
-  CATEGORY_IMAGE_MAP,
+  getCategoryImage,
   getCategoryName as resolveCategoryName,
   getCategoryDesc as resolveCategoryDesc,
   getTreatmentName as resolveTreatmentName,
@@ -51,9 +52,8 @@ const iconMap: { [key: string]: any } = {
   'wellness': FaLeaf,
   'makeup': FaPaintBrush,
   'tan': FaSun,
+  'men': FaUser,
 }
-
-const iconImageMap = CATEGORY_IMAGE_MAP
 
 type Treatment = PriceListTreatment
 type Category = PriceListCategory
@@ -139,7 +139,7 @@ export default function PriceListClient({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-8">
               {priceListData.map((category: Category, index: number) => {
                 const IconComponent = iconMap[category.icon] || FaSpa
-                const categoryImage = iconImageMap[category.icon]
+                const categoryImage = getCategoryImage(category)
                 
                 return (
                   <motion.div
@@ -218,7 +218,7 @@ export default function PriceListClient({
 
                   <div className="flex items-center gap-3 md:gap-4 pr-12 md:pr-0">
                     {(() => {
-                      const modalImage = iconImageMap[selectedCategory.icon]
+                      const modalImage = getCategoryImage(selectedCategory)
                       const IconComponent = iconMap[selectedCategory.icon] || FaSpa
                       return (
                         <div className="w-12 h-12 md:w-16 md:h-16 bg-dark rounded-xl md:rounded-2xl flex items-center justify-center flex-shrink-0 overflow-hidden">
