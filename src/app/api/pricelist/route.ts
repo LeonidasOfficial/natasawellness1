@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
+import { revalidatePublicPages } from '@/lib/revalidate-public'
 
 const PRICE_LIST_KEY = 'price-list'
 
@@ -97,6 +98,7 @@ export async function POST(request: NextRequest) {
     }
 
     await writeContent(PRICE_LIST_KEY, priceList)
+    revalidatePublicPages()
 
     return NextResponse.json({ success: true, data: priceList })
   } catch (error) {
@@ -122,6 +124,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json()
     await writeContent(PRICE_LIST_KEY, body)
+    revalidatePublicPages()
 
     return NextResponse.json({ success: true, data: body })
   } catch (error) {

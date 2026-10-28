@@ -114,28 +114,33 @@ export default function TranslationsManagement() {
       const deData = unflattenObject(translations, 'de')
 
       // Save to files (this would need a backend API endpoint in production)
-      await Promise.all([
-        fetch('/api/translations/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ locale: 'sr', data: srData }),
-        }),
-        fetch('/api/translations/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ locale: 'fr', data: frData }),
-        }),
-        fetch('/api/translations/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ locale: 'de', data: deData }),
-        }),
-      ])
+      const payloads = [
+        { locale: 'sr', data: srData },
+        { locale: 'fr', data: frData },
+        { locale: 'de', data: deData },
+      ]
+      const responses = await Promise.all(
+        payloads.map((payload) =>
+          fetch('/api/translations/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+        )
+      )
+      const failed = payloads.filter((_, i) => !responses[i].ok).map((p) => p.locale.toUpperCase())
+      if (failed.length > 0) {
+        const unauthorized = responses.some((r) => r.status === 401)
+        throw new Error(
+          `Failed to save translations (${failed.join(', ')})` +
+            (unauthorized ? ': session expired, please log in again' : '')
+        )
+      }
 
       toast.success('✅ Translations saved successfully!')
     } catch (error) {
       console.error('Failed to save translations:', error)
-      toast.error('Failed to save translations')
+      toast.error(error instanceof Error ? error.message : 'Failed to save translations')
     } finally {
       setSaving(false)
     }
