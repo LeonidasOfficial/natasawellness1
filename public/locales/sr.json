@@ -28,7 +28,12 @@
     "bookAppointment": "Zakažite Termin",
     "viewAll": "Vidi Sve",
     "backToHome": "Nazad na Početnu",
-    "viewPricing": "Cenovnik"
+    "viewPricing": "Cenovnik",
+    "showMore": "Prikaži više",
+    "showLess": "Prikaži manje",
+    "language": "Jezik",
+    "chatOnWhatsApp": "Pišite nam na WhatsApp",
+    "whatsAppMessage": "Zdravo! Želim da zakažem termin."
   },
   "hero": {
     "welcome": "Dobrodošli",
@@ -42,7 +47,8 @@
     "slide2Title": "Opustite Se i Obnovite",
     "slide2Subtitle": "Premium Wellness Iskustvo",
     "slide3Title": "Oslobodite Svoju Lepotu",
-    "slide3Subtitle": "Profesionalni Tretmani"
+    "slide3Subtitle": "Profesionalni Tretmani",
+    "hours": "Pon–Pet 09:00–20:00 · Sub 09:00–14:00"
   },
   "announcement": {
     "message": "Pozovite za zakazivanje tretmana - Vaučeri dostupni!"

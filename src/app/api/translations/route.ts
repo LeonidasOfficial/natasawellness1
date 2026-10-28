@@ -1,5 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { readContent } from '@/lib/content-store'
+import srBundled from '../../../../public/locales/sr.json'
+import enBundled from '../../../../public/locales/en.json'
+import frBundled from '../../../../public/locales/fr.json'
+import deBundled from '../../../../public/locales/de.json'
+
+type Dict = Record<string, unknown>
+
+// Translations shipped with the code. Stored (admin-edited) translations win,
+// but any key missing from the stored copy falls back to these, so new UI
+// texts added in code are translated even before the admin re-saves.
+const BUNDLED: Record<string, Dict> = {
+  sr: srBundled as Dict,
+  en: enBundled as Dict,
+  fr: frBundled as Dict,
+  de: deBundled as Dict,
+}
+
+function isPlainObject(value: unknown): value is Dict {
+  return !!value && typeof value === 'object' && !Array.isArray(value)
+}
+
+function mergeWithDefaults(defaults: Dict, stored: Dict): Dict {
+  const out: Dict = { ...defaults }
+  for (const [key, value] of Object.entries(stored)) {
+    const base = out[key]
+    if (isPlainObject(base) && isPlainObject(value)) {
+      out[key] = mergeWithDefaults(base, value)
+    } else if (value !== undefined && value !== null && value !== '') {
+      out[key] = value
+    }
+  }
+  return out
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -24,7 +57,9 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const translations = await readContent(`translations:${locale}`)
+    const stored = await readContent<Dict>(`translations:${locale}`)
+    const bundled = BUNDLED[locale]
+    const translations = isPlainObject(stored) ? mergeWithDefaults(bundled, stored) : bundled
     if (!translations) {
       return NextResponse.json(
         { error: `Translation file not found for locale: ${locale}` },

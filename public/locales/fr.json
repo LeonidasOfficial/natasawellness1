@@ -28,7 +28,12 @@
     "bookAppointment": "Prendre Rendez-vous",
     "viewAll": "Voir Tout",
     "backToHome": "Retour à l'Accueil",
-    "viewPricing": "Liste de Prix"
+    "viewPricing": "Liste de Prix",
+    "showMore": "Lire la suite",
+    "showLess": "Afficher moins",
+    "language": "Langue",
+    "chatOnWhatsApp": "Discutez sur WhatsApp",
+    "whatsAppMessage": "Bonjour ! Je souhaiterais prendre rendez-vous."
   },
   "hero": {
     "welcome": "Bienvenue",
@@ -42,7 +47,8 @@
     "slide2Title": "Détente et Renouveau",
     "slide2Subtitle": "Expérience Wellness Premium",
     "slide3Title": "Libérez Votre Beauté",
-    "slide3Subtitle": "Traitements Professionnels"
+    "slide3Subtitle": "Traitements Professionnels",
+    "hours": "Lun–Ven 09:00–20:00 · Sam 09:00–14:00"
   },
   "announcement": {
     "message": "Appelez pour réserver votre traitement - Bons disponibles!"

@@ -254,7 +254,7 @@ const HeroSection = () => {
                 </div>
                 <div className="min-w-0">
                   <h5 className="text-primary font-semibold text-[10px] uppercase tracking-wider mb-0.5">{t('workingHours.title')}</h5>
-                  <p className="text-dark font-bold text-sm whitespace-nowrap">Mon–Fri 09:00–20:00 · Sat 09:00–14:00</p>
+                  <p className="text-dark font-bold text-sm whitespace-nowrap">{t('hero.hours')}</p>
                 </div>
               </motion.div>
             </motion.div>

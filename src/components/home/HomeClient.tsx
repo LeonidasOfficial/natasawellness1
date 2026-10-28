@@ -318,7 +318,7 @@ export default function HomeClient({ initialPriceList, initialPromotions }: Home
                     </p>
                     {serviceDesc.length > 100 && (
                       <span className="text-primary text-xs font-semibold">
-                        {isExpanded ? '▲ Show less' : '▼ Read more'}
+                        {isExpanded ? `▲ ${t('common.showLess')}` : `▼ ${t('common.showMore')}`}
                       </span>
                     )}
                   </motion.div>

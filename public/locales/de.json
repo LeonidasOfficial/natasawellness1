@@ -28,7 +28,12 @@
     "bookAppointment": "Termin Buchen",
     "viewAll": "Alle Anzeigen",
     "backToHome": "Zurück zur Startseite",
-    "viewPricing": "Preisliste"
+    "viewPricing": "Preisliste",
+    "showMore": "Mehr lesen",
+    "showLess": "Weniger anzeigen",
+    "language": "Sprache",
+    "chatOnWhatsApp": "Auf WhatsApp chatten",
+    "whatsAppMessage": "Hallo! Ich möchte gerne einen Termin vereinbaren."
   },
   "hero": {
     "welcome": "Willkommen",
@@ -42,7 +47,8 @@
     "slide2Title": "Entspannen und Erneuern",
     "slide2Subtitle": "Premium Wellness-Erlebnis",
     "slide3Title": "Entfesseln Sie Ihre Schönheit",
-    "slide3Subtitle": "Professionelle Behandlungen"
+    "slide3Subtitle": "Professionelle Behandlungen",
+    "hours": "Mo–Fr 09:00–20:00 · Sa 09:00–14:00"
   },
   "announcement": {
     "message": "Rufen Sie an, um Ihre Behandlung zu buchen - Gutscheine verfügbar!"

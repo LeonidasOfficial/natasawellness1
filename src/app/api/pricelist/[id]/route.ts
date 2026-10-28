@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
 import { revalidatePublicPages } from '@/lib/revalidate-public'
+import { sanitizeItemTranslations } from '@/lib/pricelist-display'
 
 const PRICE_LIST_KEY = 'price-list'
 
@@ -15,6 +16,7 @@ interface Treatment {
   price2?: number
   duration: string
   note?: string
+  translations?: Record<string, Record<string, string>>
 }
 
 interface Category {
@@ -24,6 +26,7 @@ interface Category {
   description: string
   treatments: Treatment[]
   footnote?: string
+  translations?: Record<string, Record<string, string>>
 }
 
 type PriceList = Category[]
@@ -63,6 +66,9 @@ export async function PUT(
         ...priceList[categoryIndex],
         ...data
       }
+      if (data && 'translations' in data) {
+        priceList[categoryIndex].translations = sanitizeItemTranslations(data.translations, ['category', 'description', 'footnote'])
+      }
     } else if (type === 'treatment') {
       // Update treatment
       const category = priceList.find((cat: Category) => cat.id === categoryId)
@@ -86,6 +92,9 @@ export async function PUT(
       category.treatments[treatmentIndex] = {
         ...category.treatments[treatmentIndex],
         ...data
+      }
+      if (data && 'translations' in data) {
+        category.treatments[treatmentIndex].translations = sanitizeItemTranslations(data.translations, ['name', 'description'])
       }
     }
 
