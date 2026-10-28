@@ -7,9 +7,11 @@ import Link from 'next/link'
 import { FaCheck } from 'react-icons/fa'
 import { useTranslation } from '@/contexts/TranslationContext'
 import servicesData from '@/data/services.json'
+import { useLocaleLink } from '@/hooks/useLocaleLink'
 
 export default function PricingPage() {
   const { t } = useTranslation()
+  const { createLink } = useLocaleLink()
   return (
     <>
       <section className="relative bg-light py-20">
@@ -69,7 +71,7 @@ export default function PricingPage() {
                   </div>
                 </div>
 
-                <Link href="/booking">
+                <Link href={createLink('/contact')}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
