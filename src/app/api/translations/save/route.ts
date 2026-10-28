@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAuth } from '@/lib/auth'
+import { revalidatePublicPages } from '@/lib/revalidate-public'
 import { writeContent } from '@/lib/content-store'
 
 export const dynamic = 'force-dynamic'
@@ -29,6 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     await writeContent(`translations:${locale}`, data)
+    revalidatePublicPages()
 
     return NextResponse.json({
       success: true,

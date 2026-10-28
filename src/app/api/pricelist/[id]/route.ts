@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
+import { revalidatePublicPages } from '@/lib/revalidate-public'
 
 const PRICE_LIST_KEY = 'price-list'
 
@@ -89,6 +90,7 @@ export async function PUT(
     }
 
     await writeContent(PRICE_LIST_KEY, priceList)
+    revalidatePublicPages()
 
     return NextResponse.json({ success: true, data: priceList })
   } catch (error) {
@@ -126,6 +128,7 @@ export async function DELETE(
       // Delete entire category
       const newPriceList = priceList.filter((cat: Category) => cat.id !== id)
       await writeContent(PRICE_LIST_KEY, newPriceList)
+      revalidatePublicPages()
     } else if (type === 'treatment' && categoryId) {
       // Delete specific treatment
       const category = priceList.find((cat: Category) => cat.id === categoryId)
@@ -140,6 +143,7 @@ export async function DELETE(
         (treatment: Treatment) => treatment.id !== id
       )
       await writeContent(PRICE_LIST_KEY, priceList)
+      revalidatePublicPages()
     }
 
     return NextResponse.json({ success: true })

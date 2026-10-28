@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
+import { revalidatePublicPages } from '@/lib/revalidate-public'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,6 +40,7 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json()
     await writeContent(PROMOTIONS_KEY, body)
+    revalidatePublicPages()
 
     return NextResponse.json({
       success: true,

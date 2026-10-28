@@ -48,6 +48,23 @@ interface Category {
   footnote?: string
 }
 
+/**
+ * Throws an Error (with the server's message when available) if the API
+ * request failed, so callers only show success after a confirmed save.
+ */
+async function ensureOk(res: Response, fallbackMessage: string): Promise<void> {
+  if (res.ok) return
+  let message = fallbackMessage
+  try {
+    const body = await res.json()
+    if (body?.error) message = `${fallbackMessage}: ${body.error}`
+  } catch {
+    // ignore non-JSON error bodies
+  }
+  if (res.status === 401) message = `${fallbackMessage}: session expired, please log in again`
+  throw new Error(message)
+}
+
 export default function AdminPriceListPage() {
   const router = useRouter()
   const [priceList, setPriceList] = useState<Category[]>([])
@@ -93,9 +110,10 @@ export default function AdminPriceListPage() {
 
   const fetchPriceList = async () => {
     try {
-      const res = await fetch('/api/pricelist')
+      const res = await fetch('/api/pricelist', { cache: 'no-store' })
+      await ensureOk(res, 'Failed to load price list')
       const data = await res.json()
-      setPriceList(data)
+      setPriceList(Array.isArray(data) ? data : [])
     } catch (error) {
       toast.error('Failed to load price list')
     } finally {
@@ -125,7 +143,7 @@ export default function AdminPriceListPage() {
     try {
       if (editingCategory) {
         // Update existing category
-        await fetch(`/api/pricelist/${editingCategory.id}`, {
+        const res = await fetch(`/api/pricelist/${editingCategory.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -133,10 +151,11 @@ export default function AdminPriceListPage() {
             data: categoryForm
           })
         })
+        await ensureOk(res, 'Failed to save category')
         toast.success('✅ Changes saved successfully!')
       } else {
         // Create new category
-        await fetch('/api/pricelist', {
+        const res = await fetch('/api/pricelist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -144,12 +163,13 @@ export default function AdminPriceListPage() {
             data: categoryForm
           })
         })
+        await ensureOk(res, 'Failed to save category')
         toast.success('✅ Changes saved successfully!')
       }
       fetchPriceList()
       setShowCategoryModal(false)
     } catch (error) {
-      toast.error('Failed to save category')
+      toast.error(error instanceof Error ? error.message : 'Failed to save category')
     }
   }
 
@@ -159,13 +179,14 @@ export default function AdminPriceListPage() {
     }
 
     try {
-      await fetch(`/api/pricelist/${categoryId}?type=category`, {
+      const res = await fetch(`/api/pricelist/${categoryId}?type=category`, {
         method: 'DELETE'
       })
+      await ensureOk(res, 'Failed to delete category')
       toast.success('✅ Changes saved successfully!')
       fetchPriceList()
     } catch (error) {
-      toast.error('Failed to delete category')
+      toast.error(error instanceof Error ? error.message : 'Failed to delete category')
     }
   }
 
@@ -195,7 +216,7 @@ export default function AdminPriceListPage() {
     try {
       if (editingTreatment) {
         // Update existing treatment
-        await fetch(`/api/pricelist/${editingTreatment.id}`, {
+        const res = await fetch(`/api/pricelist/${editingTreatment.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -204,10 +225,11 @@ export default function AdminPriceListPage() {
             data: treatmentForm
           })
         })
+        await ensureOk(res, 'Failed to save treatment')
         toast.success('✅ Changes saved successfully!')
       } else {
         // Create new treatment
-        await fetch('/api/pricelist', {
+        const res = await fetch('/api/pricelist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -216,12 +238,13 @@ export default function AdminPriceListPage() {
             data: treatmentForm
           })
         })
+        await ensureOk(res, 'Failed to save treatment')
         toast.success('✅ Changes saved successfully!')
       }
       fetchPriceList()
       setShowTreatmentModal(false)
     } catch (error) {
-      toast.error('Failed to save treatment')
+      toast.error(error instanceof Error ? error.message : 'Failed to save treatment')
     }
   }
 
@@ -231,13 +254,14 @@ export default function AdminPriceListPage() {
     }
 
     try {
-      await fetch(`/api/pricelist/${treatmentId}?type=treatment&categoryId=${categoryId}`, {
+      const res = await fetch(`/api/pricelist/${treatmentId}?type=treatment&categoryId=${categoryId}`, {
         method: 'DELETE'
       })
+      await ensureOk(res, 'Failed to delete treatment')
       toast.success('✅ Changes saved successfully!')
       fetchPriceList()
     } catch (error) {
-      toast.error('Failed to delete treatment')
+      toast.error(error instanceof Error ? error.message : 'Failed to delete treatment')
     }
   }
 
