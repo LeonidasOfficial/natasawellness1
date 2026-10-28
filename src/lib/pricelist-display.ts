@@ -5,16 +5,32 @@
  * Rules:
  * - Serbian ('sr', the default locale) always shows the text saved in the
  *   admin panel when it is non-empty. Translations never override it.
- * - Other locales use a translation only when it is keyed to that specific
- *   category/treatment. Icon-keyed category translations
- *   (`priceList.cat.<icon>` / `priceList.catDesc.<icon>`) are only used for
- *   the original seeded categories (ids 1-11 with their original icon).
- *   Anything else (e.g. a category added in the admin panel) falls back to
- *   the saved text.
+ * - Other locales (en/fr/de) use, in order:
+ *   1. the per-language text saved with the item in the admin panel
+ *      (`translations.<locale>`),
+ *   2. the code translation map (src/data/pricelist-content-translations.ts),
+ *      keyed by the item's id, but ONLY while the item's current Serbian text
+ *      still matches the text that translation was made from,
+ *   3. legacy translations (translation table by treatment id, icon-keyed
+ *      category texts, footnotes by id) under the same "Serbian text
+ *      unchanged" condition,
+ *   4. otherwise the saved Serbian text (never a stale translation).
  *
  * This module is pure and safe to import from client and server code.
  */
 import { pricelistTreatmentTranslations } from '@/data/pricelist-translations'
+import {
+  categoryContentTranslations,
+  treatmentContentTranslations,
+  type CategoryTextFields,
+  type TreatmentTextFields,
+  type TranslatedLocale,
+} from '@/data/pricelist-content-translations'
+import seededPriceList from '@/data/price-list.json'
+
+export type { CategoryTextFields, TreatmentTextFields, TranslatedLocale }
+
+export const TRANSLATED_LOCALES: TranslatedLocale[] = ['en', 'fr', 'de']
 
 export interface PriceListTreatment {
   id: string
@@ -24,6 +40,8 @@ export interface PriceListTreatment {
   price2?: number
   duration: string
   note?: string
+  /** Optional per-language texts saved from the admin panel. */
+  translations?: Partial<Record<TranslatedLocale, TreatmentTextFields>>
 }
 
 export interface PriceListCategory {
@@ -33,6 +51,8 @@ export interface PriceListCategory {
   description: string
   treatments: PriceListTreatment[]
   footnote?: string
+  /** Optional per-language texts saved from the admin panel. */
+  translations?: Partial<Record<TranslatedLocale, CategoryTextFields>>
 }
 
 type TFn = (key: string) => string
@@ -86,6 +106,15 @@ function hasText(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0
 }
 
+/** Normalise text for "is the Serbian source unchanged?" comparisons. */
+function norm(value: unknown): string {
+  return typeof value === 'string' ? value.replace(/\s+/g, ' ').trim().toLowerCase() : ''
+}
+
+function sameSource(current: unknown, source: unknown): boolean {
+  return norm(current) === norm(source)
+}
+
 /** Returns the translation for `key`, or null when it is missing/empty. */
 function lookup(t: TFn, key: string): string | null {
   const value = t(key)
@@ -96,59 +125,123 @@ function isDefaultLocale(locale: string | undefined): boolean {
   return !locale || locale === DEFAULT_LOCALE
 }
 
-function isSeededCategory(category: PriceListCategory): boolean {
-  return SEEDED_CATEGORY_ICONS[String(category.id)] === category.icon
+function asTranslatedLocale(locale: string): TranslatedLocale | null {
+  return (TRANSLATED_LOCALES as string[]).includes(locale) ? (locale as TranslatedLocale) : null
+}
+
+type SeededCategory = { id: string; category?: string; description?: string; footnote?: string; icon?: string }
+const seededCategories = new Map<string, SeededCategory>(
+  ((Array.isArray(seededPriceList) ? seededPriceList : []) as SeededCategory[]).map(
+    (c): [string, SeededCategory] => [String(c.id), c]
+  )
+)
+
+/** Original seeded category whose icon and given field are unchanged. */
+function seededFieldUnchanged(
+  category: PriceListCategory,
+  field: 'category' | 'description' | 'footnote'
+): boolean {
+  const seeded = seededCategories.get(String(category.id))
+  if (!seeded || SEEDED_CATEGORY_ICONS[String(category.id)] !== category.icon) return false
+  return sameSource(category[field], seeded[field])
+}
+
+function categoryText(
+  category: PriceListCategory,
+  field: 'category' | 'description' | 'footnote',
+  locale: string,
+  t: TFn,
+  legacyKey: string | null
+): string {
+  const saved = category[field] || ''
+  if (isDefaultLocale(locale)) return saved
+  const loc = asTranslatedLocale(locale)
+  if (!loc) return saved
+
+  // 1. Saved with the item from the admin panel
+  const own = category.translations?.[loc]?.[field]
+  if (hasText(own)) return own
+
+  // 2. Code map keyed by id, only while the Serbian source is unchanged
+  const entry = categoryContentTranslations[String(category.id)]
+  const mapped = entry?.[loc]?.[field]
+  if (entry && hasText(mapped) && sameSource(saved, entry.sr[field])) return mapped
+
+  // 3. Legacy locale-file translations for the original seeded categories
+  if (legacyKey && seededFieldUnchanged(category, field)) {
+    const legacy = lookup(t, legacyKey)
+    if (legacy) return legacy
+  }
+
+  // 4. Saved (Serbian) text
+  return saved
+}
+
+function treatmentText(
+  treatment: PriceListTreatment,
+  field: 'name' | 'description',
+  locale: string,
+  t: TFn
+): string {
+  const saved = treatment[field] || ''
+  if (isDefaultLocale(locale)) return saved
+  const loc = asTranslatedLocale(locale)
+  if (!loc) return saved
+
+  const own = treatment.translations?.[loc]?.[field]
+  if (hasText(own)) return own
+
+  const entry = treatmentContentTranslations[String(treatment.id)]
+  const mapped = entry?.[loc]?.[field]
+  if (entry && hasText(mapped) && sameSource(saved, entry.sr[field])) return mapped
+
+  if (field === 'name') {
+    const legacy = pricelistTreatmentTranslations[treatment.id]
+    if (legacy && hasText(legacy[loc]) && sameSource(saved, legacy.sr)) return legacy[loc]
+  }
+
+  return saved
 }
 
 export function getCategoryName(category: PriceListCategory, locale: string, t: TFn): string {
-  if (isDefaultLocale(locale)) {
-    if (hasText(category.category)) return category.category
-  } else if (isSeededCategory(category)) {
-    const translated = lookup(t, `priceList.cat.${category.icon}`)
-    if (translated) return translated
-  }
-  return category.category || ''
+  return categoryText(category, 'category', locale, t, `priceList.cat.${category.icon}`)
 }
 
 export function getCategoryDesc(category: PriceListCategory, locale: string, t: TFn): string {
-  if (isDefaultLocale(locale)) {
-    if (hasText(category.description)) return category.description
-  } else if (isSeededCategory(category)) {
-    const translated = lookup(t, `priceList.catDesc.${category.icon}`)
-    if (translated) return translated
-  }
-  return category.description || ''
+  return categoryText(category, 'description', locale, t, `priceList.catDesc.${category.icon}`)
 }
 
 export function getTreatmentName(treatment: PriceListTreatment, locale: string, t: TFn): string {
-  if (isDefaultLocale(locale)) {
-    if (hasText(treatment.name)) return treatment.name
-  } else {
-    const byId = pricelistTreatmentTranslations[treatment.id]
-    const fromTable = byId?.[locale as keyof typeof byId]
-    if (hasText(fromTable)) return fromTable
-    const translated = lookup(t, `priceList.trt.${treatment.id}`)
-    if (translated) return translated
-  }
-  return treatment.name || ''
+  return treatmentText(treatment, 'name', locale, t)
 }
 
 export function getTreatmentDesc(treatment: PriceListTreatment, locale: string, t: TFn): string {
   if (!hasText(treatment.description)) return ''
-  if (!isDefaultLocale(locale)) {
-    const translated = lookup(t, `priceList.trtDesc.${treatment.id}`)
-    if (translated) return translated
-  }
-  return treatment.description
+  return treatmentText(treatment, 'description', locale, t)
 }
 
 export function getFootnote(category: PriceListCategory, locale: string, t: TFn): string {
   if (!hasText(category.footnote)) return ''
-  if (!isDefaultLocale(locale)) {
-    const translated = lookup(t, `priceList.fn.${category.id}`)
-    if (translated) return translated
-  }
-  return category.footnote
+  return categoryText(category, 'footnote', locale, t, `priceList.fn.${category.id}`)
+}
+
+/**
+ * The automatic (code-map) translation for a field, if one exists and still
+ * matches the given Serbian text. Used by the admin panel as a hint.
+ */
+export function getAutomaticTranslation(
+  kind: 'category' | 'treatment',
+  id: string,
+  field: 'category' | 'description' | 'footnote' | 'name',
+  locale: TranslatedLocale,
+  currentSerbian: string
+): string {
+  const entry =
+    kind === 'category'
+      ? (categoryContentTranslations[id] as unknown as Record<string, Record<string, string | undefined>> | undefined)
+      : (treatmentContentTranslations[id] as unknown as Record<string, Record<string, string | undefined>> | undefined)
+  const value = entry?.[locale]?.[field]
+  return entry && hasText(value) && sameSource(currentSerbian, entry.sr?.[field]) ? value : ''
 }
 
 export function getCategoryImage(category: PriceListCategory): string | undefined {
@@ -166,4 +259,28 @@ export function isPriceList(data: unknown): data is PriceListCategory[] {
       (c) => c && typeof c === 'object' && 'id' in c && Array.isArray((c as PriceListCategory).treatments)
     )
   )
+}
+
+/**
+ * Server-side sanitiser for per-language texts sent by the admin panel:
+ * keeps only en/fr/de string fields (trimmed, non-empty). Returns undefined
+ * when nothing is left.
+ */
+export function sanitizeItemTranslations(
+  input: unknown,
+  allowedFields: string[]
+): Partial<Record<TranslatedLocale, Record<string, string>>> | undefined {
+  if (!input || typeof input !== 'object') return undefined
+  const out: Partial<Record<TranslatedLocale, Record<string, string>>> = {}
+  for (const locale of TRANSLATED_LOCALES) {
+    const fields = (input as Record<string, unknown>)[locale]
+    if (!fields || typeof fields !== 'object') continue
+    const kept: Record<string, string> = {}
+    for (const field of allowedFields) {
+      const v = (fields as Record<string, unknown>)[field]
+      if (typeof v === 'string' && v.trim()) kept[field] = v.trim()
+    }
+    if (Object.keys(kept).length) out[locale] = kept
+  }
+  return Object.keys(out).length ? out : undefined
 }

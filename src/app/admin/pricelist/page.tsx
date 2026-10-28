@@ -19,6 +19,8 @@ import {
   FaUser
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
+import TranslationFields, { cleanTranslations, type TranslationValues } from '@/components/admin/TranslationFields'
+import { getAutomaticTranslation } from '@/lib/pricelist-display'
 import Link from 'next/link'
 
 const iconOptions = [
@@ -39,6 +41,7 @@ interface Treatment {
   price2?: number
   duration: string
   note?: string
+  translations?: TranslationValues
 }
 
 interface Category {
@@ -48,6 +51,7 @@ interface Category {
   description: string
   treatments: Treatment[]
   footnote?: string
+  translations?: TranslationValues
 }
 
 /**
@@ -82,7 +86,8 @@ export default function AdminPriceListPage() {
     category: '',
     icon: 'face',
     description: '',
-    footnote: ''
+    footnote: '',
+    translations: {} as TranslationValues
   })
 
   const [treatmentForm, setTreatmentForm] = useState({
@@ -91,7 +96,8 @@ export default function AdminPriceListPage() {
     price: 0,
     price2: 0,
     duration: '',
-    note: ''
+    note: '',
+    translations: {} as TranslationValues
   })
 
   useEffect(() => {
@@ -125,7 +131,7 @@ export default function AdminPriceListPage() {
 
   // Category Functions
   const handleAddCategory = () => {
-    setCategoryForm({ category: '', icon: 'face', description: '', footnote: '' })
+    setCategoryForm({ category: '', icon: 'face', description: '', footnote: '', translations: {} })
     setEditingCategory(null)
     setShowCategoryModal(true)
   }
@@ -135,7 +141,8 @@ export default function AdminPriceListPage() {
       category: category.category,
       icon: category.icon,
       description: category.description,
-      footnote: category.footnote || ''
+      footnote: category.footnote || '',
+      translations: category.translations || {}
     })
     setEditingCategory(category)
     setShowCategoryModal(true)
@@ -150,7 +157,7 @@ export default function AdminPriceListPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             type: 'category',
-            data: categoryForm
+            data: { ...categoryForm, translations: cleanTranslations(categoryForm.translations) ?? null }
           })
         })
         await ensureOk(res, 'Failed to save category')
@@ -162,7 +169,7 @@ export default function AdminPriceListPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             type: 'category',
-            data: categoryForm
+            data: { ...categoryForm, translations: cleanTranslations(categoryForm.translations) ?? null }
           })
         })
         await ensureOk(res, 'Failed to save category')
@@ -194,7 +201,7 @@ export default function AdminPriceListPage() {
 
   // Treatment Functions
   const handleAddTreatment = (categoryId: string) => {
-    setTreatmentForm({ name: '', description: '', price: 0, price2: 0, duration: '', note: '' })
+    setTreatmentForm({ name: '', description: '', price: 0, price2: 0, duration: '', note: '', translations: {} })
     setEditingTreatment(null)
     setSelectedCategoryId(categoryId)
     setShowTreatmentModal(true)
@@ -207,7 +214,8 @@ export default function AdminPriceListPage() {
       price: treatment.price,
       price2: treatment.price2 || 0,
       duration: treatment.duration,
-      note: treatment.note || ''
+      note: treatment.note || '',
+      translations: treatment.translations || {}
     })
     setEditingTreatment(treatment)
     setSelectedCategoryId(categoryId)
@@ -224,7 +232,7 @@ export default function AdminPriceListPage() {
           body: JSON.stringify({
             type: 'treatment',
             categoryId: selectedCategoryId,
-            data: treatmentForm
+            data: { ...treatmentForm, translations: cleanTranslations(treatmentForm.translations) ?? null }
           })
         })
         await ensureOk(res, 'Failed to save treatment')
@@ -237,7 +245,7 @@ export default function AdminPriceListPage() {
           body: JSON.stringify({
             type: 'treatment',
             categoryId: selectedCategoryId,
-            data: treatmentForm
+            data: { ...treatmentForm, translations: cleanTranslations(treatmentForm.translations) ?? null }
           })
         })
         await ensureOk(res, 'Failed to save treatment')
@@ -428,7 +436,7 @@ export default function AdminPriceListPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 50 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl p-8 max-w-md w-full"
+              className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
             >
               <h2 className="text-2xl font-bold text-dark mb-6">
                 {editingCategory ? 'Uredi Kategoriju' : 'Nova Kategorija'}
@@ -482,6 +490,27 @@ export default function AdminPriceListPage() {
                     placeholder="npr. * uključuje depilaciju nausnica i obrva"
                   />
                 </div>
+
+                <TranslationFields
+                  fields={[
+                    { key: 'category', label: 'Naziv' },
+                    { key: 'description', label: 'Opis', multiline: true },
+                    ...(categoryForm.footnote ? [{ key: 'footnote', label: 'Napomena' }] : []),
+                  ]}
+                  value={categoryForm.translations}
+                  onChange={(translations) => setCategoryForm({ ...categoryForm, translations })}
+                  automatic={(locale, field) =>
+                    editingCategory
+                      ? getAutomaticTranslation('category', editingCategory.id, field as 'category' | 'description' | 'footnote', locale, (categoryForm as Record<string, unknown>)[field] as string || '')
+                      : ''
+                  }
+                  serbianChanged={
+                    !!editingCategory &&
+                    (editingCategory.category !== categoryForm.category ||
+                      (editingCategory.description || '') !== categoryForm.description ||
+                      (editingCategory.footnote || '') !== categoryForm.footnote)
+                  }
+                />
               </div>
 
               <div className="flex gap-3 mt-6">
@@ -518,7 +547,7 @@ export default function AdminPriceListPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 50 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-2xl p-8 max-w-md w-full"
+              className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
             >
               <h2 className="text-2xl font-bold text-dark mb-6">
                 {editingTreatment ? 'Uredi Tretman' : 'Novi Tretman'}
@@ -594,6 +623,25 @@ export default function AdminPriceListPage() {
                     />
                   </div>
                 </div>
+
+                <TranslationFields
+                  fields={[
+                    { key: 'name', label: 'Naziv' },
+                    { key: 'description', label: 'Opis', multiline: true },
+                  ]}
+                  value={treatmentForm.translations}
+                  onChange={(translations) => setTreatmentForm({ ...treatmentForm, translations })}
+                  automatic={(locale, field) =>
+                    editingTreatment
+                      ? getAutomaticTranslation('treatment', editingTreatment.id, field as 'name' | 'description', locale, field === 'name' ? treatmentForm.name : treatmentForm.description)
+                      : ''
+                  }
+                  serbianChanged={
+                    !!editingTreatment &&
+                    (editingTreatment.name !== treatmentForm.name ||
+                      (editingTreatment.description || '') !== treatmentForm.description)
+                  }
+                />
               </div>
 
               <div className="flex gap-3 mt-6">

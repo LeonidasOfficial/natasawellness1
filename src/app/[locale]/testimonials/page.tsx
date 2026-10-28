@@ -5,21 +5,23 @@ import SectionTitle from '@/components/ui/SectionTitle'
 import { motion } from 'framer-motion'
 import { FaQuoteLeft, FaStar } from 'react-icons/fa'
 import testimonialsData from '@/data/testimonials.json'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 export default function TestimonialsPage() {
+  const { t } = useTranslation()
   return (
     <>
       <section className="relative bg-light py-12 md:py-16">
         <div className="container-custom text-center">
           <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="font-playfair text-4xl md:text-6xl font-bold text-dark">
-            Testimonials
+            {t('nav.testimonials')}
           </motion.h1>
         </div>
       </section>
 
       <section className="section-padding bg-white">
         <div className="container-custom max-w-7xl">
-          <SectionTitle subtitle="Reviews" title="What Our Clients Say!" />
+          <SectionTitle subtitle={t('testimonials.subtitle')} title={t('testimonials.title')} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {testimonialsData.map((testimonial, index) => (

@@ -3,13 +3,15 @@
 import { motion } from 'framer-motion'
 import { FaWhatsapp } from 'react-icons/fa'
 import { useState } from 'react'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 const WhatsAppButton = () => {
   const [isHovered, setIsHovered] = useState(false)
+  const { t } = useTranslation()
   
   // Nataša Wellness phone number from the site
   const phoneNumber = '381631020305' // Format: country code + number without +
-  const message = encodeURIComponent('Hello! I would like to book an appointment.')
+  const message = encodeURIComponent(t('common.whatsAppMessage'))
 
   return (
     <motion.a
@@ -47,7 +49,7 @@ const WhatsAppButton = () => {
         animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 10 }}
         className="absolute right-full mr-3 bg-dark text-white px-4 py-2 rounded-lg whitespace-nowrap shadow-xl"
       >
-        <span className="font-semibold">Chat on WhatsApp</span>
+        <span className="font-semibold">{t('common.chatOnWhatsApp')}</span>
         <div className="absolute top-1/2 -translate-y-1/2 -right-2 w-0 h-0 border-t-8 border-t-transparent border-l-8 border-l-dark border-b-8 border-b-transparent" />
       </motion.div>
     </motion.a>

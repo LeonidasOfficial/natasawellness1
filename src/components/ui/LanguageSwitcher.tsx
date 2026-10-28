@@ -24,7 +24,7 @@ const localeFlags: Record<Locale, string> = {
 
 export default function LanguageSwitcher() {
   const pathname = usePathname()
-  const { locale: currentLocale } = useTranslation()
+  const { locale: currentLocale, t } = useTranslation()
 
   // Strip locale prefix to get path without locale (e.g. /en/about -> /about)
   const pathWithoutLocale = pathname.replace(/^\/(en|sr|fr|de)/, '') || '/'
@@ -33,7 +33,7 @@ export default function LanguageSwitcher() {
     <div className="relative z-50">
       <div className="flex items-center gap-2 mb-2">
         <FaGlobe className="text-primary text-lg flex-shrink-0" />
-        <span className="font-semibold text-dark text-sm">Language</span>
+        <span className="font-semibold text-dark text-sm">{t('common.language')}</span>
       </div>
       <div className="flex flex-wrap gap-2">
         {locales.map((locale) => {

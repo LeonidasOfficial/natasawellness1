@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { readContent, writeContent } from '@/lib/content-store'
 import { verifyAuth } from '@/lib/auth'
 import { revalidatePublicPages } from '@/lib/revalidate-public'
+import { sanitizeItemTranslations } from '@/lib/pricelist-display'
 
 const PRICE_LIST_KEY = 'price-list'
 
@@ -15,6 +16,7 @@ interface Treatment {
   price2?: number
   duration: string
   note?: string
+  translations?: Record<string, Record<string, string>>
 }
 
 interface Category {
@@ -24,6 +26,7 @@ interface Category {
   description: string
   treatments: Treatment[]
   footnote?: string
+  translations?: Record<string, Record<string, string>>
 }
 
 type PriceList = Category[]
@@ -72,7 +75,8 @@ export async function POST(request: NextRequest) {
         icon: data.icon || 'face',
         description: data.description || '',
         treatments: [],
-        footnote: data.footnote || undefined
+        footnote: data.footnote || undefined,
+        translations: sanitizeItemTranslations(data.translations, ['category', 'description', 'footnote'])
       }
       priceList.push(newCategory)
     } else if (type === 'treatment') {
@@ -92,7 +96,8 @@ export async function POST(request: NextRequest) {
         price: data.price,
         price2: data.price2 || undefined,
         duration: data.duration,
-        note: data.note || ''
+        note: data.note || '',
+        translations: sanitizeItemTranslations(data.translations, ['name', 'description'])
       }
       category.treatments.push(newTreatment)
     }

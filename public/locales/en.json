@@ -28,7 +28,12 @@
     "bookAppointment": "Book Appointment",
     "viewAll": "View All",
     "backToHome": "Back to Home",
-    "viewPricing": "Price List"
+    "viewPricing": "Price List",
+    "showMore": "Read more",
+    "showLess": "Show less",
+    "language": "Language",
+    "chatOnWhatsApp": "Chat on WhatsApp",
+    "whatsAppMessage": "Hello! I would like to book an appointment."
   },
   "hero": {
     "welcome": "Welcome",
@@ -42,7 +47,8 @@
     "slide2Title": "Relax and Renew",
     "slide2Subtitle": "Premium Wellness Experience",
     "slide3Title": "Unleash Your Beauty",
-    "slide3Subtitle": "Professional Treatments"
+    "slide3Subtitle": "Professional Treatments",
+    "hours": "Mon–Fri 09:00–20:00 · Sat 09:00–14:00"
   },
   "announcement": {
     "message": "Call to book your treatment - Vouchers available!"

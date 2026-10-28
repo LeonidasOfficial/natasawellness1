@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import galleryDataStatic from '@/data/gallery.json'
 import dynamic from 'next/dynamic'
+import { useTranslation } from '@/contexts/TranslationContext'
 
 const Lightbox = dynamic(() => import('yet-another-react-lightbox'), {
   ssr: false,
@@ -22,6 +23,7 @@ interface GalleryItem {
 }
 
 export default function GalleryPage() {
+  const { t } = useTranslation()
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [galleryData, setGalleryData] = useState<GalleryItem[]>(galleryDataStatic as GalleryItem[])
@@ -90,14 +92,14 @@ export default function GalleryPage() {
       <section className="relative bg-light py-12 md:py-16">
         <div className="container-custom text-center">
           <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="font-playfair text-4xl md:text-6xl font-bold text-dark">
-            Gallery
+            {t('nav.gallery')}
           </motion.h1>
         </div>
       </section>
 
       <section className="section-padding bg-white">
         <div className="container-custom max-w-7xl">
-          <SectionTitle subtitle="Our Work" title="Explore Our Portfolio" />
+          <SectionTitle subtitle={t('gallery.ourWork')} title={t('gallery.title')} />
 
           {/* Gallery Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">
