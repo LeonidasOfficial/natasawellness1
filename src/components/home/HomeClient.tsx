@@ -258,7 +258,7 @@ export default function HomeClient({ initialPriceList, initialPromotions }: Home
                   </motion.div>
                 </div>
 
-                <Link href="/about">
+                <Link href={createLink('/about')}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -322,7 +322,7 @@ export default function HomeClient({ initialPriceList, initialPromotions }: Home
                       </span>
                     )}
                   </motion.div>
-                  <Link href="/pricelist" className="link-underline">
+                  <Link href={createLink('/pricelist')} className="link-underline">
                     <button className="text-primary font-semibold uppercase text-sm hover:text-dark transition-colors flex items-center gap-2 mx-auto group-hover:gap-4 transition-all mt-2">
                       {t('common.viewPricing')} <FaArrowRight />
                     </button>

@@ -27,7 +27,7 @@ export default function LanguageSwitcher() {
   const { locale: currentLocale, t } = useTranslation()
 
   // Strip locale prefix to get path without locale (e.g. /en/about -> /about)
-  const pathWithoutLocale = pathname.replace(/^\/(en|sr|fr|de)/, '') || '/'
+  const pathWithoutLocale = pathname.replace(/^\/(en|sr|fr|de)(?=\/|$)/, '') || '/'
 
   return (
     <div className="relative z-50">
@@ -38,11 +38,17 @@ export default function LanguageSwitcher() {
       <div className="flex flex-wrap gap-2">
         {locales.map((locale) => {
           const isActive = currentLocale === locale
-          const href = `/${locale}${pathWithoutLocale}`
+          const href = `/${locale}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
           return (
             <Link
               key={locale}
               href={href}
+              prefetch={false}
+              hrefLang={locale}
+              onClick={() => {
+                // Remember the chosen language (also set by the middleware)
+                document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`
+              }}
               className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                 isActive
                   ? 'bg-primary text-dark'
