@@ -69,6 +69,17 @@ export const CATEGORY_IMAGE_MAP: Record<string, string> = {
   makeup: '/img/makeup.png',
   tan: '/img/spraytan.png',
   nails: '/img/manicure.png',
+  men: '/img/men.webp',
+}
+
+/**
+ * Per-category image overrides (by category id). Only applied while the
+ * category still has the admin's default icon ('face'); as soon as the owner
+ * picks another icon in the admin panel, the icon's image is used instead.
+ */
+const CATEGORY_IMAGE_OVERRIDES: Record<string, { whenIcon: string; image: string }> = {
+  // "Muški Tretmani" — created in the admin panel with the default icon.
+  '1793107963810': { whenIcon: 'face', image: '/img/men.webp' },
 }
 
 function hasText(value: unknown): value is string {
@@ -141,6 +152,8 @@ export function getFootnote(category: PriceListCategory, locale: string, t: TFn)
 }
 
 export function getCategoryImage(category: PriceListCategory): string | undefined {
+  const override = CATEGORY_IMAGE_OVERRIDES[String(category.id)]
+  if (override && override.whenIcon === category.icon) return override.image
   return CATEGORY_IMAGE_MAP[category.icon]
 }
 

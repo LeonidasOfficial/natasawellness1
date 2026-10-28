@@ -15,7 +15,8 @@ import {
   FaCut,
   FaPaintBrush,
   FaLeaf,
-  FaArrowLeft
+  FaArrowLeft,
+  FaUser
 } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
@@ -27,6 +28,7 @@ const iconOptions = [
   { value: 'hair-removal', label: 'Hair Removal', icon: FaCut },
   { value: 'makeup', label: 'Makeup', icon: FaPaintBrush },
   { value: 'massage', label: 'Massage', icon: FaLeaf },
+  { value: 'men', label: 'Muški tretmani', icon: FaUser },
 ]
 
 interface Treatment {
